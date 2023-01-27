@@ -1,0 +1,85 @@
+.chat-gpt-container {
+    min-height: 25%;
+    max-height: 100%;
+    min-width: 50%;
+    max-width: 90%;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #e6e8ec;
+    text-align: center;
+}
+
+.chat-gpt-header {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    padding-top: 1px;
+}
+div > form {
+    min-width: 50%;
+    max-width: 95%;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px 2px gray inset;
+    top: 100px;
+    text-align: center;
+}
+.chat-gpt-input-parent {
+    text-align: center;
+    min-width: 80%;
+    max-width: 100%;
+}
+
+.chat-gpt-input-textarea {
+    min-width: 80%;
+    max-width: 100%;
+    padding: 5px;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+
+.checkbox-input {
+    margin-left: 1.5em;
+}
+
+.button-container{
+    text-align: center;
+}
+.chat-gpt-button {
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+    background-color: #00b5ad;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.chat-gpt-response {
+    background-color: #f5f5f5;
+    min-width: 50%;
+    max-width: 95%;
+    text-align: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 2px gray inset;
+    font-size: 1.5em !important;
+    flex-direction: row;
+    margin: 0 auto;
+}
+
+.chat-gpt-response-text {
+    padding: 10px;
+    min-width: 50%;
+    max-width: 95%;
+    min-font-size: 0.5em;
+    max-font-size: 1em;
+    text-align: left;
+}
+
+.error {
+    color: red;
+}

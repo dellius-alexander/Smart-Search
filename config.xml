@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget
+        id="com.example.hyfi.smartscraper"
+        version="1.0.0"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <name>smartscraper</name>
+    <description>Sample Cordova React App</description>
+    <author email="dellius.alexander@gmail.com" href="https://github.com/dellius-alexander">
+        HYFI Solutions Team
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <!--    Android Platform    -->
+    <platform name="android">
+        <!-- Required to set minSdkVersion  -->
+        <preference name="android-minSdkVersion" value="29" />
+        <!-- Required to set targetSdkVersion  -->
+        <preference name="android-targetSdkVersion" value="30" />
+        <edit-config
+                file="AndroidManifest.xml"
+                mode="merge"
+                target="/manifest/application" >
+            <application android:usesCleartextTraffic="true" />
+        </edit-config>
+        <webpack-config src="./config/webpack.config.js" />
+        <resource-file src="merges/android/static" target="app/src/main/assets/www/static" />
+        <resource-file src="merges/android/res" target="app/src/main/res" />
+    </platform>
+
+    <!--    IOS Platform    -->
+    <platform name="ios">
+        <preference name="deployment-target" value="13.0.0" />
+        <!--
+        InAppBrowserStatusBarStyle [iOS only]: (string, options 'lightcontent',
+        'darkcontent' or 'default'. Defaults to 'default') set text color style for iOS.
+        'lightcontent' is intended for use on dark backgrounds. 'darkcontent' is only
+        available since iOS 13 and intended for use on light backgrounds.
+        -->
+        <preference name="InAppBrowserStatusBarStyle" value="lightcontent" />
+        <!--
+        Since the introduction of iPadOS 13, iPads try to adapt their content mode / user
+        agent for the optimal browsing experience. This may result in iPads having their
+        user agent set to Macintosh, making it hard to detect them as mobile devices using
+        user agent string sniffing.
+        -->
+        <preference name="PreferredContentMode" value="mobile" />
+        <webpack-config src="./config/webpack.config.js" />
+        <resource-file src="merges/ios/static" target="merges" />
+    </platform>
+
+    <!--    Browser Platform    -->
+    <platform name="browser">
+        <webpack-config src="./config/webpack.config.js" />
+        <resource-file src="merges/browser" target="www" />
+    </platform>
+
+    <!--    Cordova Plugins     -->
+<!--    <plugin name="cordova-plugin-dialogs" spec="2.0.2" />-->
+    <plugin name="cordova-plugin-device" spec="2.1.0" />
+<!--    <plugin name="cordova-plugin-inappbrowser" spec="5.0.0" />-->
+<!--    <plugin name="cordova-plugin-webpack" spec="1.0.5" />-->
+</widget>

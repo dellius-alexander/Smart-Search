@@ -1,0 +1,153 @@
+## MAIN DEFAULTS
+Options +ExecCGI -Indexes
+DirectoryIndex index.html index.htm index.php
+DefaultLanguage en-US
+AddDefaultCharset UTF-8
+ServerSignature Off
+
+## ENVIRONMENT VARIABLES
+SetEnv PHPRC /webroot/includes
+SetEnv TZ America/Las_Vegas
+
+SetEnv SERVER_ADMIN webmaster@askapache.com
+
+## MIME TYPES
+AddType video/x-flv .flv
+AddType application/x-shockwave-flash .swf
+AddType image/x-icon .ico
+
+## FORCE FILE TO DOWNLOAD INSTEAD OF APPEAR IN BROWSER
+# https://www.htaccesselite.com/addtype-addhandler-action-vf6.html
+AddType application/octet-stream .mov .mp3 .zip
+
+## ERRORDOCUMENTS
+# https://www.askapache.com/htaccess/apache-status-code-headers-errordocument.html
+ErrorDocument 400 /e400/
+ErrorDocument 401 /e401/
+ErrorDocument 402 /e402/
+ErrorDocument 403 /e403/
+ErrorDocument 404 /e404/
+
+# Handlers be builtin, included in a module, or added with Action directive
+# default-handler: default, handles static content (core)
+#   send-as-is: Send file with HTTP headers (mod_asis)
+#   cgi-script: treat file as CGI script (mod_cgi)
+#    imap-file: Parse as an imagemap rule file (mod_imap)
+#   server-info: Get server config info (mod_info)
+#  server-status: Get server status report (mod_status)
+#    type-map: type map file for content negotiation (mod_negotiation)
+#  fastcgi-script: treat file as fastcgi script (mod_fastcgi)
+#
+# https://www.askapache.com/php/custom-phpini-tips-and-tricks/
+
+## PARSE AS CGI
+AddHandler cgi-script .cgi .pl .spl
+
+## RUN PHP AS APACHE MODULE
+AddHandler application/x-httpd-php .php .htm
+
+## RUN PHP AS CGI
+AddHandler php-cgi .php .htm
+
+## CGI PHP WRAPPER FOR CUSTOM PHP.INI
+AddHandler phpini-cgi .php .htm
+Action phpini-cgi /cgi-bin/php5-custom-ini.cgi
+
+## FAST-CGI SETUP WITH PHP-CGI WRAPPER FOR CUSTOM PHP.INI
+AddHandler fastcgi-script .fcgi
+AddHandler php-cgi .php .htm
+Action php-cgi /cgi-bin/php5-wrapper.fcgi
+
+## CUSTOM PHP CGI BINARY SETUP
+AddHandler php-cgi .php .htm
+Action php-cgi /cgi-bin/php.cgi
+
+## PROCESS SPECIFIC FILETYPES WITH CGI-SCRIPT
+Action image/gif /cgi-bin/img-create.cgi
+
+## CREATE CUSTOM HANDLER FOR SPECIFIC FILE EXTENSIONS
+AddHandler custom-processor .ssp
+Action custom-processor /cgi-bin/myprocessor.cgi
+
+### HEADER CACHING
+# https://www.askapache.com/htaccess/speed-up-sites-with-htaccess-caching/
+<FilesMatch "\.(flv|gif|jpg|jpeg|png|ico)$">
+Header set Cache-Control "max-age=2592000"
+</FilesMatch>
+<FilesMatch "\.(js|css|pdf|swf)$">
+Header set Cache-Control "max-age=604800"
+</FilesMatch>
+<FilesMatch "\.(html|htm|txt)$">
+Header set Cache-Control "max-age=600"
+</FilesMatch>
+<FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+Header unset Cache-Control
+</FilesMatch>
+
+## ALTERNATE EXPIRES CACHING
+# htaccesselite.com/d/use-htaccess-to-speed-up-your-site-discussion-vt67.html
+ExpiresActive On
+ExpiresDefault A604800
+ExpiresByType image/x-icon A2592000
+ExpiresByType application/x-javascript A2592000
+ExpiresByType text/css A2592000
+ExpiresByType text/html A300
+
+<FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+ExpiresActive Off
+</FilesMatch>
+
+## META HTTP-EQUIV REPLACEMENTS
+<FilesMatch "\.(html|htm|php)$">
+Header set imagetoolbar "no"
+</FilesMatch>
+Here are some default MOD_REWRITE code examples.
+## REWRITE DEFAULTS
+RewriteEngine On
+RewriteBase /
+
+## REQUIRE SUBDOMAIN
+RewriteCond %{HTTP_HOST} !^$
+RewriteCond %{HTTP_HOST} !^www\.askapache\.com$ [NC]
+RewriteRule ^/(.*)$ https://www.askapache.com/$1 [L,R=301]
+
+## SEO REWRITES
+RewriteRule ^(.*)/ve/(.*)$ $1/voluntary-employee/$2 [L,R=301]
+RewriteRule ^(.*)/hsa/(.*)$ $1/health-saving-account/$2 [L,R=301]
+
+## WORDPRESS
+RewriteCond %{REQUEST_FILENAME} !-f  # Existing File
+RewriteCond %{REQUEST_FILENAME} !-d  # Existing Directory
+RewriteRule . /index.php [L]
+
+## ALTERNATIVE ANTI-HOTLINKING
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?askapache\.com/.*$ [NC]
+RewriteRule ^.*\.(bmp|tif|gif|jpg|jpeg|jpe|png)$ - [F]
+
+## REDIRECT HOTLINKERS
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?askapache\.com/.*$ [NC]
+RewriteRule ^.*\.(bmp|tif|gif|jpg|jpeg|jpe|png)$ https://google.com [R]
+
+## DENY REQUEST BASED ON REQUEST METHOD
+RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|OPTIONS|HEAD)$ [NC]
+RewriteRule ^.*$ - [F]
+
+## REDIRECT UPLOADS
+RewriteCond %{REQUEST_METHOD} ^(PUT|POST)$ [NC]
+RewriteRule ^(.*)$ /cgi-bin/form-upload-processor.cgi?p=$1 [L,QSA]
+
+## REQUIRE SSL EVEN WHEN MOD_SSL IS NOT LOADED
+RewriteCond %{HTTPS} !=on [NC]
+RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+### ALTERNATATIVE TO USING ERRORDOCUMENT
+# https://www.htaccesselite.com/d/htaccess-errordocument-examples-vt11.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ /error.php [L]
+
+## SEO REDIRECTS
+Redirect 301 /2006/oldfile.html https://www.askapache.com/newfile.html
+RedirectMatch 301 /o/(.*)$ https://www.askapache.com/s/dl/$1
