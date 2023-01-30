@@ -140,3 +140,4 @@ dist
 #/plugins
 
 /.backup/
+/src/component/CertificateFactory/certs/
