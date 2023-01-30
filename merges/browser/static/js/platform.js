@@ -6,16 +6,16 @@
 // apply platform specific rules
 function platformConstants() {
     // platform specific rules
-    return `<h2 >Cordova React Web Application</h2>`;
+    return '<h3 >Thank you for choosing Smart Scraper on the Web!</h3>';
 }
 
-document.addEventListener("deviceready", () => {
+document.addEventListener('deviceready', () => {
     const element = document.createElement('div');
     element.style = 'text-align:center;';
     element.innerHTML = platformConstants();
     document.body.append(element);
 },
-    false);
+false);
 
 
 

@@ -1,6 +1,5 @@
-// import latexParser from "latex-parser";
-// const latexParser = require("latex-parser").latexParser;
-import { latexParser } from "latex-parser";
+
+import { latexParser } from 'latex-parser';
 
 /**
  * LatexParser Class
@@ -19,7 +18,7 @@ class LatexParser {
             this.parsedDoc = latexParser.parse(this.latexDoc) || {};
             console.dir(this);
         } catch (e) {
-            console.error(e.message)
+            console.error(e.message);
         }
 
     }
@@ -65,7 +64,7 @@ class LatexParser {
 
         // Match any LaTeX fraction (e.g \frac{})
         fraction: /\\frac\{[^}]+\}\{[^}]+\}/
-    })
+    });
     /**
      * validateFraction
      *

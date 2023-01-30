@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
-import OpenAI from "./component/OpenAI";
-
+// import {OpenAI} from './component/OpenAI';
+import ErrorBoundary from './component/ErrorBoundary';
 import reportWebVitals from './reportWebVitals';
+import {ChatBotDialog} from './component/ChatBotDialog';
 
 /**
  * Initialize the React app
@@ -12,17 +12,20 @@ import reportWebVitals from './reportWebVitals';
 const initializeApp = () => {
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(
-        <OpenAI />
-        // <React.StrictMode>
-        //     <OpenAI />
-        // </React.StrictMode>
+        <React.StrictMode>
+            <ErrorBoundary>
+                <main>
+                    <ChatBotDialog />
+                </main>
+            </ErrorBoundary>
+        </React.StrictMode>
     );
 
     // If you want to start measuring performance in your app, pass a function
     // to log results (for example: reportWebVitals(console.log))
     // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
     reportWebVitals(console.log);
-}
+};
 
 // if the device is ios or android use cordova,
 if (window.cordova) {
