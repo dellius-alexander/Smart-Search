@@ -1,3 +1,3 @@
 # Smart Scraper
 
-cordova error Current working directory is not a Cordova-based project
+This repository is a demo web scraper search. 

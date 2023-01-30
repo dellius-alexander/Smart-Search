@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import {OpenAI} from './component/OpenAI';
 import ErrorBoundary from './component/ErrorBoundary';
 import reportWebVitals from './reportWebVitals';
 import {ChatBotDialog} from './component/ChatBotDialog';
