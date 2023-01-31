@@ -16,6 +16,8 @@ ARG UUID=1001
 ######################################################
 ENV REACT_APP_HOME="/home/${USERNAME}/app"
 ENV NODE_ENV=${NODE_ENV}
+USER root
+
 WORKDIR "${REACT_APP_HOME}"
 
 RUN echo "Domain name: ${DOMAIN_NAME} | DOMAIN: ${DOMAIN_BASENAME}"
@@ -25,22 +27,22 @@ RUN apt-get update -y
 RUN mkdir -p \
     /tmp/app \
     /entrypoint \
-    /home/${USERNAME}/app \
-    /usr/local/app/.certs
+   "${REACT_APP_HOME}" \
+    "/usr/local/app/.certs"
 
-COPY .devcontainer/scripts/ /tmp/app/
-COPY .devcontainer/entrypoint/ /entrypoint/
+COPY .devcontainer/scripts/** /tmp/app
+COPY .devcontainer/entrypoint/** /entrypoint
+COPY ./SmartScraper/** "${REACT_APP_HOME}"/
 
-USER root
+
 
 RUN /bin/bash /tmp/app/user.sh "${USERNAME}" "${UUID}"
-#RUN /bin/bash /tmp/app/certs.sh -s "${DOMAIN_NAME}"
-#RUN cp -r ${REACT_APP_HOME}/.certs/*   "/usr/local/app/.certs/"
+RUN /bin/bash /tmp/app/certs.sh  "-s" "${HOSTNAME}" "/usr/local/app/.certs"
 
 EXPOSE "${PORT}"
 
-RUN chown -R ${USERNAME}:root /usr/local/app/.certs
-RUN chown -R ${USERNAME}:root "/home/${USERNAME}/"
+RUN chown -R ${USERNAME}:root "/usr/local/app/.certs"
+RUN chown -R ${USERNAME}:root "${REACT_APP_HOME}"
 RUN npm install -g npm@latest cordova cocoapods
 #RUN apt-get install -y certbot
 

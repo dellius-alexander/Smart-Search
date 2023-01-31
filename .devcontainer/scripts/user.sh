@@ -5,7 +5,7 @@ USERNAME=${1:-"node"}
 echo "${USERNAME}"
 USER_UID=${2:-1001}
 USER_GID=${USER_UID}
-if [ $(id -u) -ne 1000 ]; then
+if [ $(USER) == "root" ]; then
   echo "The file [ ${0} ] must be run as root."
   echo "${?}"
   exit 1;
