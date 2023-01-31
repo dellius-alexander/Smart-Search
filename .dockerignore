@@ -1,0 +1,6 @@
+docker-compose.yml
+*.env*
+.gitignore
+.devcontainer
+.idea
+docs

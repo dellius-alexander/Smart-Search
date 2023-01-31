@@ -1,0 +1,55 @@
+#############################################################################################################
+# Start your application services by typing at the Docker CLI:
+# ~$> docker-compose -f <"a unique name">.docker-compose.yml up -d
+# Shutdown services with the Docker CLI command:
+# ~$> docker-compose -f  <"a unique name">.docker-compose.yml down --remove-orphans
+# The "--remove-orphans" flag is used to remove any child container instances that may have been created
+# Build, remove orphaned containers and refresh services:
+# ~$> docker-compose -f docker-compose.yml up --always-recreate-deps --renew-anon-volumes --remove-orphans --force-recreate -d --build
+#############################################################################################################
+version: '3.8'
+services:
+    #############################################################################
+    # Backend API service
+    backend:
+        #    image: node:18
+        build:  # project contents imported into Dockerfile at build time
+            context: .
+            dockerfile: .devcontainer/www.Dockerfile
+            args:
+                NODE_VERSION: ${NODE_VERSION}
+                NODE_ENV: ${NODE_ENV}
+                BABEL_ENV: ${BABEL_ENV}
+                DOMAIN_BASENAME: ${DOMAIN_BASENAME}
+                DOMAIN_NAME: ${DOMAIN_NAME}
+                TZ: ${TZ}
+                PORT: ${PORT}
+                HOSTNAME: ${HOSTNAME}
+                USERNAME: ${USERNAME}
+                REACT_APP_OPENAI_API_KEY: ${REACT_APP_OPENAI_API_KEY}
+                UUID: ${UUID}
+        container_name: smart-scraper
+        user: ${USERNAME}
+        hostname: ${HOSTNAME}
+        working_dir: ${WORKDIR}
+        env_file:
+            - .env
+        expose:
+        - ${PORT}
+        ports:
+        - ${PORT}:${PORT}
+        volumes:
+            - ./SmartScraper:/home/${USERNAME}/app
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+        networks:
+            backend:
+###############################################################################
+# Define application network
+networks:
+    backend:
+        driver: bridge
+        ipam:
+            driver: default

@@ -131,13 +131,17 @@ dist
 .cordova_assets
 
 # cordove build directory
-/www/*
+/SmartScraper/www/*
+!/SmartScraper/www
 
 # remove platform directories
-/platforms
+/**/platforms
 
 # remove plugins directory
 #/plugins
 
-/.backup/
-/src/component/CertificateFactory/certs/
+/**/.backup
+/**/certs
+/**/.DS_Store
+!example.env
+
