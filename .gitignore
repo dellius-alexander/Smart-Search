@@ -143,5 +143,5 @@ dist
 /**/.backup
 /**/certs
 /**/.DS_Store
-!example.env
+!docker.env
 
