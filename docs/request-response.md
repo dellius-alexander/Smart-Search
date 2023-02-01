@@ -1,5 +1,10 @@
 # API Requests and Response
 
+---
+
+## OpenAI GPT-3
+
+OpenAI Chat GPT-3 is a natural language processing (NLP) model developed by OpenAI, a research lab based in San Francisco. It is a transformer-based language model that uses deep learning to generate human-like text. GPT-3 has been trained on a massive dataset of over 45TB of text, and is capable of generating human-like text when given a prompt. It has been used to create chatbots, generate news articles, and even write code. GPT-3 is the most advanced natural language processing system to date.
 
 ### Request
 
@@ -50,3 +55,5 @@ fetch("https://api.openai.com/v1/completions", {
     }
 }
 ```
+
+---
