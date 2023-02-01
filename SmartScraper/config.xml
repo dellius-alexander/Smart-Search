@@ -20,17 +20,17 @@
             <application android:usesCleartextTraffic="true" />
         </edit-config>
         <webpack-config src="./config/webpack.config.js" />
-        <resource-file src="merges/android/static" target="app/src/main/assets/www/static" />
+        <resource-file src="./merges/android/static" target="app/src/main/assets/www/static" />
     </platform>
     <platform name="ios">
         <preference name="deployment-target" value="13.0.0" />
         <preference name="InAppBrowserStatusBarStyle" value="lightcontent" />
         <preference name="PreferredContentMode" value="mobile" />
         <webpack-config src="./config/webpack.config.js" />
-        <resource-file src="merges/ios/static" target="merges" />
+        <resource-file src="./merges/ios/static" target="merges" />
     </platform>
     <platform name="browser">
         <webpack-config src="./config/webpack.config.js" />
-        <resource-file src="merges/browser" target="www" />
+        <resource-file src="./merges/browser" target="www" />
     </platform>
 </widget>

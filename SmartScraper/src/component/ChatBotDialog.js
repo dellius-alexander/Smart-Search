@@ -1,12 +1,13 @@
-import { Component, useState } from "react";
+import React, { Component, useState } from "react";
 import { Responsive } from "./Responsive";
-import { AIFactory } from "./AIFactory/AIFactory";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import "../static/scss/form.scss";
+import { MLFactoryImpl } from "./ML/MLFactoryImpl.ts";
+
 
 class ChatBotDialog extends Component {
   constructor(props) {
@@ -87,16 +88,17 @@ class ChatBotDialog extends Component {
   }
 
   async handleSubmit(event) {
-    event.preventDefault();
-    this.setState({ loading: true });
-    
-    const { prompt, layman } = this.state;
-
     try {
+      event.preventDefault();
+      // freeze the state of the input textarea while we fulfill the users request
+      this.setState({ loading: true });
+      // get user input prompts and layman options
+      const { prompt, layman } = this.state;
+      // check for a prompt
       if (prompt) {
-        const openai = AIFactory.create("openai");
+        const openai = MLFactoryImpl.create("openai");
         const data = await openai.sendRequest({prompt, layman});
-        
+
         // const rawData = response.choices[0].text;
         // const data = parse(rawData);
         this.setState((prevState) => {
@@ -343,6 +345,12 @@ class ChatBotDialog extends Component {
   }
 }
 
+/**
+ * Takes a html element or text, wraps with a div and renders a glow element.
+ * @param {Element|string} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const GlowingDiv = (props) => {
   const [isGlowing, setIsGlowing] = useState(false);
   setTimeout(() => {
@@ -368,4 +376,4 @@ const GlowingDiv = (props) => {
   );
 };
 
-export { ChatBotDialog };
+export {ChatBotDialog};

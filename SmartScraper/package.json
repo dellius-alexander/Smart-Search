@@ -5,30 +5,29 @@
   "homepage": "./",
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
   "scripts": {
-
-      "prestart": "echo NODE_ENV=development | npm run build; cordova build -- --debug --live-reload;",
-      "start": "export NODE_ENV=development; /bin/sh init.sh run 'browser ios android';",
-      "dev:cordova-ios": "export NODE_ENV=development; /bin/sh init.sh run ios;",
-      "dev:cordova-android": "export NODE_ENV=development; /bin/sh init.sh run android;",
-      "dev:cordova-browser": "export NODE_ENV=development; /bin/sh init.sh run browser;",
-      "dev:browser": "npm run build:dev && nodemon scripts/start.js",
-      "build:prod": "echo NODE_ENV=production | node scripts/build.js;",
-      "build:cordova": "cordova build -- --debug --live-reload;",
-      "build:dev": "echo NODE_ENV=development | node scripts/build.js;",
-      "test": "/bin/sh init.sh HELP browser;"
+    "prestart": "echo NODE_ENV=development | npm run build; cordova build -- --debug --live-reload;",
+    "start": "export NODE_ENV=development; /bin/sh init.sh run 'browser ios android';",
+    "dev:cordova-ios": "export NODE_ENV=development; /bin/sh init.sh run ios;",
+    "dev:cordova-android": "export NODE_ENV=development; /bin/sh init.sh run android;",
+    "dev:cordova-browser": "export NODE_ENV=development; /bin/sh init.sh run browser;",
+    "dev:browser": "npm run build:dev && nodemon scripts/start.js",
+    "build:prod": "echo NODE_ENV=production | node scripts/build.js;",
+    "build:cordova": "npm run build:dev; cordova build -- --debug --live-reload;",
+    "build:dev": "echo NODE_ENV=development | node scripts/build.js;",
+    "test": "/bin/sh init.sh HELP browser;"
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [
     {
       "name": "Dellius Alexander",
       "email": "Dellius Alexander <dellius.alexander@gmail.com>",
-        "url": "https://github.com/dellius-alexander/Smart-Scraper.git"
+      "url": "https://github.com/dellius-alexander/Smart-Scraper.git"
     }
   ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/dellius-alexander/Smart-Scraper.git"
-    },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dellius-alexander/Smart-Scraper.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -91,13 +90,13 @@
   },
   "devDependencies": {
     "cordova-android": "^10.1.2",
-    "cordova-browser": "^6.0.0",
     "cordova-ios": "^6.2.0",
     "cordova-plugin-device": "^2.1.0",
     "cordova-webpack-plugin": "^0.1.0",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
     "nodemon": "^2.0.20",
+
     "sass-loader": "^13.2.0",
     "webpack": "^5.64.4",
     "webpack-cli": "^5.0.1",
@@ -186,9 +185,8 @@
   },
   "cordova": {
     "platforms": [
-      "android",
       "ios",
-      "browser"
+      "android"
     ],
     "plugins": {
       "cordova-plugin-device": {}

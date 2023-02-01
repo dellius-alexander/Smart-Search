@@ -44,7 +44,12 @@ class Responsive {
    * @memberof Responsive
    */
   constructor(props) {
-    this.props = props;
+    this.state = {
+      props: props,
+      window: window,
+      document: window.document
+    };
+    // this.setState = this.setState.bind(this);
     this.handleMediaChange = this.handleMediaChange.bind(this);
   }
 
@@ -62,25 +67,30 @@ class Responsive {
    * @memberof Responsive
    */
   handleMediaChange(mq) {
-    if (mq.matches) {
-      if (mq === this.mqMobile) {
-        // adjust styling and scale for mobile
-        document.documentElement.style.setProperty("--root-margin", "0px");
-        document.documentElement.style.setProperty("--scale", "0.8");
-      } else if (mq === this.mqIphone) {
-        // adjust styling and scale for iphone
-        document.documentElement.style.setProperty("--root-margin", "0px");
-        document.documentElement.style.setProperty("--scale", "0.9");
-      } else if (mq === this.mqTablet) {
-        // adjust styling and scale for tablet
-        document.documentElement.style.setProperty("--scale", "1");
-      } else if (mq === this.mqIpad) {
-        // adjust styling and scale for ipad
-        document.documentElement.style.setProperty("--scale", "1.2");
-      } else if (mq === this.mqWeb) {
-        // adjust styling for web
-        document.documentElement.style.setProperty("--scale", "1");
-      }
+    let {document} = this.state;
+    switch(mq) {
+    case this.mqMobile:
+      // adjust styling and scale for mobile
+      document.documentElement.style.setProperty("--root-margin", "0px");
+      document.documentElement.style.setProperty("--scale", "0.8");
+      break;
+    case this.mqIphone:
+      // adjust styling and scale for iphone
+      document.documentElement.style.setProperty("--root-margin", "0px");
+      document.documentElement.style.setProperty("--scale", "0.9");
+      break;
+    case this.mqTablet:
+      // adjust styling and scale for tablet
+      document.documentElement.style.setProperty("--scale", "1");
+      break;
+    case this.mqIpad:
+      // adjust styling and scale for ipad
+      document.documentElement.style.setProperty("--scale", "1.2");
+      break;
+    case this.mqWeb:
+      // adjust styling for web
+      document.documentElement.style.setProperty("--scale", "1");
+      break;
     }
   }
 
@@ -90,14 +100,13 @@ class Responsive {
    */
   // eslint-disable-next-line class-methods-use-this
   scaleElement(event) {
+    let {window} = this.state;
     let element = event.target || event.currentTarget;
-    if (
-      window.innerWidth <= element.offsetWidth ||
-      window.innerHeight <= element.offsetHeight
-    ) {
-      element.style.transform = "scale(0.90)";
-    } else {
+    if (window.innerWidth <= element.offsetWidth || window.innerHeight <= element.offsetHeight)
+    { // scale the element
       element.style.transform = "scale(0.95)";
+    } else {
+      element.style.transform = "scale(0.99)";
     }
   }
   /**
@@ -119,7 +128,8 @@ class Responsive {
     this.handleMediaChange(this.mqWeb);
   }
 }
-// const responsive = new Responsive();
-// responsive.init();
 
 export { Responsive };
+
+// const responsive = new Responsive();
+// responsive.init();

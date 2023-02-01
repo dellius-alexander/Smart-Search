@@ -13,7 +13,7 @@ services:
     # Backend API service
     backend:
         #    image: node:18
-        build:  # project contents imported into Dockerfile at build time
+        build:  # project contexts imported into Dockerfile at build runtime
             context: .
             dockerfile: .devcontainer/www.Dockerfile
             args:
