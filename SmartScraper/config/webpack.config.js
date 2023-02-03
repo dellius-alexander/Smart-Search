@@ -29,7 +29,7 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 const createEnvironmentHash = require("./webpack/persistentCache/createEnvironmentHash");
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
+const shouldUseSourceMap = !!process.env.GENERATE_SOURCEMAP;
 
 const reactRefreshRuntimeEntry = require.resolve("react-refresh/runtime");
 const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
@@ -102,7 +102,7 @@ module.exports = function (webpackEnv) {
   // Get environment variables to inject into our app.
   const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
-  const shouldUseReactRefresh = env.raw.FAST_REFRESH;
+  const shouldUseReactRefresh = process.env.NODE_ENV === "production" ? false : true;
 
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -322,6 +322,7 @@ module.exports = function (webpackEnv) {
         ...(modules.webpackAliases || {}),
       },
       plugins: [
+
         // Prevents users from importing files from outside of src/ (or node_modules/).
         // This often causes confusion because we only process files within src/ with babel.
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
@@ -424,13 +425,13 @@ module.exports = function (webpackEnv) {
                 plugins: [
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
-                    require.resolve("react-refresh/babel"),
+                    require.resolve("react-refresh/babel")
                 ].filter(Boolean),
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
                 // directory for faster rebuilds.
                 cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
+                // See #6846 for strategy on why cacheCompression is disabled
                 cacheCompression: false,
                 compact: isEnvProduction,
               },
@@ -452,7 +453,7 @@ module.exports = function (webpackEnv) {
                   ],
                 ],
                 cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
+                // See #6846 for strategy on why cacheCompression is disabled
                 cacheCompression: false,
 
                 // Babel sourcemaps are needed for debugging into node_modules
@@ -602,7 +603,7 @@ module.exports = function (webpackEnv) {
       // It will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-      // This gives some necessary context to module not found errors, such as
+      // This gives some necessary strategy to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
       // Makes some environment variables available to the JS code, for example:
@@ -615,8 +616,9 @@ module.exports = function (webpackEnv) {
       // https://github.com/facebook/react/tree/main/packages/react-refresh
       isEnvDevelopment &&
         shouldUseReactRefresh &&
+      //These properties are valid: object { esModule?, exclude?, forceEnable?, include?, library?, overlay?, disableRefreshCheck? }
         new ReactRefreshWebpackPlugin({
-          overlay: false,
+          overlay: false
         }),
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.

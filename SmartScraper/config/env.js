@@ -38,7 +38,7 @@ const dotenv = require("dotenv");
   }
 })();
 
-const NODE_ENV = process.env.NODE_ENV;
+const NODE_ENV = process.env.NODE_ENV || "development";
 
 if (!NODE_ENV) {
   throw new Error(
@@ -48,6 +48,7 @@ if (!NODE_ENV) {
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
+  `${paths.dotenv}`,
   `${paths.dotenv}.${NODE_ENV}.local`,
   // Don't include `.env.local` for `test` environment
   // since normally you expect tests to produce the same

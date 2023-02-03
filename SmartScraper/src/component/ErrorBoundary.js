@@ -1,12 +1,29 @@
 import { Component } from "react";
+
+/**
+ * ErrorBoundary
+ *
+ * A React Component class that catches errors and displays a fallback UI when an error occurs.
+ */
 class ErrorBoundary extends Component {
+  /**
+   * Constructor
+   *
+   * @param {Object} props - The props for the component.
+   */
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: {}, errorInfo: {} };
-    this.logErrorToServices = this.logErrorToServices.bind(this);
     this.componentDidCatch = this.componentDidCatch.bind(this);
   }
 
+  /**
+   * getDerivedStateFromError
+   *
+   * @param {Object} error - The error object.
+   *
+   * @return {Object} - The state values.
+   */
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
     if (error) {
@@ -15,16 +32,35 @@ class ErrorBoundary extends Component {
     return { hasError: false, error: error };
   }
 
-  // Console logging service
+  /**
+   * logErrorToServices
+   *
+   * Logs the error to a service
+   *
+   * @param {Error} error - The error object.
+   * @param {React.ErrorInfo} errorInfo - The error info object.
+   */
   // eslint-disable-next-line class-methods-use-this
-  logErrorToServices = (error, errorInfo) => console.dir({ error, errorInfo });
+  logErrorToServices = (error, errorInfo) => console.dir({error, errorInfo});
 
+
+  /**
+   * componentDidCatch
+   *
+   * @param {Error} error - The error object.
+   * @param {React.ErrorInfo} errorInfo - The error info object.
+   */
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
     this.setState({ hasError: true, error: error, errorInfo: errorInfo });
     this.logErrorToServices(error, errorInfo);
   }
 
+  /**
+   * render error
+   *
+   * @return {React.Component} - The React Component.
+   */
   render() {
     const { hasError, error, errorInfo } = this.state;
 

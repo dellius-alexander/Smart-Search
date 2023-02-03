@@ -14,14 +14,14 @@ $form-background: #e6e8ec !important;
 
 .chat-header {
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   margin-bottom: 2rem;
   padding-top: 1px;
 }
 
 .chat-form-body {
   min-width: 50%;
-  max-width: 100%;
+  max-width: 98%;
   padding: 10px;
   margin: 0 auto;
   border-radius: 10px;
@@ -29,6 +29,11 @@ $form-background: #e6e8ec !important;
   top: 100px;
   text-align: center;
 }
+
+.checkbox-input {
+  margin-left: 1.5em;
+}
+
 
 .response-modal {
   position: initial;
@@ -56,11 +61,11 @@ $form-background: #e6e8ec !important;
 
 
 
-.spinner {
+.spinner-grow {
   animation: grow 1s linear infinite;
 }
 
-@keyframes grow {
+@keyframes spinner-grow {
   from {
     transform: scale(0);
   }
@@ -70,9 +75,15 @@ $form-background: #e6e8ec !important;
 }
 
 
-
 @media only screen and (max-width: 767px) {
   .chat-container {
     max-width: 100%;
   }
+
+  textarea.form-control{
+    min-width: 80%;
+    max-width: 95%;
+  }
 }
+
+

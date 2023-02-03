@@ -25,7 +25,7 @@ case ${COMMAND} in
 run)
   echo "Running ${PLATFORMS}........"
   npm install &2>/dev/null
-  npm audit fix --force &2>/dev/null
+  npm audit fix --force --legacy-peer-deps &2>/dev/null
   echo ${NODE_ENV} | node scripts/build.js;
   cordova build -- --live-reload  --debug;
 #  nodemon scripts/start.js;
@@ -34,28 +34,27 @@ run)
 emulate|emulator)
   echo "Running ${PLATFORMS}........"
   npm install &2>/dev/null
-  npm audit fix --force &2>/dev/null
+  npm audit fix --force --legacy-peer-deps &2>/dev/null
   echo ${NODE_ENV} | node scripts/build.js;
   cordova build --debug;
 #  nodemon scripts/start.js;
   cordova emulate ${PLATFORMS} -- --live-reload  --debug;
   ;;
 serve|server)
-  echo "Running ${PLATFORMS}........"
+  echo "Running ${PLATFORMS}........";
   npm install &2>/dev/null
-  npm audit fix --force &2>/dev/null
+  npm audit fix --force --legacy-peer-deps &2>/dev/null
   echo ${NODE_ENV} | node scripts/build.js;
   cordova build --debug;
-  #  nodemon scripts/start.js;
-  cordova serve ${PLATFORMS} -- --live-reload  --debug &2>/dev/null || echo "Error service ${PLATFORMS}...$?"
+  cordova serve ${PLATFORMS} -- --live-reload  --debug &2>/dev/null || echo "Error service ${PLATFORMS}...$?";
   ;;
 clean)
-  echo "Cleaning up ${PLATFORMS}........"
-  cordova clean ${PLATFORMS} &2>/dev/null || echo "Error executing clean on ${PLATFORMS}...$?"
+  echo "Cleaning up ${PLATFORMS}........";
+  cordova clean ${PLATFORMS} &2>/dev/null || echo "Error executing clean on ${PLATFORMS}...$?";
   ;;
 plugin|plugins)
-  echo "Running ${PLATFORMS}........"
-  cordova plugin ${PLATFORMS} ${PLUGINS} &2>/dev/null || echo "No plugin found...$?"
+  echo "Running ${PLATFORMS}........";
+  cordova plugin ${PLATFORMS} ${PLUGINS} &2>/dev/null || echo "No plugin found...$?";
   ;;
 *)
   printf """\n
@@ -63,7 +62,7 @@ plugin|plugins)
   /bin/sh ${0} \\
   [COMMAND]{run|emulate|serve|clean|plugin} \\
   [PLATFORMS]{browser|ios|android|osx}
-  """
+  """;
   ;;
 esac
 

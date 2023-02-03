@@ -33,13 +33,13 @@ services:
         hostname: ${HOSTNAME}
         working_dir: ${WORKDIR}
         env_file:
-            - .env
+            - ./SmartScraper/.env.${NODE_ENV}.local
         expose:
         - ${PORT}
         ports:
         - ${PORT}:${PORT}
-        volumes:
-            - ./SmartScraper:/home/${USERNAME}/app
+#        volumes:
+#            - ./SmartScraper:/home/${USERNAME}/app
         deploy:
             replicas: 1
             restart_policy:

@@ -118,9 +118,9 @@ dist
 .DS_Store\
 /**/*.env
 .env.local
-.env.development.local
+SmartScraper/.env.development.local
 .env.test.local
-.env.production.local
+SmartScraper/.env.production.local
 
 #npm-debug.log*
 #yarn-debug.log*

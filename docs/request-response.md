@@ -32,9 +32,21 @@ fetch("https://api.openai.com/v1/completions", {
 }).catch(console.dir);
 ```
 
+```shell
+$ curl https://api.openai.com/v1/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{"model":"text-davinci-003","prompt":"how to fix cordova error",\
+  "temperature":0.7,"max_tokens":256,"top_p":1,"frequency_penalty":0,\
+  "presence_penalty":0}' > response.json
+```
+
 ### Response
 
+- response.json
+
 ```json
+
 {
     "id": "cmpl-6eZDuqP9GaeliWjHDqZPKLtEyvZh8",
     "object": "text_completion",

@@ -9,11 +9,12 @@ NODE_ENV=$( [ -z $NODE_ENV ] && echo "development" || echo $NODE_ENV  )
 echo "Node env: $NODE_ENV..."
 case "${NODE_ENV}" in
   prod | production)
-    echo "Node running in ${NODE_ENV} mode." &&
-    npm run start
+    echo "Node running in ${NODE_ENV} mode.";
+    npm rebuild node-sass
+    npm run start:browser
     ;;
   dev | development)
-    echo "Node running in ${NODE_ENV} mode." &&
+    echo "Node running in ${NODE_ENV} mode.";
     export DEBUG=smartscraper:*
     npm rebuild node-sass
     npm run dev:browser

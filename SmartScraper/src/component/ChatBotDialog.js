@@ -5,10 +5,46 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import "../static/scss/form.scss";
-import { MLFactoryImpl } from "./ML/MLFactoryImpl.ts";
+import "../static/scss/chat-bot-dialog.scss";
+import { ClientStrategy } from "./ML/ClientStrategy.ts";
 
 
+/**
+ * Takes a html element or text, wraps with a div and renders a glow element.
+ * @param {Element|string} props
+ * @return {JSX.Element}
+ * @constructor
+ */
+const GlowingDiv = (props) => {
+  const [isGlowing, setIsGlowing] = useState(false);
+  setTimeout(() => {
+    setIsGlowing(!isGlowing);
+  }, 500);
+
+  return (
+    <div
+      onLoad={setTimeout}
+      className={`d-flex justify-content-center align-items-center ${
+        isGlowing ? "glow" : ""
+      }`}
+      style={{
+        maxWidth: "200px",
+        backgroundColor: "mediumpurple",
+        color: "white",
+        borderRadius: "10px",
+        margin: "0 auto",
+      }}
+    >
+      <div>{props.props}</div>
+    </div>
+  );
+};
+
+/**
+ * Chat Bot UI Dialog class
+ * @class {ChatBotDialog}
+ * @extends {Component}
+ */
 class ChatBotDialog extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +63,8 @@ class ChatBotDialog extends Component {
       responses: [],
       responseCount: 0,
       checkboxStatus: false,
-      mediaQuery: new Responsive(this)
+      mediaQuery: new Responsive(this),
+      strategy: new ClientStrategy()
     };
     /* state functions */
     this.setState = this.setState.bind(this);
@@ -93,11 +130,11 @@ class ChatBotDialog extends Component {
       // freeze the state of the input textarea while we fulfill the users request
       this.setState({ loading: true });
       // get user input prompts and layman options
-      const { prompt, layman } = this.state;
+      const { prompt, layman, strategy } = this.state;
       // check for a prompt
       if (prompt) {
-        const openai = MLFactoryImpl.create("openai");
-        const data = await openai.sendRequest({prompt, layman});
+        const client = strategy.create("openai");
+        const data = await client.executeStrategy({prompt, layman});
 
         // const rawData = response.choices[0].text;
         // const data = parse(rawData);
@@ -204,12 +241,12 @@ class ChatBotDialog extends Component {
                   onChange={this.handleInputChange}
                   disabled={loading}
                   style={{
-                    minWidth: "80%",
-                    maxWidth: "100%",
-                    padding: "5px",
+                    width: "98%",
+                    padding: "10px",
                     fontSize: "1.15rem",
                     marginBottom: "10px",
-                    borderRadius: "15px",
+                    marginTop: "10px",
+                    borderRadius: "10px",
                   }}
                 ></Form.Control>
               </FloatingLabel>
@@ -217,8 +254,8 @@ class ChatBotDialog extends Component {
                 variant="primary"
                 type="reset"
                 style={{
-                  padding: "1rem 2rem",
-                  fontSize: "1.25rem",
+                  padding: "5px",
+                  fontSize: "1.15rem",
                   backgroundColor: "#10b5ad",
                   color: "#fff",
                   border: "khaki",
@@ -227,7 +264,7 @@ class ChatBotDialog extends Component {
                   marginRight: "20px"
                 }}
                 onClick={this.resetForm}
-                disabled={false}
+                disabled={loading}
               >
                   Reset
               </Button>
@@ -235,8 +272,8 @@ class ChatBotDialog extends Component {
                 variant="primary"
                 type="submit"
                 style={{
-                  padding: "1rem 2rem",
-                  fontSize: "1.25rem",
+                  padding: "5px",
+                  fontSize: "1.15rem",
                   backgroundColor: "#00b5ad",
                   color: "#fff",
                   border: "none",
@@ -269,6 +306,9 @@ class ChatBotDialog extends Component {
                 name="layman"
                 value={layman}
                 onClick={this.checkboxStatus}
+                style={{
+                  cursor: "pointer",
+                }}
               />
                 Talk to me like a six year old.
             </div>
@@ -345,35 +385,5 @@ class ChatBotDialog extends Component {
   }
 }
 
-/**
- * Takes a html element or text, wraps with a div and renders a glow element.
- * @param {Element|string} props
- * @return {JSX.Element}
- * @constructor
- */
-const GlowingDiv = (props) => {
-  const [isGlowing, setIsGlowing] = useState(false);
-  setTimeout(() => {
-    setIsGlowing(!isGlowing);
-  }, 500);
-
-  return (
-    <div
-      onLoad={setTimeout}
-      className={`d-flex justify-content-center align-items-center ${
-        isGlowing ? "glow" : ""
-      }`}
-      style={{
-        maxWidth: "200px",
-        backgroundColor: "mediumpurple",
-        color: "white",
-        borderRadius: "10px",
-        margin: "0 auto",
-      }}
-    >
-      <div>{props.props}</div>
-    </div>
-  );
-};
 
 export {ChatBotDialog};
