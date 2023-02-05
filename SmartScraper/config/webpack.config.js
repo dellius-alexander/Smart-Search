@@ -1,5 +1,7 @@
 "use strict";
 
+import("./env.js");
+
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -88,13 +90,17 @@ const hasJsxRuntime = (() => {
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
-  const isEnvDevelopment = webpackEnv === "development";
-  const isEnvProduction = webpackEnv === "production";
+  const isEnvDevelopment = process.env.NODE_ENV === "development";
+  const isEnvProduction = process.env.NODE_ENV === "production";
+  console.log("Node Env: " + process.env.NODE_ENV);
+  console.log("isEnvDevelopment: ", isEnvDevelopment);
+  console.log("isEnvProduction: ", isEnvProduction);
 
   // Variable used for enabling profiling in Production
   // passed into alias object. Uses a flag if passed into the build command
   const isEnvProductionProfile =
     isEnvProduction && process.argv.includes("--profile");
+
 
   // We will provide `paths.publicUrlOrPath` to our app
   // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -193,10 +199,7 @@ module.exports = function (webpackEnv) {
     mode: isEnvProduction ? "production" : isEnvDevelopment && "development",
     // Stop compilation early in production
     bail: isEnvProduction,
-    devtool: isEnvProduction
-      ? shouldUseSourceMap
-        ? "source-map"
-        : false
+    devtool: isEnvProduction ? "source-map"
       : isEnvDevelopment && "cheap-module-source-map",
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
@@ -611,6 +614,7 @@ module.exports = function (webpackEnv) {
       // It is absolutely essential that NODE_ENV is set to production
       // during a production build.
       // Otherwise React will be compiled in the very slow development mode.
+      // eslint-disable-next-line
       new webpack.DefinePlugin(env.stringified),
       // Experimental hot reloading for React .
       // https://github.com/facebook/react/tree/main/packages/react-refresh

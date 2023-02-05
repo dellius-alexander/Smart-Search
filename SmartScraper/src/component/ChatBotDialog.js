@@ -5,8 +5,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import "../static/scss/chat-bot-dialog.scss";
-import { ClientStrategy } from "./ML/ClientStrategy.ts";
+import "../static/css/chat-bot-dialog.css";
+import { ClientStrategy } from "./Strategy/ClientStrategy.js";
 
 
 /**
@@ -58,7 +58,7 @@ class ChatBotDialog extends Component {
       errorMessage: "",
       displayResponseModal: "none",
       loading: false,
-      layman: "",
+      layman: false,
       currentResponse: "",
       responses: [],
       responseCount: 0,
@@ -87,6 +87,10 @@ class ChatBotDialog extends Component {
     }
   }
 
+  /**
+   * Handles user input persistence
+   * @param {Event} event
+   */
   handleInputChange(event) {
     this.setState({
       prompt: event.target.value,
@@ -101,16 +105,20 @@ class ChatBotDialog extends Component {
       console.log("Checkbox is checked");
       this.setState({
         checkboxStatus: checkboxStatus,
-        layman: "Talk to me like i'm a six year old,",
+        layman: true,
       });
     } else {
       this.setState({
         checkboxStatus: checkboxStatus,
-        layman: "Tell me in great detail,",
+        layman: false,
       });
     }
   }
 
+  /**
+   * Checks the response modal, removes it if no response model is found.
+   * @param {Event} event
+   */
   checkResponseModal(event) {
     const { responseCount } = this.state;
     if (event.target.style.display === "none" && responseCount === 0) {
@@ -124,20 +132,27 @@ class ChatBotDialog extends Component {
     }
   }
 
+  /**
+   * Handles form submission
+   * @param {Event} event
+   * @return {Promise<void>}
+   */
   async handleSubmit(event) {
     try {
       event.preventDefault();
       // freeze the state of the input textarea while we fulfill the users request
-      this.setState({ loading: true });
+      this.setState({ loading: true});
+
       // get user input prompts and layman options
       const { prompt, layman, strategy } = this.state;
       // check for a prompt
       if (prompt) {
-        const client = strategy.create("openai");
-        const data = await client.executeStrategy({prompt, layman});
 
-        // const rawData = response.choices[0].text;
-        // const data = parse(rawData);
+        // get a client to execute the strategy
+        const context = await strategy.createClient("openai");
+        // execute the strategy using the client and return the response
+        const data = await context.executeStrategy({prompt, layman}, {element: document.getElementsByClassName("modal-body")[0]});
+        // update the state with the response
         this.setState((prevState) => {
           if (prevState.responseCount <= 0) {
             return {
@@ -167,7 +182,21 @@ class ChatBotDialog extends Component {
           }
         });
       }
-      this.setState({ loading: false});
+      // unfreeze and reset the state of the input textarea
+      this.setState((prevState) => {
+        if (prevState.currentResponse){
+          return {
+            loading: false,
+            prompt: ""
+          };
+        } else {
+          return {
+            loading: false
+          };
+        }
+
+      });
+
     } catch (error) {
       this.setState({
         error: true,
@@ -204,7 +233,8 @@ class ChatBotDialog extends Component {
   }
   resetForm() {
     this.setState({
-      prompt: ""
+      prompt: "",
+      loading: false,
     });
   }
 
@@ -287,7 +317,6 @@ class ChatBotDialog extends Component {
                   animation="grow"
                   size="sm"
                   role="status"
-                  aria-hidden="true"
                   aria-disabled={!loading}
                 />
                 {loading ? "Loading..." : "Submit"}

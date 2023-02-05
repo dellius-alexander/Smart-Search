@@ -1,5 +1,7 @@
 "use strict";
 
+import("./env.js");
+
 const path = require("path");
 const fs = require("fs");
 const getPublicUrlOrPath = require("react-dev-utils/getPublicUrlOrPath");
@@ -9,6 +11,8 @@ const getPublicUrlOrPath = require("react-dev-utils/getPublicUrlOrPath");
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
+console.log(`Public URL: ${process.env.PUBLIC_URL}`);
+
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
 // webpack needs to know it to put the right <script> hrefs into HTML even in
@@ -17,7 +21,7 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === "development",
-  require(resolveApp(process.cwd() + "/package.json")).homepage,
+  require(resolveApp(path.join(process.cwd(), "/package.json"))).homepage,
   process.env.PUBLIC_URL
 );
 
@@ -54,9 +58,9 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp(
     [
-      path.resolve(process.cwd(), `/.env.${process.env.NODE_ENV}.*`),
+      path.resolve(path.join(process.cwd(), `/.env.${process.env.NODE_ENV}.local`)),
       // path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}.local`),
-      path.resolve(process.cwd(), "/.env")
+      path.resolve(path.join(process.cwd(), "/.env"))
     ].filter(Boolean)[0]
   ),
   appPath: resolveApp("."),

@@ -7,12 +7,17 @@ process.env.NODE_ENV =  "production";
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on("unhandledRejection", (err) => {
-  throw err;
-});
+try {
+  process.on("unhandledRejection", (err) => {
+    throw (`Unhandled rejection: ${err}`);
+  });
+} catch (e) {
+  console.dir(e);
+}
+
 
 // Ensure environment variables are read.
-require("../config/env");
+import("../config/env.js");
 
 const path = require("path");
 const chalk = require("react-dev-utils/chalk");

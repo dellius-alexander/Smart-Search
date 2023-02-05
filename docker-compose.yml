@@ -32,8 +32,6 @@ services:
         user: ${USERNAME}
         hostname: ${HOSTNAME}
         working_dir: ${WORKDIR}
-        env_file:
-            - ./SmartScraper/.env.${NODE_ENV}.local
         expose:
         - ${PORT}
         ports:

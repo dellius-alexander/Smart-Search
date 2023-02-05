@@ -3,62 +3,43 @@
   <ID>JavaScriptClasses</ID>
   <OriginalElement>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component</OriginalElement>
   <nodes>
-    <node x="-7.529569892473091" y="611.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Responsive.js#Responsive</node>
-    <node x="648.4569892473119" y="688.5">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/Context.js#Context</node>
-    <node x="379.2903225806451" y="333.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/Strategy.ts#Strategy</node>
-    <node x="430.0" y="461.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/IContext.ts#IContext</node>
-    <node x="198.27419354838707" y="914.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog</node>
-    <node x="-206.0" y="438.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/OpenAI/Gpt3.ts#Gpt3</node>
-    <node x="347.4704301075269" y="677.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/ClientStrategy.ts#ClientStrategy</node>
+    <node x="-325.0" y="-49.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Responsive.js#Responsive</node>
+    <node x="30.0" y="28.5">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy</node>
+    <node x="384.5" y="604.5">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context</node>
+    <node x="-325.0" y="529.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Strategy.ts#Strategy</node>
+    <node x="-156.25" y="254.0">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/ClientStrategy.ts#ClientStrategy" relationship="CREATE">
-      <point x="121.19623655913983" y="-115.0" />
-      <point x="0.0" y="60.5" />
-    </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/Context.js#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/Strategy.ts#Strategy" relationship="DEPENDENCY">
-      <point x="11.543010752688133" y="-49.0" />
-      <point x="871.5" y="435.0" />
-      <point x="687.29" y="435.0" />
-      <point x="-3.2258064516099694E-4" y="26.5" />
-    </edge>
     <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Responsive.js#Responsive" relationship="CREATE">
-      <point x="-17.803763440860166" y="-115.0" />
-      <point x="160.0" y="126.5" />
+      <point x="0.0" y="-115.0" />
+      <point x="0.75" y="229.0" />
+      <point x="-157.5" y="229.0" />
+      <point x="0.0" y="126.5" />
     </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/ClientStrategy.ts#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/OpenAI/Gpt3.ts#Gpt3" relationship="CREATE">
-      <point x="-56.47043010752691" y="-60.5" />
-      <point x="300.5" y="60.5" />
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" relationship="CREATE">
+      <point x="0.0" y="-115.0" />
+      <point x="0.75" y="229.0" />
+      <point x="159.0" y="229.0" />
+      <point x="0.0" y="49.0" />
     </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/ClientStrategy.ts#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/IContext.ts#IContext" relationship="ONE_TO_ONE">
-      <point x="0.0" y="-60.5" />
-      <point x="-183.0295698924731" y="37.5" />
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Strategy.ts#Strategy" relationship="DEPENDENCY">
+      <point x="-0.0" y="-49.0" />
+      <point x="674.0" y="555.5" />
+      <point x="325.0" y="-0.0" />
     </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/IContext.ts#IContext" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/Strategy.ts#Strategy" relationship="DEPENDENCY">
-      <point x="0.0" y="-37.5" />
-      <point x="642.0" y="435.0" />
-      <point x="687.29" y="435.0" />
-      <point x="-3.2258064516099694E-4" y="26.5" />
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context" relationship="CREATE">
+      <point x="129.0" y="-0.0" />
+      <point x="689.0" y="77.5" />
+      <point x="15.0" y="-49.0" />
     </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/Context.js#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/Strategy.ts#Strategy" relationship="ONE_TO_ONE">
-      <point x="26.543010752688133" y="-49.0" />
-      <point x="199.20967741935488" y="26.5" />
-    </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/Context.js#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/IContext.ts#IContext" relationship="REALIZATION">
-      <point x="-13.456989247311867" y="-49.0" />
-      <point x="204.5" y="37.5" />
-    </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/ClientStrategy.ts#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/IContext.ts#IContext" relationship="DEPENDENCY">
-      <point x="15.0" y="-60.5" />
-      <point x="-168.0295698924731" y="37.5" />
-    </edge>
-    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/OpenAI/Gpt3.ts#Gpt3" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ML/AIModels/Strategy.ts#Strategy" relationship="REALIZATION">
-      <point x="300.5" y="-60.5" />
-      <point x="-284.7903225806451" y="26.5" />
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Strategy.ts#Strategy" relationship="ONE_TO_ONE">
+      <point x="-289.5" y="-0.0" />
+      <point x="0.0" y="653.5" />
+      <point x="-0.0" y="26.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic" zoom="1.0" showDependencies="true" x="851.0" y="961.5" />
+  <settings layout="Hierarchic" zoom="0.5925465838509317" showDependencies="true" x="695.9392033542978" y="650.1247379454926" />
   <SelectedNodes />
   <Categories>
     <Category>Constructors</Category>

@@ -2,24 +2,20 @@
 
 const fs = require("fs");
 const path = require("path");
-const paths = require("./paths");
-
-// Make sure that including paths.js after env.js will read .env variables.
-delete require.cache[require.resolve("./paths")];
 
 // import environment variables
 const dotenv = require("dotenv");
 
 (function config(options = undefined) {
-  const envFile = path.join(process.cwd(), "/.env.development.local");
+  const envFile = path.join(process.cwd(), `/.env.${process.env.NODE_ENV || "production" }.local`);
   const envOptions =
-    (options && Object.assign({}, options)) ||
-    Object.create({
-      path: envFile,
-      encoding: "utf8",
-      debug: true,
-      override: true,
-    });
+      (options && Object.assign({}, options)) ||
+      Object.create({
+        path: envFile,
+        encoding: "utf8",
+        debug: true,
+        override: true,
+      });
 
   // get environment file
   if (fs.existsSync(envFile)) {
@@ -38,7 +34,13 @@ const dotenv = require("dotenv");
   }
 })();
 
-const NODE_ENV = process.env.NODE_ENV || "development";
+
+const paths = require("./paths");
+
+// Make sure that including paths.js after env.js will read .env variables.
+delete require.cache[require.resolve("./paths")];
+
+const NODE_ENV = process.env.NODE_ENV === "development" ? "development" : "production";
 
 if (!NODE_ENV) {
   throw new Error(

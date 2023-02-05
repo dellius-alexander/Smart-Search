@@ -13,7 +13,7 @@ process.on("unhandledRejection", (err) => {
 });
 
 // Ensure environment variables are read.
-require("../config/env");
+require("../config/env.js");
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const jest = require("jest");

@@ -354,7 +354,7 @@ class LatexParser {
    *
    */
   checkSyntax(latexDoc = undefined) {
-    const latexDocText = latexDoc || this.latexDoc;
+    const latexDocText = latexDoc || this.latexDoc || "";
     if (this.validateFraction(latexDocText)) {
       return this.getFraction();
     }

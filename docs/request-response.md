@@ -32,6 +32,73 @@ fetch("https://api.openai.com/v1/completions", {
 }).catch(console.dir);
 ```
 
+
+### Stream Request
+
+```javascript
+// send the stream to the api server
+return  await fetch(url, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+  },
+  body: JSON.stringify({
+    frequency_penalty: 0,
+    logprobs: null,
+    max_tokens: 2048,
+    model: model,
+    presence_penalty: 0,
+    prompt: `{"prompt":"${prompt}","instructions":["Talk to me like a 6 year old":"${layman}","Send response inside embedded div tag, do not include html tag in response."]}`,
+    stream: false,
+    temperature: 0.9,
+    top_p: 1,
+  }),
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  duplex: "half"
+})
+  .then(async (response) => {
+    const reader = response.body.getReader();
+    return new ReadableStream({
+      start(controller) {
+        return pump();
+        function pump(){
+          return reader
+            .read()
+            .then(({ done, value }) => {
+            // when no more data needs to be consumed, close the stream
+              if (done || value === null || value === undefined){
+                controller.close();
+                return;
+              }
+              // Enqueue the next data chunk into our target stream
+              controller.enqueue(value);
+              return pump();
+            })
+            .catch((err) => console.error(err));
+        }
+      }
+    });
+  })
+  .then((stream) => new Response(stream))
+  .then((response) => response.json())
+  .then((jsonResponseData) => {
+    this.state.id = jsonResponseData.id;
+    this.state.type = jsonResponseData.object;
+    this.state.created = jsonResponseData.created;
+    this.state.model = jsonResponseData.model;
+    this.state.jsonData = jsonResponseData.choices[0];
+    this.state.usage = jsonResponseData.usage;
+    return parse(this.state.jsonData.text);
+  })
+  .then((data) => data)
+  .catch(console.dir);
+```
+
+
+### Curl Request
+
 ```shell
 $ curl https://api.openai.com/v1/completions \
   -H "Content-Type: application/json" \

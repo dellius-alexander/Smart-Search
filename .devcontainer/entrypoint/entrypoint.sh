@@ -4,19 +4,18 @@
 # Add the following to /etc/hosts file for loopback compatibility for custom DNS entries.
 #echo "127.0.0.1 example.com *.example.com https://example.com https://www.example.com $(hostname)}" >> /etc/hosts
 npm install &2>/dev/null
+#npm rebuild node-sass
 npm audit fix  &2>/dev/null
 NODE_ENV=$( [ -z $NODE_ENV ] && echo "development" || echo $NODE_ENV  )
 echo "Node env: $NODE_ENV..."
 case "${NODE_ENV}" in
   prod | production)
     echo "Node running in ${NODE_ENV} mode.";
-    npm rebuild node-sass
-    npm run start:browser
+    npm run start:docker:browser
     ;;
   dev | development)
     echo "Node running in ${NODE_ENV} mode.";
     export DEBUG=smartscraper:*
-    npm rebuild node-sass
     npm run dev:browser
     ;;
 esac

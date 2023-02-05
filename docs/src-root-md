@@ -1,0 +1,187 @@
+
+```kotlin
+classDiagram
+direction TB
+class CaseParser {
+   constructor(latexDoc) 
+   parseCase(latexDoc: string) string
+}
+class CertificateConfigFile {
+   constructor(domainPrefix, hostname, certDir) 
+   generateConfig(domainPrefix: String, hostname: String, _certDir: String) String
+}
+class CertificateConfigFileFactory {
+   create(domainPrefix, hostname, _certDir) CertificateConfigFile
+}
+class CertificateGenerator {
+   constructor(options, hostname, certDir) 
+   run() void
+}
+class CertificateGeneratorFactory {
+   getCertificateGenerator(options, hostname, certDir) FileCertificateGenerator
+}
+class ChatBotDialog {
+   constructor(props) 
+   resizeTextarea(event) void
+   handleInputChange(event) void
+   checkboxStatus(event) void
+   checkResponseModal(event) void
+   handleSubmit(event) Promise~void~
+   handleResponseSelection(event) void
+   resetForm() void
+   render() any
+}
+class ClientStrategy {
+   constructor() 
+   IContext context
+   #getContext() any
+   create(type: string) IContext
+}
+class ConfigCertificateGenerator {
+   constructor(options, certificateConfigFile, certsDir) 
+   generateCertificate(hostname, certsDir, domainPrefix) void
+   getCommonName(certificateFilePath) any
+}
+class Context {
+   Strategy strategy
+   setStrategy(strategy: Strategy) void
+   executeStrategy(options: {prompt: null, layman: false}) JSON
+}
+class DefaultCertificateGenerator {
+   constructor(options, hostname, certsDir) 
+}
+class DeterminantParser {
+   constructor(latexDoc) 
+   parseDeterminant(latexDoc: string) string
+}
+class ErrorBoundary {
+   constructor(props: Object) 
+   function(Error, React.ErrorInfo): void logErrorToServices
+   getDerivedStateFromError(error: Object) {hasError: boolean, error: Object}
+   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) void
+   render() React.Component
+}
+class ExponentParser {
+   constructor(latexDoc) 
+   parseExponent(latexDoc: string) string
+}
+class FileCertificateGenerator {
+   constructor(options, hostnameFile, certsDir) 
+}
+class FractionParser {
+   constructor(latexDoc) 
+   parseFraction(latexDoc: string) string
+}
+class GenerateCertificate {
+   constructor(domainPrefix, hostname, certsDir) 
+   generateCertificate(hostname, certsDir, domainPrefix) Array
+   generateCert(certificateConfigFile, certsDir, domainPrefix) Array
+   walkSync(dir, filelist) Promise~any[]~
+}
+class Gpt3 {
+   constructor(props: any) 
+   object props
+   {id: string, url: string, type: string,… state
+   sendRequest(options: {prompt: null; layman: false}) Promise~string | void | JSX.Element | J…
+}
+class IContext {
+   setStrategy(strategy: Strategy) any
+   executeStrategy(options: {prompt: null; layman: false}) JSON
+}
+class IntegralParser {
+   constructor(latexDoc) 
+   parseIntegral(latexDoc: string) string
+}
+class LatexParser {
+   constructor(latexDoc) 
+   Object latexRegex
+   validateFraction(fraction: string) boolean
+   validateCommand(command: string) boolean
+   validateEnvironment(environment: string) boolean
+   validateMathMode(mathMode: string) boolean
+   validateSubscriptSuperscript(subscriptSuperscript: string) boolean
+   validateCitation(citation: string) boolean
+   validateUrl(url: string) boolean
+   validateSection(section: string) boolean
+   validateFigure(figure: string) boolean
+   validateTable(table: string) boolean
+   validateLabel(label: string) boolean
+   getFraction() Array
+   getCommands() Array
+   getEnvironments() Array
+   getMathModes() Array
+   getSubscriptSuperscript() Array
+   getCitations() Array
+   getUrls() Array
+   getSections() Array
+   getFigures() Array
+   getTables() Array
+   getLabels() Array
+   checkSyntax(latexDoc: string) Array
+}
+class LimitParser {
+   constructor(latexDoc) 
+   parseLimit(latexDoc: string) string
+}
+class MatrixParser {
+   constructor(latexDoc) 
+   parseMatrix(latexDoc: string) string
+}
+class ProductParser {
+   constructor(latexDoc) 
+   parseProduct(latexDoc: string) string
+}
+class Responsive {
+   constructor(props) 
+   MediaQueryList mqMobile
+   MediaQueryList mqTablet
+   MediaQueryList mqIphone
+   MediaQueryList mqIpad
+   MediaQueryList mqWeb
+   getDeviceInfo() string
+   handleMediaChange(mq: MediaQueryList) void
+   scaleElement(event: Event) void
+   init() void
+}
+class SetParser {
+   constructor(latexDoc) 
+   parseSet(latexDoc: string) string
+}
+class SquareRootParser {
+   constructor(latexDoc) 
+   parseSquareRoot(latexDoc: string) string
+}
+class Strategy {
+   sendRequest(options: {prompt: null; layman: false}) Promise~string | void | JSX.Element | J…
+}
+class StringCertificateGenerator {
+   constructor(options, hostname, certsDir) 
+}
+class SubscriptParser {
+   constructor(latexDoc) 
+   parseSubscript(latexDoc: string) string
+}
+class SummationParser {
+   constructor(latexDoc) 
+   parseSummation(latexDoc: string) string
+}
+class VectorParser {
+   constructor(latexDoc) 
+   parseVector(latexDoc: string) string
+}
+
+CertificateConfigFileFactory  ..>  CertificateConfigFile : «create»
+ChatBotDialog  ..>  ClientStrategy : «create»
+ChatBotDialog  ..>  Responsive : «create»
+ClientStrategy  ..>  Gpt3 : «create»
+ClientStrategy  *--> "1" IContext : context
+ClientStrategy  ..>  IContext 
+Context  ..>  IContext 
+Context  ..>  Strategy 
+Context  *--> "1" Strategy : strategy
+DefaultCertificateGenerator  -->  GenerateCertificate 
+FileCertificateGenerator  -->  GenerateCertificate 
+Gpt3  ..>  Strategy 
+IContext  ..>  Strategy 
+StringCertificateGenerator  -->  GenerateCertificate 
+```

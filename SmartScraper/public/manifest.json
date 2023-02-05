@@ -1,6 +1,8 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
+  "version": "0.1",
+  "homepage": "https://delliusalexander.com",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,5 +23,7 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "content_security_policy": "default-src 'self' https://api.openai.com https://davinci-codex.herokuapp.com data: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; script-src 'self' https://delliusalexander.com 'unsafe-inline'; media-src *; img-src 'self' data: content:;  object-src 'self'",
+  "default_locale": "en"
 }

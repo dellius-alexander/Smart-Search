@@ -35,10 +35,27 @@ OPTIONS="${1}"
 HOSTNAME="${2}"
 _CERTS_DIR="${3}"
 
+
+__usage(){
+   echo """
+      HELP DOCS:
+      Usage:
+      /bin/bash ${0} [ -f file | -s string | -d  | -h | -c ] <certificate directory>
+        OPTIONS:
+          -f | --file: passing a file containing the hostname.
+          -s | --string: passing a string containing the hostname.
+          -d | --default: default hostname used is example.com, no second paramater should be entered.
+          -c | --config: config file to be used in certificate generation.
+                         If no config file is provided one will be created from hostname.
+          -h | --help: this help message.
+      """
+      exit 1
+}
+
 if [[  "${#}" -eq 0 || "${#}" -lt 3 ]]; then
-  echo "Missing parameter 3."
-  echo "Usage: $0 -s <domain> <cert dir>"
+  echo "Missing $[3 - ${#}] parameter(s)."
   echo "Parameters passed: [${1}, ${2}, ${3}]"
+  __usage
   exit 1
 elif [[ ! -z "${_CERTS_DIR}" && ! -d "${_CERTS_DIR}"  ]]; then
   echo "Certificate directory not found. Creating from input: [$_CERTS_DIR]"
@@ -53,7 +70,7 @@ case ${OPTIONS} in
           echo "Configuration file error: hostname/commonname not defined."
           exit 1
         fi;
-        DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+        DOMAIN=$(echo ${HOSTNAME%.*})
         DOMAIN_NAME="${HOSTNAME}"
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
@@ -66,7 +83,7 @@ case ${OPTIONS} in
           echo "Configuration file error: missing second input parameter [ /bin/bash ${0} -s <input value> ]."
           exit 1
         fi;
-        DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+        DOMAIN=$(echo ${HOSTNAME%.*})
         DOMAIN_NAME="${HOSTNAME}"
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
@@ -76,7 +93,7 @@ case ${OPTIONS} in
   -d | --default) # invoke default hostname for development use
         echo "Defaluting to example.com hostname..."
         HOSTNAME="example.com"
-        DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+        DOMAIN=$(echo ${HOSTNAME%.*})
         DOMAIN_NAME="${HOSTNAME}"
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
@@ -90,7 +107,7 @@ case ${OPTIONS} in
           echo "Configuration file error: hostname/commonname not defined"
           exit 1
         fi;
-        DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+        DOMAIN=$(echo ${HOSTNAME%.*})
         DOMAIN_NAME="${HOSTNAME} "
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
@@ -99,19 +116,7 @@ case ${OPTIONS} in
     ;;
   * | -h | --help)
     # default behavior
-    echo """
-    HELP DOCS:
-    Usage:
-    /bin/bash ${0} [ -f file | -s string | -d  | -h | -c ] <certificate directory>
-      OPTIONS:
-        -f | --file: passing a file containing the hostname.
-        -s | --string: passing a string containing the hostname.
-        -d | --default: default hostname used is example.com, no second paramater should be entered.
-        -c | --config: config file to be used in certificate generation.
-                       If no config file is provided one will be created from hostname.
-        -h | --help: this help message.
-    """
-    exit 1
+   __usage
     ;;
 esac
 
@@ -254,6 +259,7 @@ __generate_cert(){
     wait $!
   fi
 }
+
 
 # main method
 __main() {

@@ -17,6 +17,7 @@ ARG UUID=1001
 ######################################################
 ENV REACT_APP_HOME="/home/${USERNAME}/app"
 ENV NODE_ENV=${NODE_ENV}
+ENV BABEL_ENV=${BABEL_ENV}
 
 USER root
 
@@ -45,10 +46,9 @@ EXPOSE "${PORT}"
 
 RUN chown -R ${USERNAME}:root "/usr/local/app/.certs"
 RUN chown -R ${USERNAME}:root "${REACT_APP_HOME}"
-RUN npm install -g npm@latest
 
 RUN cd "${REACT_APP_HOME}" && \
-    npm install
+    npm install -g npm@latest serve
 
 ### # Clean up
 #RUN apt-get autoremove -y \

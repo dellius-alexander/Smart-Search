@@ -12,7 +12,7 @@ process.on("unhandledRejection", (err) => {
 });
 
 // Ensure environment variables are read.
-require("../config/env");
+require("../config/env.js");
 
 const fs = require("fs");
 const chalk = require("react-dev-utils/chalk");
@@ -79,7 +79,7 @@ checkBrowsers(paths.appPath, isInteractive)
       return;
     }
 
-    const config = configFactory("development");
+    const config = configFactory(process.env.NODE_ENV);
     const protocol = process.env.HTTPS === "true" ? "https" : "http";
     const appName = require(paths.appPackageJson).name;
 
