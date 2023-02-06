@@ -25,11 +25,31 @@ to help build a multiplatform architecture maintaining `one` code base.
 
 Several design pattern would fulfill the initial use case of building a simple AI pipeline, 
 but would fail to quickly adapt to changing business needs and market trends. Due to the behavior 
-of trends and market shifts to different emerging technologies we chose 
-to use `Strategy Behavior Pattern`. A pattern most suited for this use case. We can define 
-a family of algorithms and models, as well as make them interchangeable. Figure 1 is the initial 
-implementation of the Strategy Behavior Pattern. We will be adding and updating as an 
-ongoing process.
+of trends and market shifts to different emerging technologies we were torn between `Chain of Responsibility` 
+and the `Strategy Behavior Pattern`.
+
+Chain of Responsibility (CoR)  splits responsibilities into multiple objects, allowing for easier development 
+and maintenance, as well as better scalability. In the CoR design pattern, a request is sent through a chain 
+of objects, each of which can handle the request or pass it to the next object in the chain. This allows for 
+a more flexible and maintainable codebase, and helps to minimize the impact of changes. Since we will be 
+implementating mostly external APIs and aggregating the responses the need for more fine grain controls are needed, 
+with that in mind we chose the `Strategy Behavior Pattern`. 
+
+The Strategy Behavior Pattern is similar to the Chain of 
+Responsibility (CoR). However, instead of passing the response from one object to the next, the 
+Strategy Behavior Pattern allows for more fine-grained control over how a particular request is responded to. 
+The pattern defines a set of algorithms or strategies that can be used to respond to a particular request, and 
+then chooses the best strategy to use at run-time, allowing for more customization and flexibility. The Strategy 
+Design Pattern is better for this business model, as it provides a way to select from a set of models, and allows 
+the selection to vary depending on the `Context`. The Chain of Responsibility, on the other hand, is better 
+suited for use cases where the request is passed through a chain of objects until one of them is able to handle 
+the request. We can define a family of algorithms and models, as well as make them 
+interchangeable. 
+
+`Figure 1` is the initial implementation of the Strategy Behavior Pattern. We will be 
+adding and updating as the project evolves.
+
+
 
 ---
 

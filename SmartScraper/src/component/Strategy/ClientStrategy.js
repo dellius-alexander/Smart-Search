@@ -1,13 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { Gpt3 } from "./AIModels/OpenAI/Gpt3.ts";
+import { Gpt3 } from "./AIModels/Language/Gpt3.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Context } from "./Context.ts";
 // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // // @ts-ignore
 // import { IContext } from "./IContext.ts";
-import { Alpha } from "./AIModels/Wolframalpha/Alpha.ts";
+import { Alpha } from "./AIModels/Computational/Alpha.ts";
+import {Yolo} from "./AIModels/ObjectDetection/Yolo.ts";
 // import {wait} from "@testing-library/user-event/dist/utils";
 
 /**
@@ -43,6 +44,9 @@ class ClientStrategy {
       return this.context;
     case "alpha" || "Alpha" || /alpha/ || /Alpha/:
       this.context.setStrategy(new Alpha());
+      return this.context;
+    case "yolo" || "Yolo" || /yolo/ || /Yolo/:
+      this.context.setStrategy(new Yolo());
       return this.context;
     default: // TODO(you have to create a more comprehensive default protocol)
       console.log("Strategy unable to fulfill request.");

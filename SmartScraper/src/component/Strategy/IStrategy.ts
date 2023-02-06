@@ -11,6 +11,11 @@ interface IStrategy  {
         version: string,
         description: string,
     }
+
+    /**
+     * Converts the state of the strategy to a JSON object.
+     * @return {JSON}
+     */
     toJSON(): JSON;
 }
 export { IStrategy };

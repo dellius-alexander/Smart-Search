@@ -13,7 +13,7 @@ interface StreamStrategy extends IStrategy {
      * Send a request to Gpt3 API endpoints
      * @param {{prompt: string, layman: false}} options
      * @param {{element: Element}} streamOptions??
-     * @returns  {string|JSON} JSX element(s), empty array, or string.
+     * @returns  {{Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>}} JSX element(s), empty array, or string.
      */
     streamRequest(options: { prompt: string; layman: false }, streamOptions?: { element: Element }) :
         Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>
