@@ -10,7 +10,7 @@ __error(){
   fi
 }
 #####################################################################
-COMMAND=${1:-$( [[ ${1} =~ (run|emulate|plugin|build|serve|cordova_serve){1} ]] && echo ${1} &2>/dev/null )} # Defaults to run -- platform
+COMMAND=${1:-$( [[ ${1} =~ ^(run|emulate|plugin|build|serve|cordova_serve|help|HELP|-h|--help)$ ]] && echo ${1} &2>/dev/null )} # Defaults to run -- platform
 PLATFORMS=${2:-$( [[ ${2} =~ (browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null )} # Defaults to run -- platform -- browser
 PLUGINS=${3:-$( [[ ${3} =~ ([a-zA-z0-9_-]+) ]] && echo ${3} &2>/dev/null )}
 
@@ -61,7 +61,7 @@ plugin|plugins)
   echo "Running ${PLATFORMS}........";
   cordova plugin ${PLATFORMS} ${PLUGINS} &2>/dev/null || echo "No plugin found...$?";
   ;;
-*)
+help|HELP|-h|--help|*)
   printf """\n
   Usage: |
   /bin/sh ${0} \\
