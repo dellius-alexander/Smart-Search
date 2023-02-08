@@ -14,13 +14,11 @@ on:
     branches:
       - 'main'
       - 'release*'
-      - '*'
 
   pull_request:
     branches:
       - 'main'
       - 'release*'
-      - '*'
 
 #  # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
@@ -40,7 +38,7 @@ jobs:
   github-pages:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    environment:
+    env:
       name: github-pages
       REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
       url: ${{ steps.deployment.outputs.page_url }}
@@ -63,7 +61,7 @@ jobs:
       - name: Prepare Staging files
         run: |
           mkdir -p staging
-          cp -r SmartScraper/www/** staging
+          cp -r SmartScraper/www/** staging/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
