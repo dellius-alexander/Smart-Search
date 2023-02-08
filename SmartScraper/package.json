@@ -2,7 +2,7 @@
   "name": "smartscraper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "https://dellius-alexander.github.io/Smart-Scraper/",
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
   "scripts": {
     "prestart:browser": "npm run build:prod;",
@@ -15,7 +15,9 @@
     "build:prod": "export NODE_ENV=production && node scripts/build.js;",
     "build:cordova": "npm run build:dev; cordova build -- --debug --live-reload;",
     "build:dev": "export NODE_ENV=development && node --inspect --trace-uncaught  scripts/build.js;",
-    "test": "/bin/sh init.sh HELP browser;"
+    "test": "/bin/sh init.sh HELP browser;",
+    "predeploy": "npm run build:prod",
+    "deploy": "gh-pages -d build"
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [
