@@ -6,7 +6,7 @@
 # This workflow will build a Java project with Gradle and
 # cache/restore any dependencies to improve the workflow execution time
 ##########################################################################
-name: 'Build, Test, Deploy Github Pages'
+name: 'Deploy Github Pages'
 env:
   TZ: 'America/New_York'
   NODE_ENV: 'production'
@@ -41,29 +41,6 @@ concurrency:
   cancel-in-progress: false
 # Workflow Jobs
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          cd $(find . -type d -name 'SmartScraper');
-          export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY }}";
-          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env.production.local;
-          echo "BABEL_ENV=${{ env.BABEL_ENV }}" >> .env.production.local;
-          echo "GENERATE_SOURCEMAP=false" >> .env.production.local;
-          npm install;
-          npm run predeploy:github-pages;
-        env:
-          REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
-
   # Deploy to GitHub pages only on main
   deploy:
     needs: build
