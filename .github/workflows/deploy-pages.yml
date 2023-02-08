@@ -57,7 +57,6 @@ jobs:
           echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
           echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
           cd SmartScraper
-          npm install gh-pages --save-dev
           npm install
           cd ..
         env:
@@ -65,10 +64,12 @@ jobs:
 
       - name: Publish github pages
         run: |
+          cd SmartScraper
+          npm install gh-pages --save-dev
           git config --global user.name ${{ secrets.USER_NAME }}
           git config --global user.name ${{ secrets.USER_EMAIL }}
-          git remote set-url origin https://github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
-          npx gh-pages -d SmartScraper/www -u "github-actions-bot <support+actions@github.com>"
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
+          npx gh-pages -d www -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
