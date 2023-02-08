@@ -1,5 +1,0 @@
-.gitignore
-.idea
-docs
-SmartScraper/node_modules/**
-!SmartScraper/
