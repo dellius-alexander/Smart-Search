@@ -9,7 +9,11 @@
 name: 'Build, Test, Deploy Github Pages'
 env:
   TZ: 'America/New_York'
-  credentials: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+  credentials:
+  - ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+  - ${{ secrets.USER_EMAIL }}
+  - ${{ secrets.USER_NAME }}
+
 on:
   push:
     branches:
@@ -66,10 +70,12 @@ jobs:
 
       - name: Publish github pages
         run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
           cd SmartScraper
           npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER_NAME: ${{ secrets.USER_NAME }}
 
 
 #          cd ..
