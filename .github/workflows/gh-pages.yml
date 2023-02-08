@@ -42,8 +42,6 @@ concurrency:
 # Workflow Jobs
 jobs:
   build:
-    environment:
-      REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
     runs-on: ubuntu-latest
     steps:
       - name: Install node
