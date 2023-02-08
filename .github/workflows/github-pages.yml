@@ -21,8 +21,7 @@ on:
   pull_request:
     branches:
       - 'main'
-      - 'gh-pages'
-      - 'github-pages'
+      - '*'
 
 #  # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
