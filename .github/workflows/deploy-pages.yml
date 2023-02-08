@@ -42,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+      REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Install node
@@ -61,9 +62,8 @@ jobs:
 
       - name: Prepare Staging files
         run: |
-          ls -liaR
           mkdir -p staging
-          cp -r SmartScraper/www/ staging
+          cp -r SmartScraper/www/** staging
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
