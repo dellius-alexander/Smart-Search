@@ -9,8 +9,7 @@
 name: 'Build, Test, Deploy Github Pages'
 env:
   TZ: 'America/New_York'
-  USER_EMAIL: ${{ env.USER_EMAIL }}
-  USER_REALNAME: ${{ env.USER_REALNAME }}
+  credentials: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
 on:
   push:
     branches:
