@@ -65,7 +65,7 @@ jobs:
 
       - name: Publish github pages
         run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/USER_OR_ORG/REPO.git
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/dellius-alexander/Smart-Scraper.git
           npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
