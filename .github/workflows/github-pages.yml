@@ -15,13 +15,10 @@ on:
   pull_request:
     branches:
       - 'main'
-    type: ['opened']
   push:
     branches:
       - '**'
-  merge:
-    branches:
-      - 'main'
+
 
 #  # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
@@ -39,8 +36,40 @@ concurrency:
 # Workflow Jobs
 jobs:
   # Deploy to GitHub pages only on main
+  setup-pages:
+    if: ${{ github.event_name == 'push' || github.ref == 'refs/heads/github-pages' }}
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build and Test
+        timeout-minutes: 5
+        working-directory: ./SmartScraper/
+        run: |
+          cd $(find ~+ -type d -name 'SmartScraper');
+          echo "Deploying to GitHub Pages"
+          npm install gh-pages --save-dev;
+          npm install -g serve;
+          npm install;
+          npm run predeploy:github-pages;
+
+  # Deploy to GitHub pages only on main
   deploy-to-github-pages:
-    needs: build
+    needs: setup-pages
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref == 'refs/heads/github-pages' }}
     # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
     permissions:
@@ -60,30 +89,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - deploy:
-        name: Build and Test
+      - name: Build and Test
         timeout-minutes: 5
-        path: ./SmartScraper/www
         run: |
-          cd $(find ~+ -type d -name 'SmartScraper');
-          echo "Deploying to GitHub Pages"
-          npm install gh-pages --save-dev;
-          npm install -g serve;
-          npm install;
-          npm run predeploy:github-pages;
-          cd $(find ~+ -type d -name 'Smart-Scraper');
-          mkdir staging;
-          cd staging;
-          git init .;
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
           git remote add origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${USER_NAME}/Smart-Scraper.git;
-          git checkout -b github-pages
-          cp -rf ../SmartScraper/www/** .
-          git add .
-          git commit -m "Deploy to Github Pages"
-          git push origin github-pages -f
-        if: success()
+          cd $(find ~+ -type d -name 'Smart-Scraper/SmartScraper');
+          npm run deploy:github-pages
         env:
           LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -100,3 +113,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: $(find ~+ -type d -name 'staging')
+
+#          git checkout -b github-pages
+#          cp -rf ../SmartScraper/www/** .
+#          git add .
+#          git commit -m "Deploy to Github Pages"
+#          git push origin github-pages -f
