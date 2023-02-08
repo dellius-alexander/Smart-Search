@@ -8,8 +8,7 @@
 ##########################################################################
 name: 'Build, Test, Deploy Github Pages'
 env:
-  TZ: 'America/New_York',
-  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+  TZ: 'America/New_York'
 on:
   push:
     branches:
