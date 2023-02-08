@@ -12,13 +12,15 @@ env:
   NODE_ENV: 'production'
   BABEL_ENV: 'production'
 on:
+  pull_request:
+    branches:
+      - 'main'
   push:
     branches:
       - '**'
-
-  pull_request:
+  merge:
     branches:
-      - '**'
+      - 'main'
 
 #  # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
@@ -36,7 +38,7 @@ concurrency:
 # Workflow Jobs
 jobs:
   # Deploy to GitHub pages only on main
-  github-pages:
+  deploy-to-github-pages:
     needs: build
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref == 'refs/heads/github-pages' }}
     # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -57,16 +59,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Publish github pages
+      - deploy:
+        name: Deploy to GitHub Pages
+        timeout-minutes: 5
+        path: ./SmartScraper/www
         run: |
-          cd $(find . -type d -name 'SmartScraper');
+          cd $(find ~+ -type d -name 'SmartScraper');
+          echo "Deploying to GitHub Pages"
           npm install gh-pages --save-dev;
           npm install -g serve;
           npm install;
-          git config --global user.name ${{ secrets.USER_NAME }};
-          git config --global user.name ${{ secrets.USER_EMAIL }};
-          git remote set-url origin https://git:${{ secrets.LOGIN_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git;
-          npm run deploy:github-pages;
+          npm run predeploy:github-pages;
+          cd $(find ~+ -type d -name 'Smart-Scraper');
+          mkdir staging;
+          cd staging;
+          git init .;
+          git config --global user.name ${USER_NAME};
+          git config --global user.name ${USER_EMAIL};
+          git remote add origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${USER_NAME}/Smart-Scraper.git;
+          git checkout -b github-pages
+          cp -rf ../SmartScraper/www/** .
+          git add .
+          git commit -m "Deploy to Github Pages"
+          git push origin github-pages -f
+        if: success()
         env:
           LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
