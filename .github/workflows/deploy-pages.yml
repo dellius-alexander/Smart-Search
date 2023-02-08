@@ -65,7 +65,6 @@ jobs:
 
       - name: Publish github pages
         run: |
-          cd SmartScraper
           git config --global user.name ${{ secrets.USER_NAME }}
           git config --global user.name ${{ secrets.USER_EMAIL }}
           git remote set-url origin https://github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
