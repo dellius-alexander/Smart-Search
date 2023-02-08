@@ -76,3 +76,4 @@ jobs:
           # Since this repository has no protected branches we will omit
           # this part of the step. end
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
