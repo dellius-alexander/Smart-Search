@@ -1,0 +1,100 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+##########################################################################
+# This workflow will build a Java project with Gradle and
+# cache/restore any dependencies to improve the workflow execution time
+##########################################################################
+name: 'Deploy Github Pages'
+env:
+  TZ: 'America/New_York'
+  NODE_ENV: 'production'
+  BABEL_ENV: 'production'
+on:
+  push:
+    branches:
+      - 'main'
+      - 'gh-pages'
+      - 'release*'
+      - '*'
+
+  pull_request:
+    branches:
+      - 'main'
+      - 'gh-pages'
+      - 'release*'
+      - '*'
+
+#  # Allows you to run this workflow manually from the Actions tab
+#  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+# Workflow Jobs
+jobs:
+  # Deploy to GitHub pages only on main
+  deploy:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/gh-pages' }}
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Publish github pages
+        run: |
+          cd $(find . -type d -name 'SmartScraper');
+          npm install gh-pages --save-dev;
+          npm install -g serve;
+          git config --local user.name ${{ secrets.USER_NAME }};
+          git config --local user.name ${{ secrets.USER_EMAIL }};
+          git remote set-url origin https://git:${{ secrets.LOGIN_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git;
+          npm run deploy:github-pages;
+        env:
+          LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository to pages
+          path: 'www'
+          # Depending on branch protection rules, a  manually populated
+          # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
+          # a protected branch must be used. This secret can have an arbitrary
+          # name, as an example, you can use `SOME_RANDOM_TOKEN_STRING`.
+          # Since this repository has no protected branches we will omit
+          # this part of the step. end
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        id: deployment
+        uses: actions/deploy-pages@v1
