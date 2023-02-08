@@ -8,7 +8,8 @@
 ##########################################################################
 name: 'Build, Test, Deploy Github Pages'
 env:
-  TZ: 'America/New_York'
+  TZ: 'America/New_York',
+  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
 on:
   push:
     branches:
@@ -38,7 +39,7 @@ jobs:
   github-pages:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    env:
+    environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
@@ -52,9 +53,9 @@ jobs:
 
       - name: Install dependencies
         env:
-          REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+          REACT_APP_OPENAI_API_KEY: ${{ env.REACT_APP_OPENAI_API_KEY }}
         run: |
-          echo "REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}" >> SmartScraper/.env.production.local
+          export "REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}"
           echo "NODE_ENV=production" >> SmartScraper/.env.production.local
           echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
           echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
