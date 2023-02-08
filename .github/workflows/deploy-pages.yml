@@ -9,7 +9,7 @@
 name: 'Build, Test, Deploy Github Pages'
 env:
   TZ: 'America/New_York'
-  REACT_APP_OPENAI_API_KEY: ${{ env.REACT_APP_OPENAI_API_KEY }}
+  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
   USER_EMAIL: ${{ env.USER_EMAIL }}
   USER_REALNAME: ${{ env.USER_REALNAME }}
 on:
