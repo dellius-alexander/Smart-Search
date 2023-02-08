@@ -65,7 +65,7 @@ help|HELP|-h|--help|*)
   printf """\n
   Usage: |
   /bin/sh ${0} \\
-  [COMMAND]{run|emulate|serve|clean|plugin} \\
+  [COMMAND]{run|emulate|plugin|build|serve|cordova_serve|help|HELP|-h|--help|add|remove|rm} \\
   [PLATFORMS]{browser|ios|android|osx}
   """;
   ;;
