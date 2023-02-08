@@ -2,7 +2,7 @@
   "name": "smartscraper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dellius-alexander.github.io/Smart-Scraper/",
+  "homepage": "/",
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
   "scripts": {
     "prestart:browser": "npm run build:prod;",
@@ -17,7 +17,7 @@
     "build:dev": "export NODE_ENV=development && node --inspect --trace-uncaught  scripts/build.js;",
     "test": "/bin/sh init.sh HELP browser;",
     "predeploy": "npm run build:prod",
-    "deploy": "gh-pages -d $(find . -type d -name 'www') -u \"github-actions-bot <support+actions@github.com>\""
+    "deploy": "npx gh-pages -d $(find . -type d -name 'www') -u \"github-actions-bot <support+actions@github.com>\""
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [
@@ -110,6 +110,7 @@
     "cordova-ios": "^6.2.0",
     "cordova-plugin-device": "^2.1.0",
     "cordova-webpack-plugin": "^0.1.0",
+    "gh-pages": "^5.0.0",
     "loglevel": "^1.8.1",
     "nodemon": "^2.0.20"
   },
