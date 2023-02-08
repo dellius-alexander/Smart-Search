@@ -3,3 +3,4 @@
 docs
 SmartScraper/node_modules/**
 !SmartScraper/
+.github
