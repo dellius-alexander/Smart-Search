@@ -65,9 +65,9 @@ jobs:
 
       - name: Publish github pages
         run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
           cd SmartScraper
-          npm run deploy
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
+          npx gh-pages -d www -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
