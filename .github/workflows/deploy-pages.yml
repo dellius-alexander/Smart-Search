@@ -53,14 +53,23 @@ jobs:
 
       - name: Install dependencies
         run: |
-          export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY}}"
+          export "REACT_APP_OPENAI_API_KEY=${{ credentials.REACT_APP_OPENAI_API_KEY}}"
           echo "NODE_ENV=production" >> SmartScraper/.env.production.local
           echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
           echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
           cd SmartScraper
           npm install gh-pages --save-dev
           npm install
+        env:
+          REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+
+      - name: Publish github pages
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/USER_OR_ORG/REPO.git
           npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 #          cd ..
 #      - name: Prepare Staging files
