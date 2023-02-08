@@ -53,7 +53,11 @@ jobs:
       - name: Install dependencies
         env:
           REACT_APP_OPENAI_API_KEY: ${{ env.REACT_APP_OPENAI_API_KEY }}
+          USER_EMAIL: ${{ env.USER_EMAIL }}
+          USER_REALNAME: ${{ env.USER_REALNAME }}
         run: |
+          git config --global user.email ${USER_EMAIL}
+          git config --global user.name ${ env.USER_REALNAME }
           export "REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}"
           echo "NODE_ENV=production" >> SmartScraper/.env.production.local
           echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
