@@ -9,6 +9,7 @@
 name: 'Build, Test, Deploy Github Pages'
 env:
   TZ: 'America/New_York'
+  REACT_APP_OPENAI_API_KEY: ${{ env.REACT_APP_OPENAI_API_KEY }}
   USER_EMAIL: ${{ env.USER_EMAIL }}
   USER_REALNAME: ${{ env.USER_REALNAME }}
 on:
@@ -39,10 +40,10 @@ concurrency:
 jobs:
   github-pages:
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
       - name: Install node
         uses: actions/setup-node@v1
@@ -53,10 +54,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        env:
-          REACT_APP_OPENAI_API_KEY: ${{ env.REACT_APP_OPENAI_API_KEY }}
-          USER_EMAIL: ${{ env.USER_EMAIL }}
-          USER_REALNAME: ${{ env.USER_REALNAME }}
         run: |
           git config --global user.email ${USER_EMAIL}
           git config --global user.name ${ env.USER_REALNAME }
