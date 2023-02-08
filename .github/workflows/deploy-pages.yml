@@ -66,7 +66,6 @@ jobs:
 
       - name: Publish github pages
         run: |
-          git remote add origin https://git:${GITHUB_TOKEN}@github.com/dellius-alexander/Smart-Scraper.git
           cd SmartScraper
           npm run deploy
         env:
