@@ -14,16 +14,10 @@ env:
 on:
   push:
     branches:
-      - 'main'
-      - 'gh-pages'
-      - 'release*'
       - '*'
 
   pull_request:
     branches:
-      - 'main'
-      - 'gh-pages'
-      - 'release*'
       - '*'
 
 #  # Allows you to run this workflow manually from the Actions tab
