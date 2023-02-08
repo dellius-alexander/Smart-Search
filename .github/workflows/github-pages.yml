@@ -38,7 +38,7 @@ concurrency:
 # Workflow Jobs
 jobs:
   # Deploy to GitHub pages only on main
-  deploy:
+  github-pages:
     needs: build
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/gh-pages' }}
     # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
