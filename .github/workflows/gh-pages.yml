@@ -54,20 +54,19 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd $(find . -type d -name 'SmartScraper')
           export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY}}"
           echo "NODE_ENV=${{ env.NODE_ENV }}" >> SmartScraper/.env.production.local
           echo "BABEL_ENV=${{ env.BABEL_ENV }}" >> SmartScraper/.env.production.local
           echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
-          cd SmartScraper
           npm install
-          cd ..
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
 
       - name: Publish github pages
         run: |
-          cd SmartScraper
           npm install gh-pages --save-dev
+          npm install -g serve
           git config --local user.name ${{ secrets.USER_NAME }}
           git config --local user.name ${{ secrets.USER_EMAIL }}
           git remote set-url origin https://git:${{ secrets.LOGIN_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
