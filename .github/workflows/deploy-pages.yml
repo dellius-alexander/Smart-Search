@@ -53,7 +53,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          export "REACT_APP_OPENAI_API_KEY=${{ credentials.REACT_APP_OPENAI_API_KEY}}"
+          export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY}}"
           echo "NODE_ENV=production" >> SmartScraper/.env.production.local
           echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
           echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
