@@ -8,6 +8,7 @@
     "prestart:browser": "npm run build:prod;",
     "start:docker:browser": "export NODE_ENV=production && /bin/bash init.sh serve;",
     "start:local:browser": "npm run build:prod; export NODE_ENV=production && serve -l tcp://0.0.0.0:8080 \\\n -c serve.json \\\n --debug \\\n --ssl-cert /usr/local/app/.certs/delliusalexander.crt \\\n --ssl-key /usr/local/app/.certs/delliusalexander.key ",
+    "predev": "npm run build:dev;",
     "dev:cordova-ios": "export NODE_ENV=development; /bin/sh init.sh run ios;",
     "dev:cordova-android": "export NODE_ENV=development; /bin/sh init.sh run android;",
     "dev:cordova-browser": "export NODE_ENV=development; /bin/sh init.sh run browser;",
@@ -16,8 +17,8 @@
     "build:cordova": "npm run build:dev; cordova build -- --debug --live-reload;",
     "build:dev": "export NODE_ENV=development && node --inspect --trace-uncaught  scripts/build.js;",
     "test": "/bin/sh init.sh HELP browser;",
-    "predeploy": "npm run build:prod",
-    "deploy": "npx gh-pages -d $(find . -type d -name 'www') -u \"github-actions-bot <support+actions@github.com>\""
+    "predeploy:github-pages": "npm run build:prod",
+    "deploy:github-pages": "npx gh-pages -d $(find . -type d -name 'www') -u \"github-actions-bot <support+actions@github.com>\""
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [

@@ -9,6 +9,8 @@
 name: 'Build, Test, Deploy Github Pages'
 env:
   TZ: 'America/New_York'
+  NODE_ENV: 'production'
+  BABEL_ENV: 'production'
 on:
   push:
     branches:
@@ -53,8 +55,8 @@ jobs:
       - name: Install dependencies
         run: |
           export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY}}"
-          echo "NODE_ENV=production" >> SmartScraper/.env.production.local
-          echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> SmartScraper/.env.production.local
+          echo "BABEL_ENV=${{ env.BABEL_ENV }}" >> SmartScraper/.env.production.local
           echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
           cd SmartScraper
           npm install
@@ -68,9 +70,10 @@ jobs:
           npm install gh-pages --save-dev
           git config --local user.name ${{ secrets.USER_NAME }}
           git config --local user.name ${{ secrets.USER_EMAIL }}
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper
-          npm run deploy
+          git remote set-url origin https://git:${{ secrets.LOGIN_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
+          npm run deploy:github-pages
         env:
+          LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
