@@ -54,6 +54,10 @@ jobs:
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
         run: |
+          echo "REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}" >> SmartScraper/.env.production.local
+          echo "NODE_ENV=production" >> SmartScraper/.env.production.local
+          echo "BABEL_ENV=production" >> SmartScraper/.env.production.local
+          echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local
           cd SmartScraper
           npm install
           npm run build:prod
