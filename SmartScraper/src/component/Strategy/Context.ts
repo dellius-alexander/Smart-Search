@@ -11,7 +11,7 @@ import {IStrategy} from "./IStrategy.ts";
  * is needed to fulfill the client strategy request, then setStrategy will
  * be used to assign the correct modal strategy.
  */
-export default class Context implements IContext {
+class Context implements IContext {
   /**
    * Saves the state the context of the strategy selected.
    */
@@ -28,6 +28,7 @@ export default class Context implements IContext {
    */
   setStrategy(strategy: IStrategy): void {
     try {
+      console.dir(strategy);
       this.state["strategy"] = strategy;
       this.state["uuid"] = strategy.state.uuid;
       this.state["name"] = strategy.state.name;
@@ -95,3 +96,4 @@ export default class Context implements IContext {
     
   }
 }
+export {Context};

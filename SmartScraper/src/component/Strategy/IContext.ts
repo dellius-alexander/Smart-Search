@@ -12,7 +12,7 @@ import {IStrategy} from "./IStrategy.ts";
  * 4. The next 4 digits represent the node/model type.
  * 5. The last 12 digits represent a random number.
  */
-export default interface IContext {
+export interface IContext {
   /**
    * Saves the state of the strategy selected and provides a UUID.
    * This object should save the state of:
@@ -28,3 +28,4 @@ export default interface IContext {
       Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>
 
 }
+

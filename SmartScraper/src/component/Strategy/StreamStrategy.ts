@@ -7,7 +7,7 @@ import {IStrategy} from "./IStrategy.ts";
  * This class implements a 64 bit byte array (Uint8Array) of the Strategy pattern hierarchy
  * and should be implemented or extended into all subsequent classes.
  */
-export default interface StreamStrategy extends IStrategy {
+export interface StreamStrategy extends IStrategy {
     /**
      * Send a request to Gpt3 API endpoints
      * @param {{prompt: string, layman: false}} options

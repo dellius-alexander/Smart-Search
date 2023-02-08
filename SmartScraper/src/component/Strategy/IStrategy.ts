@@ -4,7 +4,7 @@
  * This class represents the root of the Strategy pattern hierarchy
  * and should be implemented or extended into all subsequent classes.
  */
-export default interface IStrategy  {
+export interface IStrategy  {
     state: {
         uuid: string,
         name: string,
@@ -25,4 +25,3 @@ export default interface IStrategy  {
      */
     toJSON(): JSON;
 }
-

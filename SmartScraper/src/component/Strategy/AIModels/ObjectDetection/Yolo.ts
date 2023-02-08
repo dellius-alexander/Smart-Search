@@ -1,11 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {StreamStrategy} from "../../StreamStrategy.ts";
+import { IStrategy } from "../../IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {uuid} from "../../UUID.ts";
+import { uuid } from "../../UUID.ts";
 
-class Yolo implements StreamStrategy {
+class Yolo implements IStrategy {
   state: {
     uuid: string,
     name: string,
@@ -13,8 +13,6 @@ class Yolo implements StreamStrategy {
     model: string,
     version: string,
     description: string,
-    prompt: string,
-    layman: boolean,
     protocols: { [key: string]: string|boolean|RegExp},
     url: string
     };
@@ -29,34 +27,13 @@ class Yolo implements StreamStrategy {
           "This network divides the image into regions and predicts bounding boxes " +
           "and probabilities for each region. These bounding boxes are weighted by " +
           "the predicted probabilities. See: https://pjreddie.com/media/files/papers/YOLOv3.pdf",
-      prompt: "",
-      layman: false,
       protocols: {
-        ["stream-strategy"]: true
+        "stream-strategy": true
       },
       url: ""
     };
   }
 
-
-  /**
- * Send a request to Gpt3 API endpoints
- * @param {{prompt: string, layman: false}} options
- * @param {{element: Element}} streamOptions??
- * @returns  {{Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>}} JSX element(s), empty array, or string.
- */
-  streamRequest(options: { prompt: string; layman: false }, streamOptions?: { element: Element }): Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void> {
-    return new Promise<string|JSON>((resolve, reject) => {
-      console.log(options);
-      console.log(streamOptions);
-      if (reject){
-        throw new Error("Rejected");
-        return this.state;
-      } else {
-        return resolve("");
-      }
-    });
-  }
 
 }
 
