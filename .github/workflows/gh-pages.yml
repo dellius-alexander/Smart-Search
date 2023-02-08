@@ -64,8 +64,9 @@ jobs:
           cd $(find . -type d -name 'SmartScraper');
           npm install gh-pages --save-dev;
           npm install -g serve;
-          git config --local user.name ${{ secrets.USER_NAME }};
-          git config --local user.name ${{ secrets.USER_EMAIL }};
+          npm install;
+          git config --global user.name ${{ secrets.USER_NAME }};
+          git config --global user.name ${{ secrets.USER_EMAIL }};
           git remote set-url origin https://git:${{ secrets.LOGIN_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git;
           npm run deploy:github-pages;
         env:
