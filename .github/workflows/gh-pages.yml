@@ -15,11 +15,13 @@ on:
   push:
     branches:
       - 'main'
+      - 'github-pages'
       - 'release*'
 
   pull_request:
     branches:
       - 'main'
+      - 'github-pages'
       - 'release*'
 
 #  # Allows you to run this workflow manually from the Actions tab
