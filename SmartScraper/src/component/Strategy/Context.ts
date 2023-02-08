@@ -6,10 +6,12 @@ import { IContext } from "./IContext.ts";
 import {IStrategy} from "./IStrategy.ts";
 
 /**
- * Implementation of the Context class defines the context of the strategy
- * to bo used prior to execution of said strategy. For example if an image model
- * is needed to fulfill the client strategy request, then setStrategy will
- * be used to assign the correct modal strategy.
+ * The Context class defines the context needed for executing any given strategy.
+ * It sets the structure for the model or strategy being used for the specific
+ * request coming from the client. The constructor sets up the state object that
+ * saves the state of the current context. In addition, the setStrategy and
+ * executeStrategy methods are bound to the Context object to handle requests
+ * from the client and the execution of the selected strategy.
  */
 class Context implements IContext {
   /**
@@ -23,7 +25,8 @@ class Context implements IContext {
     this.executeStrategy = this.executeStrategy.bind(this);
   }
   /**
-   * Sets the model strategy to be used during execution.
+   * The setStrategy method is used to assign the correct model or
+   * strategy based off of the parameters given by the client.
    * @param {IStrategy} strategy
    */
   setStrategy(strategy: IStrategy): void {
@@ -45,8 +48,11 @@ class Context implements IContext {
   }
 
   /**
-   * This function executes a strategy and returns the response.
-   * Executes the given model strategy based on the client strategy previously set.
+   * The executeStrategy method is used to execute the given strategy or model and return
+   * the response. It determines which transport protocol should be used by checking if a
+   * prompt is larger than 256 bytes and if the strategy supports both normal strategies and
+   * stream strategies. If neither of these rules are met, then an error is thrown detailing
+   * a type definition error.
    * @param {{ prompt: string, layman: false }} options
    * @param {{element: Element}} streamOptions the element to update with the incoming stream data
    * @return {Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >}

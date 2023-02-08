@@ -5,6 +5,23 @@ import { IStrategy } from "../../IStrategy.ts";
 // @ts-ignore
 import { uuid } from "../../UUID.ts";
 
+/**
+ * The `Yolo` class implements the `IStrategy` interface, and contains a
+ * state containing a unique identifier, information about the type, model
+ * and version, and a description about what it does, as well as the
+ * protocol for stream-strategy.
+ *
+ * The `state` contains a `uuid` string to identify the instance, `name`
+ * and `type` as a single neural network detection model, `model` as
+ * "YOLOv3", `version` as "v3.0", `description` which provides a description
+ * of the object detection model, `protocols` which defines a stream-strategy
+ * protocol, and`url` which is set to an empty value.
+ *
+ * In the constructor, all the values of the `state` are set. The description
+ * explains how the image is divided into regions, how the predicted bounding
+ * boxes are weighted by the predicted probabilities, and provides a link to a
+ * paper explaining the YOLOv3 model further.
+ */
 class Yolo implements IStrategy {
   state: {
     uuid: string,

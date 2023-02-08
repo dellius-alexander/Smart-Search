@@ -7,8 +7,12 @@ import { uuid } from "../../UUID.ts";
 
 
 /**
- * Initialize GPT-3 to make api calls
- * @param {prompt: string, layman: boolean, url: string, model: string}} props
+ * The Gpt3 class implements the IStrategy interface and is used to define a
+ * "text-davinci-003" language Text Completion Model. It stores data on a unique
+ * universal identifier (uuid), the name "gpt3", a description, the associated
+ * protocols, the url of the OpenAI API, the type of completion and the model.
+ * Upon initialization, it sets the associated values for each field in the state object.
+ * @param {prompt: string, layman: boolean, url: string, model: string} props
  */
 class Gpt3 implements IStrategy{
 

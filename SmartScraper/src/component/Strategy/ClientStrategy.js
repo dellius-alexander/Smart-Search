@@ -5,8 +5,15 @@ import { Context } from "./Context.ts";
 import { ExecuteStrategy } from "./ExecuteStrategy.ts";
 
 /**
- * Client Strategy is used to dynamically select an AI model based on the
- * current context of the prompt.
+ * This class defines the ClientStrategy object which provides a framework
+ * for model selection. When `createClient()` is called, it evaluates the name
+ * of the strategy and creates a corresponding Context instance which is set to
+ * use the specific requested strategy. Depending on the name of the strategy
+ * argument, it could either create a Context instance that is set to use
+ * ExecuteStrategy initialized with any model class. The Context instance
+ * will be in charge of execution of our strategy. If an invalid name is given
+ * as an argument, it will log a message indicating that the requested strategy
+ * is unable to fulfill the request.
  */
 export class ClientStrategy {
   /**

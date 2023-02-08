@@ -29,6 +29,8 @@ and market trends.
 `Figure 1` is the initial implementation of the Strategy Behavior Pattern. We will be 
 adding and updating as the project evolves.
 
+***Note:[Click here for a detailed UML](docs/images/ai-clientstrategy-pattern-final.png)***
+
 
 
 ---

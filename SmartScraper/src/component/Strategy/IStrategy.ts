@@ -18,7 +18,6 @@ export interface IStrategy  {
         url: string
     }
 
-
     /**
      * Converts the state of the strategy to a JSON object.
      * @return {JSON}

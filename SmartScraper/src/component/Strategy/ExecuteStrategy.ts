@@ -10,7 +10,15 @@ import {IStrategy} from "./IStrategy.ts";
 import {StreamStrategy} from "./StreamStrategy.ts";
 // import {uuid} from './UUID';
 
-
+/**
+ * This ExecuteStrategy class provides a way to send an API request to an AI strategy
+ * and receive a response. It implements the mandatory functions for sending a request,
+ * such as setting the prompt and layman options, as well as streaming requets, allowing
+ * for more complex interactions. It also stores server responses in the form of JSON
+ * data and includes error handling logic in case of failure to make a request.
+ * Additionally, it keeps track of usage metrics such as prompt tokens, completion
+ * tokens, and total tokens.
+ */
 export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStrategy {
   // strategy:  T;
   state: {
@@ -46,10 +54,16 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
     this.streamRequest = this.streamRequest.bind(this);
   }
   /**
-     * Send a request to Gpt3 API endpoints
-     * @param {{prompt: string, layman: false}} options
-     * @returns  {string|JSON} JSX element(s), empty array, or string.
-     */
+  * The sendRequest function sends an asynchronous request with the provided
+  * 'options' object. The object requires a prompt and a boolean value to determine
+  * whether to speak to the user like a layman. The request is sent with a header
+  * containing an authorization token, a body containing the options, and a model
+  * to determine the response. If the response is successful, it will be parsed
+  * and stored in the state jsonData. If the request fails, an error message will
+  * be stored in the state field 'errorMessage'.
+  * @param {{prompt: string, layman: false}} options
+  * @returns  {string|JSON} JSX element(s), empty array, or string.
+  */
   async sendRequest(options: { prompt: string; layman: false } ) :
         Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >  {
     // await wait(3000);
@@ -96,11 +110,20 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
   }
 
   /**
-     * Send a request to Gpt3 API endpoints
-     * @param {{prompt: string, layman: false}} options
-     * @param {{element: Element}} streamOptions?
-     * @returns  {string|JSON} JSX element(s), empty array, or string.
-     */
+  * The streamRequest function sends an asynchronous request to an API server based on the
+  * provided options. It takes in an options argument containing a prompt and a
+  * layman preference, as well as an optional streamOptions argument with an element
+  * property. If streamOptions is undefined or null, a warning is logged. It then
+  * creates an object with the passed options and a few additional parameters, and
+  * sends that object to the API server via a fetch call. If the request succeeds,
+  * it returns a readable stream object populated with the response data, which
+  * can be parsed as either strings or JSONs, JSX.Element/JSX.Element[]/HTMLElement,
+  * or a void return value. The type, created, model, and jsonData properties are
+  * all updated in the caller's state.
+  * @param {{prompt: string, layman: false}} options
+  * @param {{element: Element}} streamOptions?
+  * @returns  {string|JSON} JSX element(s), empty array, or string.
+  */
   async streamRequest(options: { prompt: string; layman: false }, streamOptions?: { element: Element }) :
         Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>  {
     if (streamOptions == null || streamOptions.element == null) {
