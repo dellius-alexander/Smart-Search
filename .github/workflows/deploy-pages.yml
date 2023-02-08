@@ -60,12 +60,14 @@ jobs:
           cd SmartScraper
           npm install gh-pages --save-dev
           npm install
+          cd ..
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
 
       - name: Publish github pages
         run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/dellius-alexander/Smart-Scraper.git
+          git remote add origin https://git:${GITHUB_TOKEN}@github.com/dellius-alexander/Smart-Scraper.git
+          cd SmartScraper
           npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
