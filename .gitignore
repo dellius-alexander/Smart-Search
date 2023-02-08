@@ -144,4 +144,5 @@ SmartScraper/.env.production.local
 /**/certs
 /**/.DS_Store
 !docker.env
+/**/staging
 
