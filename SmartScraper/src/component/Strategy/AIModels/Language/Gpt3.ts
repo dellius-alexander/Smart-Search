@@ -5,6 +5,10 @@ import parse from "html-react-parser";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {StreamStrategy} from "../../StreamStrategy.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {uuid} from "../../UUID.ts";
+
 
 /**
  * Initialize GPT-3 to make api calls
@@ -14,12 +18,13 @@ class Gpt3 implements Strategy, StreamStrategy {
 
   // state schema
   state: {
-    id: string,
+    uuid: string,
     name: string,
     version: string,
     description: string,
     prompt: string,
     layman: boolean,
+    protocols: { [key: string]: string|boolean|RegExp},
     url: string,
     // type maps to "object" in response
     type: string,
@@ -35,26 +40,29 @@ class Gpt3 implements Strategy, StreamStrategy {
       prompt_tokens: number,
       completion_tokens: number,
       total_tokens: number
-    }
+    },
     error: boolean;
     errorMessage: string;
     };
 
   /**
    * Initialize GPT-3 to make api calls
-   * @param {{prompt: string, layman: boolean, url: string, model: string}} props
    */
   constructor() {
     this.state = {
-      id: "",
+      uuid: uuid("text-davinci-003","language_text_completion_model"),
       name: "gpt3",
       version: "1.0",
       description: "Chat-GPT-3 'text-davinci-003' model.",
       prompt: "",
       layman: false,
+      protocols: {
+        "strategy": true,
+        "stream-strategy": true
+      },
       url: "https://api.openai.com/v1/completions",
       // type maps to "object" in response
-      type: "",
+      type: "text_completion",
       created: 0,
       model: "text-davinci-003",
       jsonData: null,
@@ -151,7 +159,7 @@ class Gpt3 implements Strategy, StreamStrategy {
             max_tokens: 2048,
             model: model,
             presence_penalty: 0,
-            prompt: `{"prompt":"${prompt}","instructions":["Talk to me like a 6 year old":"${layman}","Send response inside embedded div tag, do not include html tag in response."]}`,
+            prompt: `{"prompt":"${prompt}","instructions":["Talk to me like a 6 year old":"${layman}","Send response using HTML5"]}`,
             stream: false,
             temperature: 0.9,
             top_p: 1,
@@ -165,7 +173,7 @@ class Gpt3 implements Strategy, StreamStrategy {
             return new ReadableStream({
               start(controller) {
                 return pump();
-                function pump(){
+                function pump(): Promise<ReadableStreamReadResult<Uint8Array> | void>{
                   return reader
                     .read()
                     .then(({ done, value }) => {
@@ -186,13 +194,12 @@ class Gpt3 implements Strategy, StreamStrategy {
           .then((stream) => new Response(stream))
           .then((response) => response.json())
           .then((jsonResponseData) => {
-            this.state.id = jsonResponseData.id;
             this.state.type = jsonResponseData.object;
             this.state.created = jsonResponseData.created;
             this.state.model = jsonResponseData.model;
             this.state.jsonData = jsonResponseData.choices[0];
             this.state.usage = jsonResponseData.usage;
-            return parse(this.state.jsonData.text);
+            return parse(this.state.jsonData.text.replace("\\n", "<br>"));
           })
           .then((data) => data)
           .catch(console.dir);

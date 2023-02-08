@@ -63,9 +63,9 @@
         if ([device respondsToSelector:@selector(identifierForVendor)]) {
             app_uuid = [[device identifierForVendor] UUIDString];
         } else {
-            CFUUIDRef uuid = CFUUIDCreate(NULL);
-            app_uuid = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
-            CFRelease(uuid);
+            CFUUIDRef UUID = CFUUIDCreate(NULL);
+            app_uuid = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, UUID);
+            CFRelease(UUID);
         }
 
         [userDefaults setObject:app_uuid forKey:UUID_KEY];
@@ -92,7 +92,7 @@
              @"model": [device modelVersion],
              @"platform": @"iOS",
              @"version": [device systemVersion],
-             @"uuid": [self uniqueAppInstanceIdentifier:device],
+             @"UUID": [self uniqueAppInstanceIdentifier:device],
              @"cordova": [[self class] cordovaVersion],
              @"isVirtual": @([self isVirtual]),
              @"isiOSAppOnMac": @([self isiOSAppOnMac])

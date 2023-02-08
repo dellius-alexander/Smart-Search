@@ -4,13 +4,20 @@
  * This class represents the root of the Strategy pattern hierarchy
  * and should be implemented or extended into all subsequent classes.
  */
-interface IStrategy  {
+export default interface IStrategy  {
     state: {
-        id: string,
+        uuid: string,
         name: string,
+        type: string,
+        model: string,
         version: string,
         description: string,
+        protocols: { [key: string]: string|boolean|RegExp},
+        prompt: string,
+        layman: boolean,
+        url: string
     }
+
 
     /**
      * Converts the state of the strategy to a JSON object.
@@ -18,4 +25,4 @@ interface IStrategy  {
      */
     toJSON(): JSON;
 }
-export { IStrategy };
+

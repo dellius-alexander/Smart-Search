@@ -2,13 +2,42 @@ const fs = require("fs");
 const path = require("path");
 const {
   CertificateConfigFileFactory,
-} = require("./CertificateConfigFileFactory");
+} = require("./CertificateConfigFileFactory.js");
 const { exec } = require("node:child_process");
 class GenerateCertificate {
   constructor(domainPrefix, hostname, certsDir) {
     this.domainPrefix = domainPrefix || hostname.split(".")[1];
     this.hostname = hostname;
     this.certsDir = certsDir;
+  }
+
+  getCommonName(certificateFilePath) {
+    const configFile = fs.existsSync(path.resolve(certificateFilePath)) &&
+        fs.readFileSync(path.resolve(certificateFilePath),"utf8") || false;
+    if (!configFile) {
+      console.log(
+        "Certificate file not found. Creating from input: [$_CERTS_FILE]"
+      );
+      return false;
+    }
+
+    const lines = configFile
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const configValues = {};
+
+    for (let line of lines) {
+      if (line.startsWith(["#", "["])) continue;
+      const parts = line.split("=");
+      const key = parts[0].trim();
+      configValues[key] = parts[1];
+    }
+
+    const example_url = configValues.commonName;
+
+    console.log(example_url); // example.com
+    return example_url;
   }
   generateCertificate(
     hostname = this.hostname || null,

@@ -1,7 +1,8 @@
 // File Certificate Generator
 const fs = require("fs");
 const path = require("path");
-const { GenerateCertificate } = require("./GenerateCertificate");
+const { GenerateCertificate } = require("./GenerateCertificate.js");
+const { CertificateConfigFileFactory } = require("./CertificateConfigFileFactory.js");
 
 class FileCertificateGenerator extends GenerateCertificate {
   constructor(options, hostnameFile, certsDir = process.cwd()) {

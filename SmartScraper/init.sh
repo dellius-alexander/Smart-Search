@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #####################################################################
 __error(){
   if [[ -z "${1}" ]]; then
@@ -10,9 +10,9 @@ __error(){
   fi
 }
 #####################################################################
-COMMAND=${1:-"$([[ ${1} =~ (run|emulat(e|er|or){1}|plugin(s)?|build){1} ]] && echo ${1} &2>/dev/null )"} # Defaults to run -- platform
-PLATFORMS=${2:-"$([[ ${2} =~ (browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null )"} # Defaults to run -- platform -- browser
-PLUGINS=${3:-"$([[ ${3} =~ ([a-zA-z0-9_-]+) ]] && echo ${3} &2>/dev/null )"}
+COMMAND=${1:-$( [[ ${1} =~ (run|emulate|plugin|build|serve|cordova_serve){1} ]] && echo ${1} &2>/dev/null )} # Defaults to run -- platform
+PLATFORMS=${2:-$( [[ ${2} =~ (browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null )} # Defaults to run -- platform -- browser
+PLUGINS=${3:-$( [[ ${3} =~ ([a-zA-z0-9_-]+) ]] && echo ${3} &2>/dev/null )}
 
 # Verify that NODE_ENV is set
 if [[ -z ${NODE_ENV} ]]; then
@@ -25,7 +25,6 @@ case ${COMMAND} in
 run)
   echo "Running ${PLATFORMS}........"
   npm install &2>/dev/null
-  npm audit fix --force --legacy-peer-deps &2>/dev/null
   echo ${NODE_ENV} | node scripts/build.js;
   cordova build -- --live-reload  --debug;
 #  nodemon scripts/start.js;
@@ -34,7 +33,6 @@ run)
 emulate|emulator)
   echo "Running ${PLATFORMS}........"
   npm install &2>/dev/null
-  npm audit fix --force --legacy-peer-deps &2>/dev/null
   echo ${NODE_ENV} | node scripts/build.js;
   cordova build --debug;
 #  nodemon scripts/start.js;
@@ -42,11 +40,18 @@ emulate|emulator)
   ;;
 serve|server)
   echo "Running ${PLATFORMS}........";
-  npm install &2>/dev/null
-  npm audit fix --force --legacy-peer-deps &2>/dev/null
-  echo ${NODE_ENV} | node scripts/build.js;
-  cordova build --debug;
-  cordova serve ${PLATFORMS} -- --live-reload  --debug &2>/dev/null || echo "Error service ${PLATFORMS}...$?";
+  DOMAIN_BASENAME=$(echo ${HOSTNAME%.*});
+  serve -l tcp://0.0.0.0:443 \
+   -c serve.json \
+   --ssl-cert ${SSL_CRT_FILE} \
+   --ssl-key ${SSL_KEY_FILE}
+  ;;
+cordova_serve)
+    echo "Running ${PLATFORMS}........";
+    npm install &2>/dev/null
+    echo ${NODE_ENV} | node scripts/build.js;
+    cordova build --debug;
+    cordova serve ${PLATFORMS} -- --live-reload  --debug &2>/dev/null || echo "Error service ${PLATFORMS}...$?";
   ;;
 clean)
   echo "Cleaning up ${PLATFORMS}........";

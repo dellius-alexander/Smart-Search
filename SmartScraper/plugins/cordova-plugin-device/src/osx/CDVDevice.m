@@ -98,7 +98,7 @@
     devProps[@"model"] = [self modelVersion];
     devProps[@"platform"] = [self platform];
     devProps[@"version"] = [self systemVersion];
-    devProps[@"uuid"] = [self uniqueAppInstanceIdentifier];
+    devProps[@"UUID"] = [self uniqueAppInstanceIdentifier];
     devProps[@"cordova"] = [[self class] cordovaVersion];
     devProps[@"serial"] = [self getSerialNr];
     devProps[@"isVirtual"] = @NO;

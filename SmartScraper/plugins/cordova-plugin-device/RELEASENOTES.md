@@ -35,7 +35,7 @@
 * [GH-145](https://github.com/apache/cordova-plugin-device/pull/145) ci: add action-badge
 * [GH-144](https://github.com/apache/cordova-plugin-device/pull/144) ci: remove `travis` & `appveyor`
 * [GH-143](https://github.com/apache/cordova-plugin-device/pull/143) doc(android): Noted quirks on `serial` property
-* [GH-138](https://github.com/apache/cordova-plugin-device/pull/138) doc(android): Update information about `device.uuid`
+* [GH-138](https://github.com/apache/cordova-plugin-device/pull/138) doc(android): Update information about `device.UUID`
 * [GH-141](https://github.com/apache/cordova-plugin-device/pull/141) ci: add gh-actions workflows
 * [GH-132](https://github.com/apache/cordova-plugin-device/pull/132) chore: clean up `package.json`
 * chore(asf): update git notification settings
@@ -102,7 +102,7 @@
 
 ### 1.1.2 (Apr 15, 2016)
 * Use passed device, follow create policy forf `CFUUIDCreate`
-* [CB-10631](https://issues.apache.org/jira/browse/CB-10631) Fix for `device.uuid` in **iOS 5.1.1**
+* [CB-10631](https://issues.apache.org/jira/browse/CB-10631) Fix for `device.UUID` in **iOS 5.1.1**
 * Updating the comment to exclude URL
 * [CB-10636](https://issues.apache.org/jira/browse/CB-10636) Add `JSHint` for plugins
 * Refactored `deviceInfo` on **iOS** for better readability.

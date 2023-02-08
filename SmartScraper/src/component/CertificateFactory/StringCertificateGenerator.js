@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const { GenerateCertificate } = require("./GenerateCertificate");
+const { GenerateCertificate } = require("./GenerateCertificate.js");
 class StringCertificateGenerator extends GenerateCertificate {
   constructor(options, hostname, certsDir) {
     super(hostname.split(".")[0], hostname, certsDir);

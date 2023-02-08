@@ -58,6 +58,6 @@ RUN cd "${REACT_APP_HOME}" && \
 
 USER ${USERNAME}
 
-ENTRYPOINT ["/bin/sh","/entrypoint/entrypoint.sh"]
+ENTRYPOINT ["/bin/sh","/entrypoint/docker-entrypoint.sh"]
 #CMD ["sleep", "infinity"]
 ## End of Dockerfile ##################################

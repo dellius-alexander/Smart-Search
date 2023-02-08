@@ -1,35 +1,18 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { Wolframalpha } from "./AIModels/Computational/Wolframalpha.ts";
+import { Yolo } from "./AIModels/ObjectDetection/Yolo.ts";
 import { Gpt3 } from "./AIModels/Language/Gpt3.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { Context } from "./Context.ts";
-// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// // @ts-ignore
-// import { IContext } from "./IContext.ts";
-import { Alpha } from "./AIModels/Computational/Alpha.ts";
-import {Yolo} from "./AIModels/ObjectDetection/Yolo.ts";
-// import {wait} from "@testing-library/user-event/dist/utils";
+import Context from "./Context.ts";
 
 /**
  * Client Strategy is used to dynamically select an AI model based on the
  * current context of the prompt.
  */
-class ClientStrategy {
-  // context: IContext;
-  constructor() {
-    this.context = this.#getContext();
-  }
-
+export class ClientStrategy {
   /**
-   * Gets the contexts based on modal type
-   * @return {IContext} the subclass strategy context selection. The use of
-   * context in this sense means that the strategy can be used in different contexts.
-   * @private
+   * Creates the contexts needed for model selection.
    */
-  // eslint-disable-next-line class-methods-use-this
-  #getContext() {
-    return new Context();
+  constructor() {
+    this.context = new Context();
   }
 
   /**
@@ -42,17 +25,15 @@ class ClientStrategy {
     case "openai" || "OpenAI" || /gpt3/ || /Gpt3/:
       this.context.setStrategy(new Gpt3());
       return this.context;
-    case "alpha" || "Alpha" || /alpha/ || /Alpha/:
-      this.context.setStrategy(new Alpha());
+    case "alpha" || "Alpha" || /alpha/ || /Wolframalpha/:
+      this.context.setStrategy(new Wolframalpha());
       return this.context;
     case "yolo" || "Yolo" || /yolo/ || /Yolo/:
       this.context.setStrategy(new Yolo());
       return this.context;
-    default: // TODO(you have to create a more comprehensive default protocol)
+    default: // TODO(you have to create a more comprehensive default protocols)
       console.log("Strategy unable to fulfill request.");
     }
   }
 }
-
-export { ClientStrategy };
 

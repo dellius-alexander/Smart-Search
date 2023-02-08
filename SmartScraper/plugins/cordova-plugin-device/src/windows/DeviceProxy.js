@@ -30,14 +30,14 @@ var DEVICE_DRIVER_VERSION_KEY = '{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3';
 
 module.exports = {
     getDeviceInfo: function (win, fail, args) {
-        // deviceId aka uuid, stored in Windows.Storage.ApplicationData.current.localSettings.values.deviceId
+        // deviceId aka UUID, stored in Windows.Storage.ApplicationData.current.localSettings.values.deviceId
         var deviceId;
         // get deviceId, or create and store one
         var localSettings = Windows.Storage.ApplicationData.current.localSettings;
         if (localSettings.values.deviceId) {
             deviceId = localSettings.values.deviceId;
         } else {
-            // App-specific hardware id could be used as uuid, but it changes if the hardware changes...
+            // App-specific hardware id could be used as UUID, but it changes if the hardware changes...
             try {
                 var ASHWID = Windows.System.Profile.HardwareIdentification.getPackageSpecificToken(null).id;
                 deviceId = Windows.Storage.Streams.DataReader.fromBuffer(ASHWID).readGuid();
