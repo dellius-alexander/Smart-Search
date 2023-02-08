@@ -1,0 +1,87 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+##########################################################################
+# This workflow will build a Java project with Gradle and
+# cache/restore any dependencies to improve the workflow execution time
+##########################################################################
+name: 'Build, Test, Deploy Github Pages'
+env:
+  TZ: 'America/New_York'
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release*'
+      - '*'
+
+  pull_request:
+    branches:
+      - 'main'
+      - 'release*'
+      - '*'
+
+#  # Allows you to run this workflow manually from the Actions tab
+#  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+# Workflow Jobs
+jobs:
+  github-pages:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          cd SmartScraper
+          npm install
+          npm run build:prod
+          cd ..
+
+      - name: Prepare Staging files
+        run: |
+          ls -liaR
+          mkdir -p staging
+          cp -r SmartScraper/www/ staging
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository to pages
+          path: 'staging'
+          # Depending on branch protection rules, a  manually populated
+          # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
+          # a protected branch must be used. This secret can have an arbitrary
+          # name, as an example, you can use `SOME_RANDOM_TOKEN_STRING`.
+          # Since this repository has no protected branches we will omit
+          # this part of the step. end
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        id: deployment
+        uses: actions/deploy-pages@v1
