@@ -69,7 +69,7 @@ jobs:
           git config --global user.name ${{ secrets.USER_NAME }}
           git config --global user.name ${{ secrets.USER_EMAIL }}
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ secrets.USER_NAME }}/Smart-Scraper.git
-          npx gh-pages -d www -u "github-actions-bot <support+actions@github.com>"
+          npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
