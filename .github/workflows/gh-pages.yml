@@ -55,10 +55,10 @@ jobs:
       - name: Install dependencies
         run: |
           cd $(find . -type d -name 'SmartScraper');
-          export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY}}";
-          echo "NODE_ENV=${{ env.NODE_ENV }}" >> SmartScraper/.env.production.local;
-          echo "BABEL_ENV=${{ env.BABEL_ENV }}" >> SmartScraper/.env.production.local;
-          echo "GENERATE_SOURCEMAP=false" >> SmartScraper/.env.production.local;
+          export "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY }}";
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env.production.local;
+          echo "BABEL_ENV=${{ env.BABEL_ENV }}" >> .env.production.local;
+          echo "GENERATE_SOURCEMAP=false" >> .env.production.local;
           npm install;
           npm run predeploy:github-pages;
         env:
