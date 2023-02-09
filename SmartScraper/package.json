@@ -2,7 +2,7 @@
   "name": "smartscraper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "https://dellius-alexander.github.io/Smart-Scraper/",
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
   "scripts": {
     "prestart:browser": "npm run build:prod;",

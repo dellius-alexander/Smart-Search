@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JavaScriptClasses</ID>
+  <OriginalElement>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy</OriginalElement>
+  <nodes>
+    <node x="591.0" y="619.5394736842104">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Language/Gpt3.ts#Gpt3</node>
+    <node x="-210.0" y="271.75822368421007">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog</node>
+    <node x="462.0" y="1116.25">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ExecuteStrategy.ts#ExecuteStrategy</node>
+    <node x="1093.0" y="1145.2894736842104">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/StreamStrategy.ts#StreamStrategy</node>
+    <node x="154.0" y="348.75822368421007">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy</node>
+    <node x="1777.0" y="584.0000000000001">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy</node>
+    <node x="593.5" y="777.7894736842104">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Computational/Wolframalpha.ts#Wolframalpha</node>
+    <node x="1093.0" y="1270.78125">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Strategy.ts#Strategy</node>
+    <node x="1097.0" y="83.0394736842104">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IContext.ts#IContext</node>
+    <node x="462.0" y="183.0000000000001">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context</node>
+    <node x="593.5" y="503.5394736842104">/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/ObjectDetection/Yolo.ts#Yolo</node>
+  </nodes>
+  <notes>
+    <note x="1202.0" y="631.2894736842104">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Language/Gpt3.ts#Gpt3</node>
+      <value>&lt;p&gt;The Gpt3 class implements the IStrategy interface and is used to define a\n&amp;ldquo;text-davinci-003&amp;rdquo; language Text Completion Model. It stores data on a unique\nuniversal identifier (uuid), the name &amp;ldquo;gpt3&amp;rdquo;, a description, the associated\nprotocols, the url of the OpenAI API, the type of completion and the model.\nUpon initialization, it sets the associated values for each field in the state object.</value>
+      <edge>
+        <point x="160.5" y="19.0" />
+        <point x="1062.0" y="676.5394736842104" />
+        <point x="1062.0" y="694.2894736842104" />
+        <point x="-184.5" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1185.5" y="969.2894736842104">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ExecuteStrategy.ts#ExecuteStrategy</node>
+      <value>&lt;p&gt;This ExecuteStrategy class provides a way to send an API request to an AI strategy\nand receive a response. It implements the mandatory functions for sending a request,\nsuch as setting the prompt and layman options, as well as streaming requets, allowing\nfor more complex interactions. It also stores server responses in the form of JSON\ndata and includes error handling logic in case of failure to make a request.\nAdditionally, it keeps track of usage metrics such as prompt tokens, completion\ntokens, and total tokens.</value>
+      <edge>
+        <point x="289.5" y="-30.25" />
+        <point x="1062.0" y="1146.5" />
+        <point x="1062.0" y="1047.2894736842104" />
+        <point x="-201.0" y="-0.0" />
+      </edge>
+    </note>
+    <note x="539.0878594249201" y="-34.0">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy</node>
+      <value>&lt;p&gt;This class defines the ClientStrategy object which provides a framework\nfor model selection. When &lt;code&gt;createClient()&lt;/code&gt; is called, it evaluates the name\nof the strategy and creates a corresponding Context instance which is set to\nuse the specific requested strategy. Depending on the name of the strategy\nargument, it could either create a Context instance that is set to use\nExecuteStrategy initialized with any model class. The Context instance\nwill be in charge of execution of our strategy. If an invalid name is given\nas an argument, it will log a message indicating that the requested strategy\nis unable to fulfill the request.</value>
+      <edge>
+        <point x="129.0" y="-19.0" />
+        <point x="432.0" y="367.75822368421007" />
+        <point x="432.0" y="64.5" />
+        <point x="-212.41214057507986" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1195.5" y="201.0394736842104">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context</node>
+      <value>&lt;p&gt;The Context class defines the context needed for executing any given strategy.\nIt sets the structure for the model or strategy being used for the specific\nrequest coming from the client. The constructor sets up the state object that\nsaves the state of the current context. In addition, the setStrategy and\nexecuteStrategy methods are bound to the Context object to handle requests\nfrom the client and the execution of the selected strategy.</value>
+      <edge>
+        <point x="289.5" y="-0.0" />
+        <point x="1062.0" y="243.5000000000001" />
+        <point x="1062.0" y="271.5394736842104" />
+        <point x="-191.0" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1742.0" y="28.539473684210407">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IContext.ts#IContext</node>
+      <value>&lt;p&gt;The Context strategy represent the selection and execution of a particular strategy.\nThe class should be implemented using the state object to index the strategy and a\nunique UUID, the unique id of this context\n&lt;ol&gt;\n&lt;li&gt;The first 8 digits represent the hexadecimal timestamp.&lt;/li&gt;\n&lt;li&gt;The next 4 digits represent the clock sequence.&lt;/li&gt;\n&lt;li&gt;The next 4 digits represent the node/model id.&lt;/li&gt;\n&lt;li&gt;The next 4 digits represent the node/model type.&lt;/li&gt;\n&lt;li&gt;The last 12 digits represent a random number.&lt;/li&gt;\n&lt;/ol&gt;</value>
+      <edge>
+        <point x="289.5" y="-24.5" />
+        <point x="1701.0" y="107.5394736842104" />
+        <point x="1701.0" y="127.0394736842104" />
+        <point x="-193.0" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1169.0" y="778.2894736842104">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Computational/Wolframalpha.ts#Wolframalpha</node>
+      <value>&lt;p&gt;The Wolframalpha class implements the IStrategy interface which\nallows it to be used as a strategy for computation. It stores state\ninformation including a unique identifier (uuid), a name, a type\n(computation model), version, a description, and protocols which\ncan be either a string, boolean or regular expression. Upon initialization,\nthe class generates a unique identifier based on the 'alpha' and\n'computational_model' strings, sets the name to 'alpha', type to\n'computational_model', model to 'Alphav1', version to '1.0',\ndescription to 'WolframAlpha computation model.', and the URL\nto an empty string. The protocols are predetermined to be true.</value>
+      <edge>
+        <point x="158.0" y="19.0" />
+        <point x="1062.0" y="834.7894736842104" />
+        <point x="1062.0" y="863.7894736842104" />
+        <point x="-217.5" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1148.5" y="363.0394736842104">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/ObjectDetection/Yolo.ts#Yolo</node>
+      <value>&lt;p&gt;The &lt;code&gt;Yolo&lt;/code&gt; class implements the &lt;code&gt;IStrategy&lt;/code&gt; interface, and contains a\nstate containing a unique identifier, information about the type, model\nand version, and a description about what it does, as well as the\nprotocol for stream-strategy.\n&lt;p&gt;The &lt;code&gt;state&lt;/code&gt; contains a &lt;code&gt;uuid&lt;/code&gt; string to identify the instance, &lt;code&gt;name&lt;/code&gt;\nand &lt;code&gt;type&lt;/code&gt; as a single neural network detection model, &lt;code&gt;model&lt;/code&gt; as\n&amp;ldquo;YOLOv3&amp;rdquo;, &lt;code&gt;version&lt;/code&gt; as &amp;ldquo;v3.0&amp;rdquo;, &lt;code&gt;description&lt;/code&gt; which provides a description\nof the object detection model, &lt;code&gt;protocols&lt;/code&gt; which defines a stream-strategy\nprotocol, and&lt;code&gt;url&lt;/code&gt; which is set to an empty value.\n&lt;p&gt;In the constructor, all the values of the &lt;code&gt;state&lt;/code&gt; are set. The description\nexplains how the image is divided into regions, how the predicted bounding\nboxes are weighted by the predicted probabilities, and provides a link to a\npaper explaining the YOLOv3 model further.</value>
+      <edge>
+        <point x="158.0" y="-19.0" />
+        <point x="1062.0" y="522.5394736842104" />
+        <point x="1062.0" y="478.5394736842104" />
+        <point x="-238.0" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1772.5" y="1165.03125">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/StreamStrategy.ts#StreamStrategy</node>
+      <value>&lt;p&gt;Defines the strategy used to complete the clients request.\nThis class implements a 64 bit byte array (Uint8Array) of the Strategy pattern hierarchy\nand should be implemented or extended into all subsequent classes.</value>
+      <edge>
+        <point x="293.5" y="13.25" />
+        <point x="1711.0" y="1185.0394736842104" />
+        <point x="1711.0" y="1221.03125" />
+        <point x="-162.5" y="-0.0" />
+      </edge>
+    </note>
+    <note x="2178.0" y="566.0000000000001">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy</node>
+      <value>&lt;p&gt;Defines the strategy used to complete the clients request.\nThis class represents the root of the Strategy pattern hierarchy\nand should be implemented or extended into all subsequent classes.</value>
+      <edge>
+        <point x="158.0" y="-0.0" />
+        <point x="-161.0" y="-0.0" />
+      </edge>
+    </note>
+    <note x="1772.0" y="1297.03125">
+      <node>/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Strategy.ts#Strategy</node>
+      <value>&lt;p&gt;Defines the strategy used to complete the clients request.\nThis class represents the normal implementation of the Strategy pattern hierarchy\nand should be implemented or extended into all subsequent classes as needed.</value>
+      <edge>
+        <point x="293.5" y="13.25" />
+        <point x="1701.0" y="1310.53125" />
+        <point x="1701.0" y="1353.03125" />
+        <point x="-163.0" y="-0.0" />
+      </edge>
+    </note>
+  </notes>
+  <edges>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Computational/Wolframalpha.ts#Wolframalpha" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="REALIZATION">
+      <point x="158.0" y="-19.0" />
+      <point x="1062.0" y="796.7894736842104" />
+      <point x="1062.0" y="767.7894736842104" />
+      <point x="1701.0" y="767.7894736842104" />
+      <point x="1701.0" y="668.2812500000001" />
+      <point x="1721.0" y="668.2812500000001" />
+      <point x="1721.0" y="622.0000000000001" />
+      <point x="-158.0" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="DEPENDENCY">
+      <point x="289.5" y="40.33333333333337" />
+      <point x="1062.0" y="283.8333333333335" />
+      <point x="1062.0" y="352.5394736842104" />
+      <point x="1701.0" y="352.5394736842104" />
+      <point x="1701.0" y="294.7269736842102" />
+      <point x="1711.0" y="294.7269736842102" />
+      <point x="1711.0" y="596.6666666666667" />
+      <point x="-158.0" y="-25.33333333333337" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IContext.ts#IContext" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="DEPENDENCY">
+      <point x="289.5" y="24.5" />
+      <point x="1701.0" y="156.5394736842104" />
+      <point x="1701.0" y="294.7269736842102" />
+      <point x="1711.0" y="294.7269736842102" />
+      <point x="1711.0" y="596.6666666666667" />
+      <point x="-158.0" y="-25.33333333333337" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ExecuteStrategy.ts#ExecuteStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Strategy.ts#Strategy" relationship="REALIZATION">
+      <point x="289.5" y="30.25" />
+      <point x="1062.0" y="1207.0" />
+      <point x="1062.0" y="1239.0" />
+      <point x="1072.0" y="1239.0" />
+      <point x="1072.0" y="1297.28125" />
+      <point x="-293.5" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Language/Gpt3.ts#Gpt3" relationship="CREATE">
+      <point x="129.0" y="19.0" />
+      <point x="432.0" y="405.75822368421007" />
+      <point x="432.0" y="657.2582236842101" />
+      <point x="-160.5" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/StreamStrategy.ts#StreamStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="INTERFACE_GENERALIZATION">
+      <point x="293.5" y="-13.25" />
+      <point x="1701.0" y="1158.5394736842104" />
+      <point x="1701.0" y="1176.5082236842102" />
+      <point x="1711.0" y="1176.5082236842102" />
+      <point x="1711.0" y="647.3333333333335" />
+      <point x="-158.0" y="25.33333333333337" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IContext.ts#IContext" relationship="REALIZATION">
+      <point x="289.5" y="-40.33333333333337" />
+      <point x="1062.0" y="203.16666666666674" />
+      <point x="1062.0" y="132.0394736842104" />
+      <point x="-289.5" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Language/Gpt3.ts#Gpt3" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="REALIZATION">
+      <point x="160.5" y="-19.0" />
+      <point x="1062.0" y="638.5394736842104" />
+      <point x="1062.0" y="620.7894736842104" />
+      <point x="1701.0" y="620.7894736842104" />
+      <point x="1701.0" y="668.2812500000001" />
+      <point x="1721.0" y="668.2812500000001" />
+      <point x="1721.0" y="622.0000000000001" />
+      <point x="-158.0" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/ChatBotDialog.js#ChatBotDialog" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" relationship="CREATE">
+      <point x="157.0" y="-0.0" />
+      <point x="-129.0" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/ObjectDetection/Yolo.ts#Yolo" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="REALIZATION">
+      <point x="158.0" y="19.0" />
+      <point x="1062.0" y="560.5394736842104" />
+      <point x="1062.0" y="604.5394736842104" />
+      <point x="1701.0" y="604.5394736842104" />
+      <point x="1701.0" y="668.2812500000001" />
+      <point x="1721.0" y="668.2812500000001" />
+      <point x="1721.0" y="622.0000000000001" />
+      <point x="-158.0" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/Computational/Wolframalpha.ts#Wolframalpha" relationship="CREATE">
+      <point x="129.0" y="19.0" />
+      <point x="432.0" y="405.75822368421007" />
+      <point x="432.0" y="657.2582236842101" />
+      <point x="442.0" y="657.2582236842101" />
+      <point x="442.0" y="815.7894736842104" />
+      <point x="-158.0" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ExecuteStrategy.ts#ExecuteStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/StreamStrategy.ts#StreamStrategy" relationship="REALIZATION">
+      <point x="289.5" y="30.25" />
+      <point x="1062.0" y="1207.0" />
+      <point x="1062.0" y="1239.0" />
+      <point x="1072.0" y="1239.0" />
+      <point x="1072.0" y="1171.7894736842104" />
+      <point x="-293.5" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Strategy.ts#Strategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/IStrategy.ts#IStrategy" relationship="INTERFACE_GENERALIZATION">
+      <point x="293.5" y="-13.25" />
+      <point x="1701.0" y="1284.03125" />
+      <point x="1701.0" y="1176.5082236842102" />
+      <point x="1711.0" y="1176.5082236842102" />
+      <point x="1711.0" y="647.3333333333335" />
+      <point x="-158.0" y="25.33333333333337" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/AIModels/ObjectDetection/Yolo.ts#Yolo" relationship="CREATE">
+      <point x="129.0" y="19.0" />
+      <point x="432.0" y="405.75822368421007" />
+      <point x="432.0" y="657.2582236842101" />
+      <point x="442.0" y="657.2582236842101" />
+      <point x="442.0" y="541.5394736842104" />
+      <point x="-158.0" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ExecuteStrategy.ts#ExecuteStrategy" relationship="CREATE">
+      <point x="129.0" y="19.0" />
+      <point x="432.0" y="405.75822368421007" />
+      <point x="432.0" y="657.2582236842101" />
+      <point x="442.0" y="657.2582236842101" />
+      <point x="442.0" y="1176.75" />
+      <point x="-289.5" y="-0.0" />
+    </edge>
+    <edge source="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/ClientStrategy.js#ClientStrategy" target="/Users/delliusalexander/Library/CloudStorage/SynologyDrive-syncTask-1/Repos/Scraper-App/SmartScraper/src/component/Strategy/Context.ts#Context" relationship="CREATE">
+      <point x="129.0" y="19.0" />
+      <point x="432.0" y="405.75822368421007" />
+      <point x="432.0" y="657.2582236842101" />
+      <point x="442.0" y="657.2582236842101" />
+      <point x="442.0" y="243.5000000000001" />
+      <point x="-289.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.6523224043715847" showDependencies="true" x="1155.0" y="698.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
