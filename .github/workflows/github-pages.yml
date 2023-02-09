@@ -66,7 +66,6 @@ jobs:
           npm install -g serve;
           npm install;
           npm run predeploy:github-pages;
-
   # Deploy to GitHub pages only on main
   deploy-to-github-pages:
     needs: setup-pages
@@ -97,7 +96,8 @@ jobs:
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${USER_NAME}/Smart-Scraper.git;
           cd $(find ~+ -type d -name 'SmartScraper');
           npm install;
-          npm run deploy:github-pages
+          npm install gh-pages --save-dev;
+          npm run deploy:github-pages;
         env:
           LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -109,7 +109,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository to pages
-          path: $(find ~+ -type d -name 'www')
+          path: 'SmartScraper/www'
           # Depending on branch protection rules, a  manually populated
           # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
           # a protected branch must be used. This secret can have an arbitrary
