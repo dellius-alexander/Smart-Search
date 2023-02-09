@@ -93,7 +93,6 @@ jobs:
         run: |
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
-          git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/dellius-alexander/Smart-Scraper.git;
           cd $(find ~+ -type d -name 'SmartScraper');
           npm install;
           npm install gh-pages --save-dev;
