@@ -20,7 +20,6 @@ import {StreamStrategy} from "./StreamStrategy.ts";
  * tokens, and total tokens.
  */
 export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStrategy {
-  // strategy:  T;
   state: {
     uuid: string,
     name: string,
@@ -62,11 +61,11 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
   * and stored in the state jsonData. If the request fails, an error message will
   * be stored in the state field 'errorMessage'.
   * @param {{prompt: string, layman: false}} options
-  * @returns  {string|JSON} JSX element(s), empty array, or string.
+  * @returns  {{Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >}}
   */
   async sendRequest(options: { prompt: string; layman: false } ) :
-        Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >  {
-    // await wait(3000);
+        Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >
+  {
     /**
      * Get the contents of the options variable
      */
@@ -122,10 +121,11 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
   * all updated in the caller's state.
   * @param {{prompt: string, layman: false}} options
   * @param {{element: Element}} streamOptions?
-  * @returns  {string|JSON} JSX element(s), empty array, or string.
+  * @returns  {{Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>}} JSX element(s), empty array, or string.
   */
   async streamRequest(options: { prompt: string; layman: false }, streamOptions?: { element: Element }) :
-        Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>  {
+        Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>
+  {
     if (streamOptions == null || streamOptions.element == null) {
       console.warn("StreamOptions is undefined or null.");
     }
