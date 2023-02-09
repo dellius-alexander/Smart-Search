@@ -36,13 +36,13 @@ and market trends.
 `Figure 1` is the initial implementation of the Strategy Behavior Pattern. We will be 
 adding and updating as the project evolves.
 
-***Note:[Click here for a detailed UML](docs/images/strategy-pattern-info.png)***
+*Note: [Click here for a detailed UML](docs/smart-scraper-design-pattern-info.md)*
 
 
 
 ---
 
-[![AI Strategy Behavior Pattern](./docs/images/strategy-pattern.png)](./docs/images/strategy-pattern.png)
+[![AI Strategy Behavior Pattern](./docs/images/strategy-pattern.png)]()
 
 Figure 1:`Initial Implementation Strategy`
 
