@@ -18,7 +18,7 @@
     "build:dev": "export NODE_ENV=development && node --inspect --trace-uncaught  scripts/build.js;",
     "test": "/bin/sh init.sh HELP browser;",
     "predeploy:github-pages": "npm run build:prod",
-    "deploy:github-pages": "npx gh-pages -d 'www' -u 'github-actions-bot <support+actions@github.com>' -m 'github pages update'"
+    "deploy:github-pages": "npx gh-pages -d 'www' -u 'Dellius Alexander <dellius.alexander@gmail.com>' -m 'github pages update'"
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [
