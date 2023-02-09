@@ -2,7 +2,7 @@
   "short_name": "React App",
   "name": "Create React App Sample",
   "version": "0.1",
-  "homepage": "https://dellius-alexander.github.io/Smart-Scraper/",
+  "homepage": "/",
   "icons": [
     {
       "src": "favicon.ico",
