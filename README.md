@@ -38,14 +38,16 @@ adding and updating as the project evolves.
 
 *Note: [Click here for a detailed UML](docs/smart-scraper-design-pattern-info.md)*
 
+---
 
+### `Figure 1: Initial Implementation Strategy`
+
+[![AI Strategy Behavior Pattern](./docs/images/strategy-pattern.png)](./docs/images/strategy-pattern.png)
 
 ---
 
-[![AI Strategy Behavior Pattern](./docs/images/strategy-pattern.png)]()
+### `Figure 2: Demo UI`
 
-Figure 1:`Initial Implementation Strategy`
-
----
+[![Smart Scraper UI](./docs/images/ui-snapshot.png)](https://dellius-alexander.github.io/Smart-Scraper/)
 
 ---

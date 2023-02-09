@@ -21,7 +21,7 @@ console.log(`Public URL: ${process.env.PUBLIC_URL}`);
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === "development",
-  require(resolveApp(path.join(process.cwd(), "/package.json"))).homepage,
+  process.env.DEMO_PAGES_URL || require(resolveApp(path.join(process.cwd(), "/package.json"))).homepage,
   process.env.PUBLIC_URL
 );
 

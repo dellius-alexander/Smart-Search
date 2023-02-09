@@ -91,6 +91,7 @@ jobs:
 
       - name: Build and Test
         timeout-minutes: 5
+        working-directory: ./SmartScraper/
         run: |
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
