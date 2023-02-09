@@ -95,7 +95,7 @@ jobs:
           git config --global user.name ${USER_EMAIL};
           cd $(find ~+ -type d -name 'SmartScraper');
           npm install;
-          npm install gh-pages --save-dev;
+          npm install gh-pages@5.0.0 --save-dev;
           npm run deploy:github-pages;
         env:
           LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
