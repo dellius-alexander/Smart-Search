@@ -95,7 +95,8 @@ jobs:
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${USER_NAME}/Smart-Scraper.git;
-          cd $(find ~+ -type d -name 'Smart-Scraper/SmartScraper');
+          cd $(find ~+ -type d -name 'SmartScraper');
+          npm install;
           npm run deploy:github-pages
         env:
           LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
@@ -103,19 +104,30 @@ jobs:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-
       # Deploy to GitHub Pages
-      - name: Deploy
-        if: success()
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: $(find ~+ -type d -name 'staging')
+          # Upload entire repository to pages
+          path: $(find ~+ -type d -name 'www')
+          # Depending on branch protection rules, a  manually populated
+          # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
+          # a protected branch must be used. This secret can have an arbitrary
+          # name, as an example, you can use `SOME_RANDOM_TOKEN_STRING`.
+          # Since this repository has no protected branches we will omit
+          # this part of the step. end
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#          git checkout -b github-pages
-#          cp -rf ../SmartScraper/www/** .
-#          git add .
-#          git commit -m "Deploy to Github Pages"
-#          git push origin github-pages -f
+      - name: Setup Pages
+        if: success()
+        uses: actions/configure-pages@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        id: deployment
+        uses: actions/deploy-pages@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
