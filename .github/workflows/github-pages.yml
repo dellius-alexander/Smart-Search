@@ -66,6 +66,7 @@ jobs:
           npm install -g serve;
           npm install;
           npm run predeploy:github-pages;
+
   # Deploy to GitHub pages only on main
   deploy-to-github-pages:
     needs: setup-pages
