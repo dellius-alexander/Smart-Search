@@ -59,7 +59,7 @@ jobs:
           npm run predeploy:github-pages;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
-          DEMO_PAGES_URL: ${{ DEMO_PAGES_URL }}
+          DEMO_PAGES_URL: ${{ secrets.DEMO_PAGES_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
