@@ -35,7 +35,7 @@ adding and updating as the project evolves.
 
 ---
 
-[![AI Strategy Behavior Pattern](./docs/images/strategy-pattern.png)]()
+[![AI Strategy Behavior Pattern](./docs/images/strategy-pattern.png)](./docs/images/strategy-pattern.png)
 
 Figure 1:`Initial Implementation Strategy`
 
