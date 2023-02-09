@@ -89,7 +89,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build and Test
+      - name: Deploy GitHub Pages Demo App
         timeout-minutes: 5
         working-directory: ./SmartScraper/
         run: |
