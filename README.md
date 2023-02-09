@@ -1,3 +1,9 @@
+[![Build and Test](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/build.yml)
+[![Deploy Github Pages](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/github-pages.yml/badge.svg?branch=gh-pages)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/github-pages.yml)
+[![Codespaces Prebuilds](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/codespaces/create_codespaces_prebuilds/badge.svg)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/codespaces/create_codespaces_prebuilds)
+
+---
+
 # Smart Scraper
 
 
