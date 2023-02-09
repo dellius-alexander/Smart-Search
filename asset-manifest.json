@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/Smart-Scraper/static/css/main.f13b6472.css",
-    "main.js": "/Smart-Scraper/static/js/main.d869fd74.js",
-    "static/js/27.0ef3fe63.chunk.js": "/Smart-Scraper/static/js/27.0ef3fe63.chunk.js",
+    "main.css": "/Smart-Scraper/static/css/main.65e57077.css",
+    "main.js": "/Smart-Scraper/static/js/main.2480af61.js",
+    "static/js/787.4c82dcb8.chunk.js": "/Smart-Scraper/static/js/787.4c82dcb8.chunk.js",
     "index.html": "/Smart-Scraper/index.html",
-    "main.d869fd74.js.map": "/Smart-Scraper/static/js/main.d869fd74.js.map",
-    "27.0ef3fe63.chunk.js.map": "/Smart-Scraper/static/js/27.0ef3fe63.chunk.js.map"
+    "main.65e57077.css.map": "/Smart-Scraper/static/css/main.65e57077.css.map",
+    "main.2480af61.js.map": "/Smart-Scraper/static/js/main.2480af61.js.map",
+    "787.4c82dcb8.chunk.js.map": "/Smart-Scraper/static/js/787.4c82dcb8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f13b6472.css",
-    "static/js/main.d869fd74.js"
+    "static/css/main.65e57077.css",
+    "static/js/main.2480af61.js"
   ]
 }
