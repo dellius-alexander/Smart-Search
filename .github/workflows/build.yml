@@ -26,9 +26,6 @@ on:
         required: true
         type: string
     secrets:
-      NODE_ENV:
-        required: true
-      BABEL_ENV: 'production'
       REACT_APP_OPENAI_API_KEY:
         required: true
       PUBLIC_URL:
