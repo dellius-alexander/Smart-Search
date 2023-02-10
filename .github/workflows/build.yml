@@ -25,10 +25,6 @@ on:
       config-path:
         required: true
         type: string
-        environment:
-          description: 'Environment to run build and test'
-          type: environment
-          required: true
     secrets:
       NODE_ENV:
         required: true
