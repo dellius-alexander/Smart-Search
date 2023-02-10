@@ -50,7 +50,6 @@ jobs:
       PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
       ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
       GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
-      configuration-path: ${{ inputs.config-path }}
 
   # Deploy to GitHub pages only on main
   deploy-to-github-pages:
