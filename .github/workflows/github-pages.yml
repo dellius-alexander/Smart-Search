@@ -78,7 +78,9 @@ jobs:
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
-          ls;
+          cd $(find ~+ -type d -name 'SmartScraper');
+          npm install;
+          npm run build:prod;
           npm run deploy:github-pages;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
