@@ -281,6 +281,7 @@ module.exports = function (webpackEnv) {
               safari10: true,
             },
             // Added for profiling in devtools
+            // negated because we want a degree of ambiguity for the minification
             keep_classnames: isEnvProductionProfile,
             keep_fnames: isEnvProductionProfile,
             output: {

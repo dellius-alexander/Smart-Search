@@ -1,4 +1,4 @@
-const LatexParser = require("../LatexParser");
+const LatexParser = require("./LatexParser");
 
 /**
  * Add functionality to parse fractions using the class above.

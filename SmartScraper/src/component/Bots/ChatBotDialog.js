@@ -1,12 +1,12 @@
 import React, { Component, useState } from "react";
-import { Responsive } from "./Responsive.js";
+import { Responsive } from "../Display/Responsive.js";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import "../static/css/chat-bot-dialog.css";
-import { ClientStrategy } from "./Strategy/ClientStrategy.js";
+import "../../static/css/chat-bot-dialog.css";
+import { ClientStrategy } from "../Strategy/ClientStrategy.js";
 
 
 /**

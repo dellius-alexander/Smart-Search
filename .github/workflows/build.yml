@@ -56,7 +56,7 @@ jobs:
           echo "BABEL_ENV=${BABEL_ENV}" >> .env.production.local;
           echo "GENERATE_SOURCEMAP=false" >> .env.production.local;
           npm install;
-          npm run predeploy:github-pages;
+          npm run build:prod;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
           DEMO_PAGES_URL: ${{ secrets.DEMO_PAGES_URL }}

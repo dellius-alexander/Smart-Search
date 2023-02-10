@@ -65,7 +65,7 @@ jobs:
           npm install gh-pages --save-dev;
           npm install -g serve;
           npm install;
-          npm run predeploy:github-pages;
+          npm run build:prod;
 
   # Deploy to GitHub pages only on main
   deploy-to-github-pages:

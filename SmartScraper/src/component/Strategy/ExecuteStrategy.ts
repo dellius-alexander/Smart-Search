@@ -194,7 +194,7 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
             this.state.model = jsonResponseData.model;
             this.state.jsonData = jsonResponseData.choices[0];
             this.state.usage = jsonResponseData.usage;
-            return parse(this.state.jsonData.text.replace("\\n", "<br>"));
+            return parse(this.state.jsonData.text.replace("\n", "<br>"));
           })
           .then((data) => data)
           .catch(console.dir);
