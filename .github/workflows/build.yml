@@ -20,6 +20,25 @@ on:
   push:
     branches:
       - '**'
+  workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
+    secrets:
+      NODE_ENV:
+        required: true
+      BABEL_ENV: 'production'
+      REACT_APP_OPENAI_API_KEY:
+        required: true
+      PUBLIC_URL:
+        required: true
+      ORGANIZATION_ID:
+        required: true
+      GITHUB_TOKEN:
+        required: true
+      GENERATE_SOURCEMAP:
+        required: true
 
   pull_request:
     branches:
