@@ -35,8 +35,6 @@ on:
         required: true
       ORGANIZATION_ID:
         required: true
-      GITHUB_TOKEN:
-        required: true
       GENERATE_SOURCEMAP:
         required: true
 
