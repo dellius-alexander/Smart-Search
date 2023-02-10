@@ -11,6 +11,10 @@ env:
   TZ: 'America/New_York'
   NODE_ENV: 'production'
   BABEL_ENV: 'production'
+  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+  PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
+  ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 on:
   push:
     branches:
