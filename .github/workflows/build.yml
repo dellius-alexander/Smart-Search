@@ -25,18 +25,6 @@ on:
       config-path:
         required: true
         type: string
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        print_tags:
-          description: 'True to print to STDOUT'
-          required: true
-          type: boolean
-        tags:
-          description: 'Build and Test'
-          required: true
-          type: string
         environment:
           description: 'Environment to run build and test'
           type: environment
