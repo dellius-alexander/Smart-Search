@@ -81,6 +81,7 @@ jobs:
           cd $(find ~+ -type d -name 'SmartScraper');
           npm install;
           npm install gh-pages@5.0.0 --save-dev;
+          ls;
           npm run build:prod;
           npm run deploy:github-pages;
         env:

@@ -36,26 +36,45 @@ __gen_env(){
     __error "You must set NODE_ENV environment variable then rerun ${0}."
     exit 1;
   fi
-NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
-BABEL_ENV=${NODE_ENV}
-TZ="America/New_York"
-UUID=1001
-REACT_APP_OPENAI_API_KEY='${REACT_APP_OPENAI_API_KEY}'
-GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
-BASE_DOMAIN=${BASE_DOMAIN}
-HOST=${BASE_DOMAIN}.com
-PORT=${PORT}
-HTTPS=${HTTPS}
-FAST_REFRESH=${FAST_REFRESH}
-PUBLIC_URL=${PUBLIC_URL}
-SSL_CRT_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.crt
-SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
-ORGANIZATION_ID=${ORGANIZATION_ID}
-"""
+  if [[ "${COMMAND}" =~ ^(run|emulate|plugin|build|serve)$ ]]; then
+
+    NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
+    BABEL_ENV=${NODE_ENV}
+    TZ="America/New_York"
+    UUID=1001
+    REACT_APP_OPENAI_API_KEY='${REACT_APP_OPENAI_API_KEY}'
+    GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+    BASE_DOMAIN=${BASE_DOMAIN}
+    HOST=${BASE_DOMAIN}.com
+    PORT=${PORT}
+    HTTPS=${HTTPS}
+    FAST_REFRESH=${FAST_REFRESH}
+    PUBLIC_URL=${PUBLIC_URL}
+    SSL_CRT_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.crt
+    SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
+    ORGANIZATION_ID=${ORGANIZATION_ID}
+    """
   echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
   ENV_FILE="./.env.${NODE_ENV}.local"
   HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
   PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
+  elif [[ "${COMMAND}" =~ ^(publish)$ ]]; then
+
+    NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
+    BABEL_ENV=${NODE_ENV}
+    TZ="America/New_York"
+    REACT_APP_OPENAI_API_KEY='${REACT_APP_OPENAI_API_KEY}'
+    GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+    HOST=${PUBLIC_URL}
+    HTTPS=${HTTPS}
+    FAST_REFRESH=true
+    PUBLIC_URL=${PUBLIC_URL}
+    ORGANIZATION_ID=${ORGANIZATION_ID}
+    """
+      echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
+      ENV_FILE="./.env.${NODE_ENV}.local"
+      HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
+  fi
   return 0;
 }
 __build(){
