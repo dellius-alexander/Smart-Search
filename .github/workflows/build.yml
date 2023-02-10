@@ -15,7 +15,7 @@ env:
   PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
   ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  GENERATE_SOURCEMAP: ${{ secret.GENERATE_SOURCEMAP }}
+  GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
 on:
   push:
     branches:
@@ -61,7 +61,7 @@ jobs:
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
-          GENERATE_SOURCEMAP: ${{ secret.GENERATE_SOURCEMAP }}
+          GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
           ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
