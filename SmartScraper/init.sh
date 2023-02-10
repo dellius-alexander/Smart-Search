@@ -1,5 +1,7 @@
 #!/bin/bash
 #####################################################################
+set -e
+#####################################################################
 ENV_FILE=""
 HOST=""
 PORT=""
@@ -53,10 +55,10 @@ __gen_env(){
     SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
     ORGANIZATION_ID=${ORGANIZATION_ID}
     """
-  echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
-  ENV_FILE="./.env.${NODE_ENV}.local"
-  HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
-  PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
+    echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
+    ENV_FILE="./.env.${NODE_ENV}.local"
+    HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
+    PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
   elif [[ "${COMMAND}" =~ ^(publish)$ ]]; then
 
     NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
@@ -70,9 +72,9 @@ __gen_env(){
     PUBLIC_URL=${PUBLIC_URL}
     ORGANIZATION_ID=${ORGANIZATION_ID}
     """
-      echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
-      ENV_FILE="./.env.${NODE_ENV}.local"
-      HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
+    echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
+    ENV_FILE="./.env.${NODE_ENV}.local"
+    HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
   fi
   return 0;
 }

@@ -73,13 +73,13 @@ jobs:
 
       - name: Deploy GitHub Pages Demo App
         timeout-minutes: 5
-        working-directory: ./SmartScraper/
         run: |
-          git config --global user.name ${USER_NAME};
-          git config --global user.name ${USER_EMAIL};
-          git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
-          cd $(find ~+ -type d -name 'SmartScraper');
-          npm run deploy:github-pages;
+          ls -lia
+#          git config --global user.name ${USER_NAME};
+#          git config --global user.name ${USER_EMAIL};
+#          git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
+#          cd $(find ~+ -type d -name 'SmartScraper' &2>/dev/null);
+#          npm run deploy:github-pages;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
