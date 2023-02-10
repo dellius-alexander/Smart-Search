@@ -49,6 +49,7 @@ class Yolo implements IStrategy {
       },
       url: ""
     };
+    // console.dir(this);
   }
 
 

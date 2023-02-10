@@ -63,9 +63,15 @@ class ChatBotDialog extends Component {
       responses: [],
       responseCount: 0,
       checkboxStatus: false,
+      // create a new responsive object used to update the width and height on window/modal resize/change
+      // by initializing the responsive object at the top of your modal,
+      // also it automates the resizing of the window/modal process using onLoadStart = {mediaQuery.init}.
       mediaQuery: new Responsive(this),
+      // create a new client strategy implementation object
       strategy: new ClientStrategy()
     };
+    // initialize the mediaQuery object
+    this.state.mediaQuery.init();
     /* state functions */
     this.setState = this.setState.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -75,6 +81,7 @@ class ChatBotDialog extends Component {
     this.handleResponseSelection = this.handleResponseSelection.bind(this);
     this.render = this.render.bind(this);
     this.resetForm = this.resetForm.bind(this);
+    console.dir(this);
   }
   // eslint-disable-next-line class-methods-use-this
   resizeTextarea(event) {
@@ -102,7 +109,6 @@ class ChatBotDialog extends Component {
   checkboxStatus(event) {
     const checkboxStatus = event.target.checked;
     if (checkboxStatus) {
-      console.log("Checkbox is checked");
       this.setState({
         checkboxStatus: checkboxStatus,
         layman: true,
@@ -145,13 +151,16 @@ class ChatBotDialog extends Component {
 
       // get user input prompts and layman options
       const { prompt, layman, strategy } = this.state;
+
       // check for a prompt
       if (prompt) {
 
-        // get a client to execute the strategy
+        // get a model context to execute the strategy
         const context = await strategy.createClient("openai");
-        // execute the strategy using the client and return the response
+
+        // execute the strategy using the model context and return the response
         const data = await context.executeStrategy({prompt, layman}, {element: document.getElementsByClassName("modal-body")[0]});
+
         // update the state with the response
         this.setState((prevState) => {
           if (prevState.responseCount <= 0) {
@@ -253,7 +262,7 @@ class ChatBotDialog extends Component {
 
     return (
       <>
-        <div className="chat-container" onLoadStart={() => mediaQuery.init()}>
+        <div className="chat-container" onLoadStart={mediaQuery.init}>
           <header className="chat-header">
             <h1 className="chat-gpt-title">Smart Scraper</h1>
           </header>

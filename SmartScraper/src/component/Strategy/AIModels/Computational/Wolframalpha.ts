@@ -41,6 +41,7 @@ class Wolframalpha implements IStrategy {
       },
       url: "",
     };
+    console.dir(this);
   }
 
 }

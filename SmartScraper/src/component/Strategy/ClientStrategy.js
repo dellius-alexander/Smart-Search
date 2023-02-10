@@ -3,6 +3,7 @@ import { Yolo } from "./AIModels/ObjectDetection/Yolo.ts";
 import { Gpt3 } from "./AIModels/Language/Gpt3.ts";
 import { Context } from "./Context.ts";
 import { ExecuteStrategy } from "./ExecuteStrategy.ts";
+import {IStrategy} from "./IStrategy.ts";
 
 /**
  * This class defines the ClientStrategy object which provides a framework
@@ -21,6 +22,7 @@ export class ClientStrategy {
    */
   constructor() {
     this.context = new Context();
+    // console.dir(this);
   }
 
   /**
@@ -29,18 +31,34 @@ export class ClientStrategy {
    * @return {IContext} the new client strategy context selected
    */
   async createClient(type) {
+    // console.log("Creating client strategy: " + type);
     switch (type) {
-    case "openai" || "OpenAI" || /gpt3/ || /Gpt3/:
-      this.context.setStrategy(new ExecuteStrategy(new Gpt3()));
+    case type.match(/openai|gpt3/i)[0]:
+      // console.log("Creating GPT3 client strategy");
+      // eslint-disable-next-line no-case-declarations
+      const gpt3: IStrategy = new Gpt3();
+      // console.log(gpt3);
+      // eslint-disable-next-line no-case-declarations
+      const gpt3Executor = new ExecuteStrategy(gpt3);
+      // console.log(gpt3Executor);
+      this.context.setStrategy(gpt3Executor);
       return this.context;
-    case "alpha" || "Alpha" || /alpha/ || /Wolframalpha/:
-      this.context.setStrategy(new ExecuteStrategy(new Wolframalpha()));
+    case type.match(/alpha|wolframalpha/i)[0]:
+      // eslint-disable-next-line no-case-declarations
+      const wolf: IStrategy = new Wolframalpha();
+      // eslint-disable-next-line no-case-declarations
+      const wolfExecutor = new ExecuteStrategy(wolf);
+      this.context.setStrategy(wolfExecutor);
       return this.context;
-    case "yolo" || "Yolo" || /yolo/ || /Yolo/:
-      this.context.setStrategy(new ExecuteStrategy(new Yolo()));
+    case type.match(/yolo|yolo/i)[0]:
+      // eslint-disable-next-line no-case-declarations
+      const yolo: IStrategy = new Yolo();
+      // eslint-disable-next-line no-case-declarations
+      const yoloExecutor = new ExecuteStrategy(yolo);
+      this.context.setStrategy(yoloExecutor);
       return this.context;
     default: // TODO(you have to create a more comprehensive default protocols)
-      console.log("Strategy unable to fulfill request.");
+      // console.log("Strategy unable to fulfill request.");
     }
   }
 }

@@ -2,11 +2,11 @@
   "name": "smartscraper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dellius-alexander.github.io/Smart-Scraper/",
+  "homepage": "/",
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
   "scripts": {
     "start:docker:browser": "export NODE_ENV=production; export PUBLIC_URL='/'; /bin/bash init.sh serve browser;",
-    "start:local:browser": "export NODE_ENV=production; export PUBLIC_URL='/'; /bin/bash init.sh serve browser;",
+    "start:local:browser": "export NODE_ENV=production; export PUBLIC_URL='/'; /bin/bash init.sh serve browser -d;",
     "dev:cordova-ios": "export NODE_ENV=development; /bin/sh init.sh run ios;",
     "dev:cordova-android": "export NODE_ENV=development; /bin/sh init.sh run android;",
     "dev:cordova-browser": "export NODE_ENV=development; /bin/sh init.sh run browser;",
@@ -70,9 +70,11 @@
     "latex-parser": "^0.6.2",
     "lib.cli": "^5.5.3",
     "lodash": "^4.17.21",
+    "loglevel": "^1.8.1",
     "mathjax": "^3.2.2",
     "mini-css-extract-plugin": "^2.4.5",
     "optionator": "^0.9.1",
+
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
@@ -103,6 +105,7 @@
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1"
+
   },
   "devDependencies": {
     "cordova-android": "^10.1.2",
@@ -110,7 +113,6 @@
     "cordova-plugin-device": "^2.1.0",
     "cordova-webpack-plugin": "^0.1.0",
     "gh-pages": "^5.0.0",
-    "loglevel": "^1.8.1",
     "nodemon": "^2.0.20"
   },
   "keywords": [

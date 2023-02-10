@@ -33,6 +33,7 @@ class Gpt3 implements IStrategy{
    * Initialize GPT-3 to make api calls
    */
   constructor() {
+    // console.log("Initialized GPT-3 to make api calls");
     this.state = {
       uuid: uuid("text-davinci-003","language_text_completion_model"),
       name: "gpt3",
@@ -47,6 +48,7 @@ class Gpt3 implements IStrategy{
       type: "text_completion",
       model: "text-davinci-003",
     };
+    // console.log("Initialized GPT-3 to make api calls");
   }
 }
 

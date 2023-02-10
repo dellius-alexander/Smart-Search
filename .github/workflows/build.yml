@@ -51,15 +51,16 @@ jobs:
       - name: Install dependencies
         run: |
           cd $(find ~+ -type d -name 'SmartScraper');
-          export "REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}";
-          echo "NODE_ENV=${NODE_ENV}" >> .env.production.local;
-          echo "BABEL_ENV=${BABEL_ENV}" >> .env.production.local;
-          echo "GENERATE_SOURCEMAP=false" >> .env.production.local;
           npm install;
           npm run build:prod;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
-          DEMO_PAGES_URL: ${{ secrets.DEMO_PAGES_URL }}
+          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
+          GENERATE_SOURCEMAP: ${{ env.GENERATE_SOURCEMAP }}
+          ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

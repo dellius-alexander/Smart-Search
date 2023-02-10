@@ -13,7 +13,7 @@ import {IStrategy} from "./IStrategy.ts";
  * executeStrategy methods are bound to the Context object to handle requests
  * from the client and the execution of the selected strategy.
  */
-class Context implements IContext {
+export class Context implements IContext {
   /**
    * Saves the state the context of the strategy selected.
    */
@@ -23,6 +23,7 @@ class Context implements IContext {
     this.state = {};
     this.setStrategy = this.setStrategy.bind(this);
     this.executeStrategy = this.executeStrategy.bind(this);
+    console.dir(this);
   }
   /**
    * The setStrategy method is used to assign the correct model or
@@ -31,7 +32,7 @@ class Context implements IContext {
    */
   setStrategy(strategy: IStrategy): void {
     try {
-      console.dir(strategy);
+      // console.log("Setting client strategy state: ", strategy.state);
       this.state["strategy"] = strategy;
       this.state["uuid"] = strategy.state.uuid;
       this.state["name"] = strategy.state.name;
@@ -68,7 +69,7 @@ class Context implements IContext {
     *    is not a valid strategy.
     */
     try {
-      console.log(this.state);
+      // console.log(this.state);
       switch (true) {
       // send large prompts > 256 bytes, using StreamStrategy transport protocols
       case (options && this.state["protocols"]["stream-strategy"]) && options.prompt.length > 256:
@@ -102,4 +103,4 @@ class Context implements IContext {
     
   }
 }
-export {Context};
+

@@ -1,6 +1,9 @@
 #!/bin/bash
 #####################################################################
 set -e
+ENV_FILE=""
+HOST=""
+PORT=""
 #####################################################################
 COMMAND=${1:-$( [[ ${1} =~ (publish|run|emulate|plugin|build|serve|help|--help|-h) ]] && echo ${1} &2>/dev/null  || echo "bad run command."; exit 1;  )} # Defaults to run -- platform
 PLATFORMS=${2:-$( [[ ${2} =~ (local|cordova|gh-pages|browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null || echo "bad run command."; exit 1; )} # Defaults to run -- platform -- browser
@@ -33,8 +36,7 @@ __gen_env(){
     __error "You must set NODE_ENV environment variable then rerun ${0}."
     exit 1;
   fi
-NODE_ENV_VAR="""
-NODE_ENV=${NODE_ENV}
+NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
 BABEL_ENV=${NODE_ENV}
 TZ="America/New_York"
 UUID=1001
@@ -48,8 +50,12 @@ FAST_REFRESH=${FAST_REFRESH}
 PUBLIC_URL=${PUBLIC_URL}
 SSL_CRT_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.crt
 SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
+ORGANIZATION_ID=${ORGANIZATION_ID}
 """
   echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
+  ENV_FILE="./.env.${NODE_ENV}.local"
+  HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
+  PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
   return 0;
 }
 __build(){
@@ -108,25 +114,14 @@ __serve(){
   OPTIONS="${3}";
 
   case ${COMMAND}-${PLATFORMS}-${OPTIONS}-${NODE_ENV} in
-  serve-local-browser-production)
-    echo "Running ${PLATFORMS}........";
-    cordova build -- --live-reload  --debug;
-    #    nodemon scripts/start.js;
-    #    cordova run ${PLATFORMS} -- --live-reload  --debug;
-    serve -l tcp://0.0.0.0:443 \
-    -c serve.json \
-    --debug \
-    --ssl-cert ${SSL_CRT_FILE} \
-    --ssl-key ${SSL_KEY_FILE}
-    ;;
-  serve-browser-production)
+  serve-browser-${OPTIONS}-production)
     echo "Serving ${PLATFORMS}........";
-    serve -l tcp://0.0.0.0:443 \
-    -c serve.json \
+    serve -l "tcp://${HOST}:${PORT}" \
+    -c serve.json ${OPTIONS} \
     --ssl-cert ${SSL_CRT_FILE} \
     --ssl-key ${SSL_KEY_FILE}
     ;;
-  serve-browser-node-development)
+  serve-browser-${OPTIONS}-development)
     echo "Serving ${PLATFORMS}........";
     node ./scripts/start.js
     ;;

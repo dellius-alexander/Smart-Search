@@ -1,3 +1,4 @@
+// import { useState } from "react";
 /**
  * Responsive class to handle dynamic styling of a webpage for different screen sizes
  * @class Responsive
@@ -49,8 +50,9 @@ class Responsive {
       window: window,
       document: window.document
     };
-    // this.setState = this.setState.bind(this);
+
     this.handleMediaChange = this.handleMediaChange.bind(this);
+    console.dir(this);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -116,11 +118,11 @@ class Responsive {
    */
   init() {
     // Add media change event listeners
-    this.mqMobile.addEventListener("load", this.handleMediaChange);
-    this.mqTablet.addEventListener("load", this.handleMediaChange);
-    this.mqIphone.addEventListener("load", this.handleMediaChange);
-    this.mqIpad.addEventListener("load", this.handleMediaChange);
-    this.mqWeb.addEventListener("load", this.handleMediaChange);
+    this.mqMobile.addEventListener(/load|onload/, this.handleMediaChange);
+    this.mqTablet.addEventListener(/load|onload/, this.handleMediaChange);
+    this.mqIphone.addEventListener(/load|onload/, this.handleMediaChange);
+    this.mqIpad.addEventListener(/load|onload/, this.handleMediaChange);
+    this.mqWeb.addEventListener(/load|onload/, this.handleMediaChange);
     this.handleMediaChange(this.mqMobile);
     this.handleMediaChange(this.mqTablet);
     this.handleMediaChange(this.mqIphone);

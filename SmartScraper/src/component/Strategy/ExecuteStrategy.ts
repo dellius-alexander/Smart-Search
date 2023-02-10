@@ -8,7 +8,7 @@ import {IStrategy} from "./IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {StreamStrategy} from "./StreamStrategy.ts";
-// import {uuid} from './UUID';
+
 
 /**
  * This ExecuteStrategy class provides a way to send an API request to an AI strategy
@@ -51,6 +51,7 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
     this.state = strategy.state;
     this.sendRequest = this.sendRequest.bind(this);
     this.streamRequest = this.streamRequest.bind(this);
+    // console.log("Executing strategy: ", this.state.uuid);
   }
   /**
   * The sendRequest function sends an asynchronous request with the provided
@@ -63,7 +64,7 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
   * @param {{prompt: string, layman: false}} options
   * @returns  {{Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >}}
   */
-  async sendRequest(options: { prompt: string; layman: false } ) :
+  async sendRequest(options: { prompt: string; layman: boolean } = {prompt: "", layman: false} ) :
         Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >
   {
     /**
@@ -71,32 +72,41 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
      */
     const { url, model } = this.state;
     const prompt = options.prompt || this.state.prompt;
-    const layman = options.layman || this.state.layman;
+    const layman = options.layman || this.state.layman || false;
 
+
+    console.dir({
+      prompt: prompt,
+      layman: layman,
+      state: this.state
+    });
 
     try {
       if (prompt) {
-        console.log("Attempting to send request......");
+        // console.log("Attempting to send request, with prompt: " + prompt);
         return await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+            "organizationId": `${process.env.ORGANIZATION_ID}`
           },
           body: JSON.stringify({
-            prompt: `{"prompt":"${prompt}","instructions":["Talk to me like a 6 year old":"${layman}","Send response inside embedded div tag, do not include html tag in response."]}`,
-            temperature: 0.9,
-            max_tokens: 2048,
-            top_p: 1,
+            logprobs: null,
+            max_tokens: 100,
+            model: model,
+            temperature: 0.7,
             frequency_penalty: 0,
             presence_penalty: 0,
+            prompt: `prompt:${prompt}\n,instructions:'Talk to me like a 6 year old'=${layman}\n`,
             stream: false,
-            model: model,
-            logprobs: null,
+            top_p: 1,
+            stop: ["\n", "prompt:", "instructions:"]
           }),
         })
           .then((response) => response.json())
           .then((jsonData) => {
+            // console.log(jsonData);
             this.state.jsonData = jsonData.choices[0];
             return parse(this.state.jsonData.text);
           })
@@ -123,10 +133,10 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
   * @param {{element: Element}} streamOptions?
   * @returns  {{Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>}} JSX element(s), empty array, or string.
   */
-  async streamRequest(options: { prompt: string; layman: false }, streamOptions?: { element: Element }) :
+  async streamRequest(options: { prompt: string; layman: false } = {prompt: "", layman: false} , streamOptions?: { element: Element }) :
         Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>
   {
-    if (streamOptions == null || streamOptions.element == null) {
+    if ( streamOptions === null || undefined ) {
       console.warn("StreamOptions is undefined or null.");
     }
     /**
@@ -139,7 +149,7 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
     try {
       if (prompt) {
 
-        console.log("Attempting to send request......");
+        // console.log("Attempting to send request......");
 
         // send the stream to the api server
         return  await fetch(url, {
@@ -147,17 +157,19 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+            "organizationId": `${process.env.ORGANIZATION_ID}`
           },
           body: JSON.stringify({
-            frequency_penalty: 0,
             logprobs: null,
-            max_tokens: 2048,
+            max_tokens: 100,
             model: model,
-            presence_penalty: 0,
+            temperature: 0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
             prompt: `{"prompt":"${prompt}","instructions":["Talk to me like a 6 year old":"${layman}","Send response using HTML5"]}`,
             stream: false,
-            temperature: 0.9,
             top_p: 1,
+            stop: ["\n", "\"prompt\":", "\"instructions\":"]
           }),
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
@@ -189,6 +201,7 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
           .then((stream) => new Response(stream))
           .then((response) => response.json())
           .then((jsonResponseData) => {
+            // console.log(jsonResponseData);
             this.state.type = jsonResponseData.object;
             this.state.created = jsonResponseData.created;
             this.state.model = jsonResponseData.model;
