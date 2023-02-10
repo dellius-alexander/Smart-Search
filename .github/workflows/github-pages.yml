@@ -79,6 +79,7 @@ jobs:
           git config --global user.name ${USER_EMAIL};
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
           npm install gh-pages@5.0.0 --save-dev;
+          ls;
           npm run deploy:github-pages;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
