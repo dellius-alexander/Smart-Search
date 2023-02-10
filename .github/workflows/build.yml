@@ -82,7 +82,6 @@ jobs:
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
           GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
           ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
