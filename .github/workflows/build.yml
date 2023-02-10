@@ -45,9 +45,10 @@ permissions:
   id-token: write
 
 # Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+#concurrency:
+#  group: "pages"
+#  cancel-in-progress: false
+
 # Workflow Jobs
 jobs:
   build:
