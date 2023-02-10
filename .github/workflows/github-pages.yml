@@ -25,7 +25,6 @@ on:
     branches:
       - '**'
 
-
 #  # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
 
@@ -42,45 +41,9 @@ concurrency:
 # Workflow Jobs
 jobs:
   # Deploy to GitHub pages only on main
-  setup-pages:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.ref == 'refs/heads/github-pages' }}
-    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build and Test
-        timeout-minutes: 5
-        working-directory: ./SmartScraper/
-        run: |
-          cd $(find ~+ -type d -name 'SmartScraper');
-          echo "Deploying to GitHub Pages"
-          npm install;
-          npm run build:prod;
-        env:
-          REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
-          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
-          GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
-          ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # Deploy to GitHub pages only on main
   deploy-to-github-pages:
-    needs: setup-pages
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.ref == 'refs/heads/github-pages' }}
+    needs: build
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.ref == 'refs/heads/gh-pages' }}
     # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
     permissions:
       contents: read
@@ -108,7 +71,8 @@ jobs:
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
           cd $(find ~+ -type d -name 'SmartScraper');
           npm install gh-pages@5.0.0 --save-dev;
-          npm audit fix;
+          npm install;
+          npm run build:prod;
           npm run deploy:github-pages;
         env:
           REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
