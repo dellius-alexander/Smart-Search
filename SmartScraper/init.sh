@@ -78,8 +78,8 @@ __gen_env(){
   return 0;
 }
 __build(){
-  npm install  && wait $!;
-  npm audit fix  && wait $!;
+  npm install;
+  npm audit fix  &2>/dev/null;
 
   if [[ ! -z "${NODE_ENV}" && "${NODE_ENV}" =~ ^(development)$  ]]; then
       npm run build:dev &2>/dev/null && wait $!;
