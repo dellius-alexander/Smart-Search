@@ -21,10 +21,6 @@ on:
     branches:
       - '**'
   workflow_call:
-    inputs:
-      config-path:
-        required: true
-        type: string
     secrets:
       REACT_APP_OPENAI_API_KEY:
         required: true
@@ -77,6 +73,7 @@ jobs:
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
           GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
           ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
+
 
 
 
