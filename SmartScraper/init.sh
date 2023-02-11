@@ -5,6 +5,7 @@ set -e
 ENV_FILE=""
 HOST=""
 PORT=""
+NODE_ENV=$( [[ -z "$NODE_ENV" ]] && echo "production" || echo "$NODE_ENV")
 #####################################################################
 COMMAND=${1:-$( [[ ${1} =~ (publish|run|emulate|plugin|build|serve|help|--help|-h) ]] && echo ${1} &2>/dev/null  || echo "bad run command."; exit 1;  )} # Defaults to run -- platform
 PLATFORMS=${2:-$( [[ ${2} =~ (local|cordova|gh-pages|browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null || echo "bad run command."; exit 1; )} # Defaults to run -- platform -- browser

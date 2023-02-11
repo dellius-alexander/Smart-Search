@@ -80,9 +80,10 @@ jobs:
           git config --global user.name ${USER_EMAIL};
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
           cd ./SmartScraper;
-          export NODE_ENV=${{ env.NODE_ENV }};
+          export NODE_ENV=${NODE_ENV};
           npm run deploy:github-pages;
         env:
+          NODE_ENV: ${{ env.NODE_ENV }};
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
