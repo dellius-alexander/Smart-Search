@@ -82,7 +82,7 @@ jobs:
           export NODE_ENV=${NODE_ENV};
           npm run deploy:github-pages;
         env:
-          LOGIN_TOKEN: ${{ LOGIN_TOKEN }}
+          LOGIN_TOKEN: ${{ secrets.LOGIN_TOKEN }}
           NODE_ENV: ${{ env.NODE_ENV }};
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
