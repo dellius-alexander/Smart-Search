@@ -35,11 +35,8 @@ __help(){
 __gen_env(){
   if [[ ! -z "${NODE_ENV}" && "${NODE_ENV}" =~ ^(development|production)$ && -f ./.env/.${NODE_ENV}.env ]]; then
     source ./.env/.${NODE_ENV}.env
-  else
-    __error "You must set NODE_ENV environment variable then rerun ${0}."
-    exit 1;
-  fi
-  if [[ "${COMMAND}" =~ ^(run|emulate|plugin|build|serve)$ ]]; then
+
+  elif [[ "${COMMAND}" =~ ^(run|emulate|plugin|build|serve)$ ]]; then
 
     NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
     BABEL_ENV=${NODE_ENV}
