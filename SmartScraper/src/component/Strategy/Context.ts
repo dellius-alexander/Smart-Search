@@ -23,7 +23,7 @@ export class Context implements IContext {
     this.state = {};
     this.setStrategy = this.setStrategy.bind(this);
     this.executeStrategy = this.executeStrategy.bind(this);
-    console.dir(this);
+    // console.dir(this);
   }
   /**
    * The setStrategy method is used to assign the correct model or

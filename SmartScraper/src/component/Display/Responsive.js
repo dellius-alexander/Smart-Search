@@ -52,7 +52,7 @@ class Responsive {
     };
 
     this.handleMediaChange = this.handleMediaChange.bind(this);
-    console.dir(this);
+    // console.dir(this);
   }
 
   // eslint-disable-next-line class-methods-use-this

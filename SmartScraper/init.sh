@@ -56,6 +56,7 @@ __gen_env(){
     """
     echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
     ENV_FILE="./.env.${NODE_ENV}.local"
+    source ${ENV_FILE}
     HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
     PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
   elif [[ "${COMMAND}" =~ ^(publish)$ ]]; then
@@ -73,6 +74,7 @@ __gen_env(){
     """
     echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
     ENV_FILE="./.env.${NODE_ENV}.local"
+    source ${ENV_FILE}
     HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
   fi
   return 0;

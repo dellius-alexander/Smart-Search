@@ -81,7 +81,7 @@ class ChatBotDialog extends Component {
     this.handleResponseSelection = this.handleResponseSelection.bind(this);
     this.render = this.render.bind(this);
     this.resetForm = this.resetForm.bind(this);
-    console.dir(this);
+    // console.dir(this);
   }
   // eslint-disable-next-line class-methods-use-this
   resizeTextarea(event) {
