@@ -20,11 +20,7 @@ on:
       - '**'
   workflow_call:
     secrets:
-      REACT_APP_OPENAI_API_KEY:
-        required: true
       PUBLIC_URL:
-        required: true
-      ORGANIZATION_ID:
         required: true
       GENERATE_SOURCEMAP:
         required: true
