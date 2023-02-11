@@ -11,9 +11,7 @@ env:
   TZ: 'America/New_York'
   NODE_ENV: 'production'
   BABEL_ENV: 'production'
-  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
   PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
-  ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
 
@@ -44,9 +42,7 @@ jobs:
   setup-pages:
     uses: ./.github/workflows/build.yml
     secrets:
-      REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
       PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
-      ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
       GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
 
   # Deploy to GitHub pages only on main
@@ -87,5 +83,4 @@ jobs:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
-          ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
