@@ -98,10 +98,10 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
             temperature: 0.7,
             frequency_penalty: 0,
             presence_penalty: 0,
-            prompt: `${prompt}\n`,
+            prompt: `prompt:${prompt}\n,instructions:'Break it down like I am a 6 year old'=${layman}`,
             stream: false,
             top_p: 1,
-            stop: ["\n"]
+            stop: ["\n", "prompt:", "instruction:"]
           }),
         })
           .then((response) => response.json())
@@ -166,10 +166,10 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
             temperature: 0.7,
             frequency_penalty: 0,
             presence_penalty: 0,
-            prompt: `${prompt}\n`,
+            prompt: `prompt:${prompt}\n,instructions:'Break it down like I am a 6 year old'=${layman}`,
             stream: true,
             top_p: 1,
-            stop: ["\n"]
+            stop: ["\n", "prompt:", "instruction:"]
           }),
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore

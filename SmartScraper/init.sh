@@ -54,9 +54,8 @@ __gen_env(){
     SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
     ORGANIZATION_ID=${ORGANIZATION_ID}
     """
-    echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
-    ENV_FILE="./.env.${NODE_ENV}.local"
-    source ${ENV_FILE}
+    echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local;
+    ENV_FILE="./.env.${NODE_ENV}.local";
     HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
     PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
   elif [[ "${COMMAND}" =~ ^(publish)$ ]]; then
@@ -74,7 +73,6 @@ __gen_env(){
     """
     echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
     ENV_FILE="./.env.${NODE_ENV}.local"
-    source ${ENV_FILE}
     HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
   fi
   return 0;
