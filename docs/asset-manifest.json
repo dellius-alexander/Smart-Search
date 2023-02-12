@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://dellius-alexander.github.io/Smart-Scraper/static/css/main.65e57077.css",
+    "main.js": "https://dellius-alexander.github.io/Smart-Scraper/static/js/main.e4285371.js",
+    "static/js/787.4c82dcb8.chunk.js": "https://dellius-alexander.github.io/Smart-Scraper/static/js/787.4c82dcb8.chunk.js",
+    "index.html": "https://dellius-alexander.github.io/Smart-Scraper/index.html",
+    "main.65e57077.css.map": "https://dellius-alexander.github.io/Smart-Scraper/static/css/main.65e57077.css.map",
+    "main.e4285371.js.map": "https://dellius-alexander.github.io/Smart-Scraper/static/js/main.e4285371.js.map",
+    "787.4c82dcb8.chunk.js.map": "https://dellius-alexander.github.io/Smart-Scraper/static/js/787.4c82dcb8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.65e57077.css",
+    "static/js/main.e4285371.js"
+  ]
+}
