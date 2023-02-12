@@ -114,6 +114,10 @@ __publish(){
   case ${COMMAND}-${PLATFORMS} in
   publish-gh-pages)
     npm install --save-dev gh-pages;
+    mkdir -p staging/docs;
+    cp -rf ./www/** ./staging/docs;
+    cp ../docs/demo-readme.md ./staging/README.md;
+    cp ../LICENSE ./staging/LICENSE;
     npx gh-pages -d 'staging' -m 'github pages demo updated' \
     --dest '.' \
     -b 'github-pages' -u 'Dellius Alexander <dellius.alexander@gmail.com>';
