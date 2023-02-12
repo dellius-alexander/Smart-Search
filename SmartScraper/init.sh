@@ -114,11 +114,10 @@ __publish(){
   case ${COMMAND}-${PLATFORMS} in
   publish-gh-pages)
     npm install --save-dev gh-pages;
-    npx gh-pages -d 'www' -m 'github pages update' \
-    --dest 'docs' \
-    -b 'gh-pages' -u 'Dellius Alexander <dellius.alexander@gmail.com>';
-    echo "Successfully Published to gh-pages repository................................................"
-    unset DEMO_PAGES_URL
+    npx gh-pages -d 'staging' -m 'github pages demo updated' \
+    --dest '.' \
+    -b 'github-pages' -u 'Dellius Alexander <dellius.alexander@gmail.com>';
+    echo "Successfully Published to gh-pages repository................................................";
     ;;
   *)
     __help

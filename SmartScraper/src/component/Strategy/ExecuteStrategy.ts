@@ -180,12 +180,12 @@ export class ExecuteStrategy<T extends IStrategy> implements Strategy, StreamStr
             return new ReadableStream({
               start(controller) {
                 return pump();
-                function pump(): Promise<ReadableStreamReadResult<Uint8Array> | void>{
+                function pump(): Promise<ReadableStreamReadResult<Uint8Array> | void> {
                   return reader
                     .read()
                     .then(({ done, value }) => {
                       // when no more data needs to be consumed, close the stream
-                      if (done || value === null || value === undefined){
+                      if (done || value === null || value === undefined) {
                         controller.close();
                         return;
                       }
