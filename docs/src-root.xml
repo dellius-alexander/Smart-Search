@@ -297,12 +297,12 @@
             <uml:UMLClassModel stereotype="" constraint="" className="Context" attributesOpen="true" operationsOpen="true">
               <uml:UMLClassModel.attributes>
                 <x:Array Type="sys:Object">
-                  <sys:String>strategy: Strategy</sys:String>
+                  <sys:String>strategy: IDefaultStrategy</sys:String>
                 </x:Array>
               </uml:UMLClassModel.attributes>
               <uml:UMLClassModel.operations>
                 <x:Array Type="sys:Object">
-                  <sys:String>setStrategy(strategy: Strategy): void</sys:String>
+                  <sys:String>setStrategy(strategy: IDefaultStrategy): void</sys:String>
                   <sys:String>executeStrategy(options: {prompt: null, layman: false}): JSON</sys:String>
                 </x:Array>
               </uml:UMLClassModel.operations>
@@ -565,7 +565,7 @@
               </uml:UMLClassModel.attributes>
               <uml:UMLClassModel.operations>
                 <x:Array Type="sys:Object">
-                  <sys:String>setStrategy(strategy: Strategy): any</sys:String>
+                  <sys:String>setStrategy(strategy: IDefaultStrategy): any</sys:String>
                   <sys:String>executeStrategy(options: {prompt: null; layman: false}): JSON</sys:String>
                 </x:Array>
               </uml:UMLClassModel.operations>
@@ -824,7 +824,7 @@
       <data key="d7">
         <uml:UMLNodeStyle fill="#FF607D8B" highlightFill="#FFA3F1BB">
           <uml:UMLNodeStyle.model>
-            <uml:UMLClassModel stereotype="" constraint="" className="Strategy" attributesOpen="true" operationsOpen="true">
+            <uml:UMLClassModel stereotype="" constraint="" className="IDefaultStrategy" attributesOpen="true" operationsOpen="true">
               <uml:UMLClassModel.attributes>
                 <x:Array Type="sys:Object" />
               </uml:UMLClassModel.attributes>

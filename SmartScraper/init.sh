@@ -7,6 +7,7 @@ HOST=""
 PORT=""
 export NODE_ENV=$( [[ -z "$NODE_ENV" ]] && echo "production" || echo "$NODE_ENV")
 echo "Node environment: ${NODE_ENV}.................................."
+
 #####################################################################
 COMMAND=${1:-$( [[ ${1} =~ (publish|run|emulate|plugin|build|serve|help|--help|-h) ]] && echo ${1} &2>/dev/null  || echo "bad run command."; exit 1;  )} # Defaults to run -- platform
 PLATFORMS=${2:-$( [[ ${2} =~ (local|cordova|gh-pages|browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null || echo "bad run command."; exit 1; )} # Defaults to run -- platform -- browser
@@ -18,7 +19,7 @@ __error(){
     echo "ERROR: no message provided."
     exit 1
   else
-    echo "ERROR: ${1}"
+    echo "ERROR: ${*}"
     exit $?
   fi
 }
@@ -33,48 +34,61 @@ __help(){
     exit 1;
 }
 __gen_env(){
-  if [[ ! -z "${NODE_ENV}" && "${NODE_ENV}" =~ ^(development|production)$ && -f ./.env/.${NODE_ENV}.env ]]; then
-    source ./.env/.${NODE_ENV}.env
 
-  elif [[ "${COMMAND}" =~ ^(run|emulate|plugin|build|serve)$ ]]; then
+  if [[ ! -z "${NODE_ENV}" && "${NODE_ENV}" =~ ^(development|production)$ && -f ./.env/.${NODE_ENV}.env ]]; then
+      export $(cat ./.env/.${NODE_ENV}.env | grep -v '#' | awk '/=/ {print $1}' )
+      echo "${NODE_ENV} environment setup completed........................................"
+  else
+    __error "Something went wrong during environment setup..................................." "\n${?}"
+  fi
+
+  if [[ "${COMMAND}" =~ ^(run|emulate|plugin|build|serve)$ ]]; then
 
     NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
-    BABEL_ENV=${NODE_ENV}
-    TZ="America/New_York"
-    UUID=1001
-    REACT_APP_OPENAI_API_KEY='${REACT_APP_OPENAI_API_KEY}'
-    GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
-    BASE_DOMAIN=${BASE_DOMAIN}
-    HOST=${BASE_DOMAIN}.com
-    PORT=${PORT}
-    HTTPS=${HTTPS}
-    FAST_REFRESH=${FAST_REFRESH}
-    PUBLIC_URL=${PUBLIC_URL}
-    SSL_CRT_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.crt
-    SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
-    ORGANIZATION_ID=${ORGANIZATION_ID}
-    """
-    echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local;
+BABEL_ENV=${NODE_ENV}
+TZ="America/New_York"
+UUID=1001
+REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}
+REACT_APP_ORGANIZATION_ID=${REACT_APP_ORGANIZATION_ID}
+GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+BASE_DOMAIN=${BASE_DOMAIN}
+HOST=${BASE_DOMAIN}.com
+PORT=${PORT}
+HTTPS=${HTTPS}
+FAST_REFRESH=${FAST_REFRESH}
+PUBLIC_URL=${PUBLIC_URL}
+SSL_CRT_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.crt
+SSL_KEY_FILE=/usr/local/app/.certs/${BASE_DOMAIN}.key
+
+"""
     ENV_FILE="./.env.${NODE_ENV}.local";
-    HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
-    PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ))
+    [ -f "${ENV_FILE}" ] && rm -f "${ENV_FILE}" &2>/dev/null && wait $!;
+    echo "${NODE_ENV_VAR}" | tee "${ENV_FILE}";
+    export $(cat "${ENV_FILE}");
+    HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ));
+    PORT=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'PORT' ));
   elif [[ "${COMMAND}" =~ ^(publish)$ ]]; then
 
     NODE_ENV_VAR="""NODE_ENV=${NODE_ENV}
-    BABEL_ENV=${NODE_ENV}
-    TZ="America/New_York"
-    REACT_APP_OPENAI_API_KEY='${REACT_APP_OPENAI_API_KEY}'
-    GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
-    HOST=${PUBLIC_URL}
-    HTTPS=${HTTPS}
-    FAST_REFRESH=true
-    PUBLIC_URL=${PUBLIC_URL}
-    ORGANIZATION_ID=${ORGANIZATION_ID}
-    """
-    echo "${NODE_ENV_VAR}" > ./.env.${NODE_ENV}.local
-    ENV_FILE="./.env.${NODE_ENV}.local"
-    HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ))
+BABEL_ENV=${NODE_ENV}
+TZ="America/New_York"
+REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}
+REACT_APP_ORGANIZATION_ID=${REACT_APP_ORGANIZATION_ID}
+GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+HOST=${PUBLIC_URL}
+HTTPS=${HTTPS}
+FAST_REFRESH=true
+PUBLIC_URL=${PUBLIC_URL}
+
+"""
+    ENV_FILE="./.env.${NODE_ENV}.local";
+    [ -f "${ENV_FILE}" ] && rm -f "${ENV_FILE}" &2>/dev/null && wait $!;
+    echo "${NODE_ENV_VAR}" | tee "${ENV_FILE}";
+    export $(cat "${ENV_FILE}");
+    HOST=$(awk -F'=' '{print $2}' <<< $(cat ${ENV_FILE} | grep -i 'HOST' ));
   fi
+
+
   return 0;
 }
 __build(){
@@ -167,9 +181,9 @@ case ${COMMAND}-${PLATFORMS}-${OPTIONS}-${NODE_ENV} in
     echo "Running ${PLATFORMS}........";
     node scripts/start.js;
     ;;
-  run-dev-browser-development)
+  run-dev-browser-${NODE_ENV})
     echo "Running ${PLATFORMS}........";
-    nodemon scripts/start.js;
+    nodemon --inspect scripts/start.js;
     ;;
   run-cordova-browser-production)
     echo "Running ${PLATFORMS}........"

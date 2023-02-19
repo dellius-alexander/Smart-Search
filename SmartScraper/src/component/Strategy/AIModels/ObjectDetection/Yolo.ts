@@ -23,16 +23,10 @@ import { uuid } from "../../UUID.ts";
  * paper explaining the YOLOv3 model further.
  */
 class Yolo implements IStrategy {
-  state: {
-    uuid: string,
-    name: string,
-    type: string,
-    model: string,
-    version: string,
-    description: string,
-    protocols: { [key: string]: string|boolean|RegExp},
-    url: string
-    };
+  /**
+   * Saves the state of the strategy selected.
+   */
+  state: { [key: string]: string|boolean|RegExp|object|never|JSON|IStrategy};
   constructor() {
     this.state = {
       uuid: uuid("yolo","single_neural_network_object_detection_model"),

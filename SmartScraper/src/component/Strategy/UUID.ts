@@ -5,18 +5,21 @@
  * @param {number} maxLength the maximum length of the hexadecimal string
  * @return {string} hexadecimal representation of the value
  */
-function toHex(value: string | number, maxLength: number): string {
-  // console.log("Value: ", value, maxLength);
-  const bas64 = value
-    .toString(16)
-    .replace(",","")
-    .replace(".","")
-    .padStart(maxLength, `${
-      crypto
-        .getRandomValues(new Uint32Array(maxLength))
-    }`);
-  // console.log("Hexadecimal: ", bas64);
-  return bas64;
+function toHex(value: string | number = null, maxLength: number): string {
+  try {
+    return value
+      .toString(16)
+      .replace(",","")
+      .replace(".","")
+      .padStart(maxLength, `${
+        crypto
+          .getRandomValues(new Uint32Array(maxLength))
+      }`);
+  } catch (error) {
+    console.dir(error);
+    error.stackTrace;
+  }
+
 }
 
 
@@ -68,7 +71,7 @@ function randomChar (length: number, memo = Object.assign({}, {
  * @param {string} type model type/name
  * @return {string} {{timestamp}-{clockSequence}-{model_id}-{model_type}-{random}}
  */
-function uuid(id: string|number, type: string): string {
+export function uuid(id: string|number, type: string): string {
   const date = new Date(Date.now());
   // console.log("Date: ", date);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -77,7 +80,7 @@ function uuid(id: string|number, type: string): string {
   // console.log("Timestamp: ", timestamp);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const clockSequence = toHex(Math.floor(date / 1000), 4);
+  const clockSequence = toHex(Math.floor(date.getUTCMilliseconds() / 1000), 4);
   const model_id = toHex(id, 8);
   const model_type = toHex(type, 8);
   const random = randomChar(12).characterSequence;
@@ -85,18 +88,3 @@ function uuid(id: string|number, type: string): string {
   console.log("Generated uuid: ", uuid);
   return uuid.toString();
 }
-
-export {uuid};
-
-// let counter = 0;
-// while (counter < 10) {
-//   const uid = uuid(counter, "test");
-//   // console.log(uid);
-//   counter += 1;
-// }
-
-// // console.log(randomChar(8, {
-//   lang: "li",
-//   characterSequence: "",
-//   done: false
-// }));

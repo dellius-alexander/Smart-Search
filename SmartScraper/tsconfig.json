@@ -9,7 +9,6 @@
   },
   "include": [
     "src/**/*",
-    "config/logs/loglevel.d.ts"
   ],
   "exclude": [
     "node_modules"

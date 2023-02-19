@@ -22,8 +22,8 @@ class ClientStrategy {
    create(type: string): IContext
 }
 class Context {
-   strategy: Strategy
-   setStrategy(strategy: Strategy): void
+   strategy: IDefaultStrategy
+   setStrategy(strategy: IDefaultStrategy): void
    executeStrategy(options: {prompt: null, layman: false}): JSON
 }
 class Gpt3 {
@@ -33,7 +33,7 @@ class Gpt3 {
    sendRequest(options: {prompt: null; layman: false}): Promise<string | void | JSX.Element | J…
 }
 class IContext {
-   setStrategy(strategy: Strategy): any
+   setStrategy(strategy: IDefaultStrategy): any
    executeStrategy(options: {prompt: null; layman: false}): JSON
 }
 class Responsive {
@@ -48,7 +48,7 @@ class Responsive {
    scaleElement(event: Event): void
    init(): void
 }
-class Strategy {
+class IDefaultStrategy {
    sendRequest(options: {prompt: null; layman: false}): Promise<string | void | JSX.Element | J…
 }
 
@@ -58,8 +58,8 @@ ClientStrategy  -[#595959,dashed]->  Gpt3           : "«create»"
 ClientStrategy  *-[#595959,plain]-> "1" IContext       : "context"
 ClientStrategy  -[#595959,dashed]->  IContext       
 Context         -[#008200,dashed]-^  IContext       
-Context         -[#595959,dashed]->  Strategy       
-Context         *-[#595959,plain]-> "1" Strategy       : "strategy"
-Gpt3            -[#008200,dashed]-^  Strategy       
-IContext        -[#595959,dashed]->  Strategy       
+Context         -[#595959,dashed]->  IDefaultStrategy
+Context         *-[#595959,plain]-> "1" IDefaultStrategy       : "strategy"
+Gpt3            -[#008200,dashed]-^  IDefaultStrategy
+IContext        -[#595959,dashed]->  IDefaultStrategy
 @enduml

@@ -43,8 +43,8 @@ class ConfigCertificateGenerator {
    getCommonName(certificateFilePath) any
 }
 class Context {
-   Strategy strategy
-   setStrategy(strategy: Strategy) void
+   IDefaultStrategy strategy
+   setStrategy(strategy: IDefaultStrategy) void
    executeStrategy(options: {prompt: null, layman: false}) JSON
 }
 class DefaultCertificateGenerator {
@@ -85,7 +85,7 @@ class Gpt3 {
    sendRequest(options: {prompt: null; layman: false}) Promise~string | void | JSX.Element | J…
 }
 class IContext {
-   setStrategy(strategy: Strategy) any
+   setStrategy(strategy: IDefaultStrategy) any
    executeStrategy(options: {prompt: null; layman: false}) JSON
 }
 class IntegralParser {
@@ -151,7 +151,7 @@ class SquareRootParser {
    constructor(latexDoc) 
    parseSquareRoot(latexDoc: string) string
 }
-class Strategy {
+class IDefaultStrategy {
    sendRequest(options: {prompt: null; layman: false}) Promise~string | void | JSX.Element | J…
 }
 class StringCertificateGenerator {
@@ -177,11 +177,11 @@ ClientStrategy  ..>  Gpt3 : «create»
 ClientStrategy  *--> "1" IContext : context
 ClientStrategy  ..>  IContext 
 Context  ..>  IContext 
-Context  ..>  Strategy 
-Context  *--> "1" Strategy : strategy
+Context  ..>  IDefaultStrategy
+Context  *--> "1" IDefaultStrategy : strategy
 DefaultCertificateGenerator  -->  GenerateCertificate 
 FileCertificateGenerator  -->  GenerateCertificate 
-Gpt3  ..>  Strategy 
-IContext  ..>  Strategy 
+Gpt3  ..>  IDefaultStrategy
+IContext  ..>  IDefaultStrategy
 StringCertificateGenerator  -->  GenerateCertificate 
 ```

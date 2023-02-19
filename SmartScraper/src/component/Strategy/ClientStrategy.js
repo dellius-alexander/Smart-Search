@@ -3,11 +3,11 @@ import { Yolo } from "./AIModels/ObjectDetection/Yolo.ts";
 import { Gpt3 } from "./AIModels/Language/Gpt3.ts";
 import { Context } from "./Context.ts";
 import { ExecuteStrategy } from "./ExecuteStrategy.ts";
-import {IStrategy} from "./IStrategy.ts";
+import { IContext } from "./IContext.ts";
 
 /**
  * This class defines the ClientStrategy object which provides a framework
- * for model selection. When `createClient()` is called, it evaluates the name
+ * for model selection. When `createContext()` is called, it evaluates the name
  * of the strategy and creates a corresponding Context instance which is set to
  * use the specific requested strategy. Depending on the name of the strategy
  * argument, it could either create a Context instance that is set to use
@@ -17,49 +17,33 @@ import {IStrategy} from "./IStrategy.ts";
  * is unable to fulfill the request.
  */
 export class ClientStrategy {
+  context: IContext<IStrategy> = new Context();
   /**
    * Creates the contexts needed for model selection.
    */
   constructor() {
-    this.context = new Context();
-    // console.dir(this);
+    console.log(this.context);
   }
 
   /**
-   * Retrieves and creates the requested strategy by name within the Strategy Factory hierarchy.
+   * Retrieves and creates the requested strategy by name within the IDefaultStrategy Factory hierarchy.
    * @param {string} type the string name of the strategy to be implemented.
    * @return {IContext} the new client strategy context selected
    */
-  async createClient(type) {
+  async createContext(type: string): IContext {
     // console.log("Creating client strategy: " + type);
     switch (type) {
     case type.match(/openai|gpt3/i)[0]:
-      // console.log("Creating GPT3 client strategy");
-      // eslint-disable-next-line no-case-declarations
-      const gpt3: IStrategy = new Gpt3();
-      // console.log(gpt3);
-      // eslint-disable-next-line no-case-declarations
-      const gpt3Executor = new ExecuteStrategy(gpt3);
-      // console.log(gpt3Executor);
-      this.context.setStrategy(gpt3Executor);
+      this.context.setStrategy(new ExecuteStrategy(new Gpt3()));
       return this.context;
     case type.match(/alpha|wolframalpha/i)[0]:
-      // eslint-disable-next-line no-case-declarations
-      const wolf: IStrategy = new Wolframalpha();
-      // eslint-disable-next-line no-case-declarations
-      const wolfExecutor = new ExecuteStrategy(wolf);
-      this.context.setStrategy(wolfExecutor);
+      this.context.setStrategy(new ExecuteStrategy(new Wolframalpha()));
       return this.context;
-    case type.match(/yolo|yolo/i)[0]:
-      // eslint-disable-next-line no-case-declarations
-      const yolo: IStrategy = new Yolo();
-      // eslint-disable-next-line no-case-declarations
-      const yoloExecutor = new ExecuteStrategy(yolo);
-      this.context.setStrategy(yoloExecutor);
+    case type.match(/yolo|Yolo/i)[0]:
+      this.context.setStrategy(new ExecuteStrategy(new Yolo()));
       return this.context;
     default: // TODO(you have to create a more comprehensive default protocols)
-      // console.log("Strategy unable to fulfill request.");
+      console.log("IDefaultStrategy unable to fulfill request.");
     }
   }
 }
-

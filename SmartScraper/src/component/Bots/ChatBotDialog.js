@@ -7,7 +7,8 @@ import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import "../../static/css/chat-bot-dialog.css";
 import { ClientStrategy } from "../Strategy/ClientStrategy.js";
-
+import parse from "html-react-parser";
+import {Context} from "../Strategy/Context.ts";
 
 /**
  * Takes a html element or text, wraps with a div and renders a glow element.
@@ -76,11 +77,12 @@ class ChatBotDialog extends Component {
     this.setState = this.setState.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.checkboxStatus = this.checkboxStatus.bind(this);
-    this.checkResponseModal = this.checkResponseModal.bind(this);
+    this.checkResponseBody = this.checkResponseBody.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleResponseSelection = this.handleResponseSelection.bind(this);
     this.render = this.render.bind(this);
     this.resetForm = this.resetForm.bind(this);
+    this.handleResponseChange = this.handleResponseChange.bind(this);
     // console.dir(this);
   }
   // eslint-disable-next-line class-methods-use-this
@@ -106,6 +108,13 @@ class ChatBotDialog extends Component {
     this.resizeTextarea(event);
   }
 
+  handleResponseChange(event) {
+    this.setState({
+      currentResponse: event.target.value
+    });
+    this.resizeTextarea(event);
+  }
+
   checkboxStatus(event) {
     const checkboxStatus = event.target.checked;
     if (checkboxStatus) {
@@ -125,9 +134,10 @@ class ChatBotDialog extends Component {
    * Checks the response modal, removes it if no response model is found.
    * @param {Event} event
    */
-  checkResponseModal(event) {
-    const { responseCount } = this.state;
-    if (event.target.style.display === "none" && responseCount === 0) {
+  checkResponseBody(event) {
+    const { currentResponse } = this.state;
+    const modal_body = document.getElementById("modal-body");
+    if (event.target.style.display === "none" && currentResponse.length === 0 && modal_body.innerText.length === 0) {
       this.setState({
         displayResponseModal: "none",
       });
@@ -147,8 +157,10 @@ class ChatBotDialog extends Component {
     try {
       event.preventDefault();
       // freeze the state of the input textarea while we fulfill the users request
-      this.setState({ loading: true});
-
+      this.setState((prevState) => {
+        return {loading: true, displayResponseModal: "block", responseInput: prevState.prompt, currentResponse: ""};
+      });
+      // console.log(this.state);
       // get user input prompts and layman options
       const { prompt, layman, strategy } = this.state;
 
@@ -156,23 +168,24 @@ class ChatBotDialog extends Component {
       if (prompt) {
 
         // get a model context to execute the strategy
-        const context = await strategy.createClient("openai");
-
+        const context: Context = await strategy.createContext("openai");
+        console.log(context);
         // execute the strategy using the model context and return the response
-        const data = await context.executeStrategy({prompt, layman}, {element: document.getElementsByClassName("modal-body")[0]});
+        let currentResponse = "";
+        currentResponse += await context.execute({prompt, layman}, {element: document.getElementById("modal-body")});
 
-        // update the state with the response
+        // for await (const data of context.executeStrategy({prompt, layman}, {element: document.getElementById("modal-body")})){
+        //   // update the state with the response
         this.setState((prevState) => {
           if (prevState.responseCount <= 0) {
             return {
               error: false,
               errorMessage: "",
               prompts: [...prevState.prompts, prompt],
-              responses: [...prevState.responses, data],
-              currentResponse: data,
+              responses: [...prevState.responses,  <>{parse(currentResponse)}</>],
+              currentResponse:  <>{parse(currentResponse)}</>,
               responseCount: prevState.responseCount + 1,
               loading: false,
-              displayResponseModal: "block",
               responseInput: prompt,
             };
           } else {
@@ -180,30 +193,29 @@ class ChatBotDialog extends Component {
               error: false,
               errorMessage: "",
               prompts: [...prevState.prompts, prompt],
-              responses: [...prevState.responses, data],
-              currentResponse: data,
+              responses: [...prevState.responses, <>{parse(currentResponse)}</>],
+              currentResponse: <>{parse(currentResponse)}</>,
               responseCount: prevState.responseCount + 1,
               loading: false,
-              displayResponseModal: "block",
               responseInput: prompt,
-              index: prevState.index + 1,
+
             };
           }
         });
+        // }
       }
       // unfreeze and reset the state of the input textarea
       this.setState((prevState) => {
-        if (prevState.currentResponse){
+        if (prevState.currentResponse) {
           return {
             loading: false,
-            prompt: ""
+            prompt: "",
           };
         } else {
           return {
             loading: false
           };
         }
-
       });
 
     } catch (error) {
@@ -264,7 +276,7 @@ class ChatBotDialog extends Component {
       <>
         <div className="chat-container" onLoadStart={mediaQuery.init}>
           <header className="chat-header">
-            <h1 className="chat-gpt-title">Smart Scraper</h1>
+            <h1 className="chat-gpt-title">Smart Search</h1>
           </header>
           <Form className="chat-form-body" onSubmit={this.handleSubmit}>
             <Form.Group className="chat-input-group">
@@ -275,9 +287,11 @@ class ChatBotDialog extends Component {
               >
                 <Form.Control
                   as="textarea"
-                  placeholder="Ask Smart Scraper..."
+                  placeholder="Greetings! You could ask me anything you want to know. Like,
+                  what is the price of tea in Hong Kong? Or like, Question: What is a qubit? Answer: Include website references."
                   value={prompt}
                   onChange={this.handleInputChange}
+                  onLoad={this.resizeTextarea}
                   disabled={loading}
                   style={{
                     width: "98%",
@@ -366,7 +380,6 @@ class ChatBotDialog extends Component {
             id="modal-xl"
             className="response-modal"
             activeindex={index}
-            onLoadStart={this.checkResponseModal}
             style={{
               display: `${displayResponseModal}`,
             }}
@@ -375,7 +388,7 @@ class ChatBotDialog extends Component {
             <Modal.Dialog>
               <Modal.Footer>
                 <Button variant="secondary">Close</Button>
-                <Button variant="primary">Save changes</Button>
+                <Button variant="primary">Share|Save</Button>
                 <Button
                   id="prev-btn"
                   value="Previous"
@@ -407,10 +420,12 @@ class ChatBotDialog extends Component {
               </Modal.Header>
               <hr/>
               <Modal.Body
+                id="modal-body"
                 style={{
                   display: "block",
                   textAlign: "left",
                 }}
+                onChange={this.handleResponseChange}
               >
                 {currentResponse}
               </Modal.Body>

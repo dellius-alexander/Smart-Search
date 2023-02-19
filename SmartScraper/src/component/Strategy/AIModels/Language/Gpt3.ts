@@ -16,18 +16,10 @@ import { uuid } from "../../UUID.ts";
  */
 class Gpt3 implements IStrategy{
 
-  // state schema
-  state: {
-    uuid: string,
-    name: string,
-    version: string,
-    description: string,
-    protocols: { [key: string]: string|boolean|RegExp},
-    url: string,
-    // type maps to "object" in response
-    type: string,
-    model: string,
-    };
+  /**
+   * Saves the state of the strategy selected.
+   */
+  state: { [key: string]: string|boolean|RegExp|object|never|JSON|IStrategy};
 
   /**
    * Initialize GPT-3 to make api calls
@@ -49,6 +41,10 @@ class Gpt3 implements IStrategy{
       model: "text-davinci-003",
     };
     // console.log("Initialized GPT-3 to make api calls");
+  }
+
+  toJSON(): JSON {
+    return JSON.parse(JSON.stringify(this.state));
   }
 }
 

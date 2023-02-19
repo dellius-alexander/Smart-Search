@@ -17,7 +17,7 @@ This section provides information about the general problem which is being addre
     B. Problem Statement
         This section defines the problem that is being addressed and provides a detailed description of the issue. It should explain the issue in detail and provide an in-depth explanation of the problem.
 
-III. Strategy Design Pattern
+III. IDefaultStrategy Design Pattern
 A. Definition
 This part outlines the definition of the strategy design pattern and explains what it is and how it works.
 

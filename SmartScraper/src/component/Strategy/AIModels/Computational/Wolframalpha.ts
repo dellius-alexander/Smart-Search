@@ -17,17 +17,11 @@ import {uuid} from "../../UUID.ts";
  * description to 'WolframAlpha computation model.', and the URL
  * to an empty string. The protocols are predetermined to be true.
  */
-class Wolframalpha implements IStrategy {
-  state: {
-    uuid: string,
-    name: string,
-    type: string,
-    model: string,
-    version: string,
-    description: string,
-    protocols: { [key: string]: string|boolean|RegExp},
-    url: string
-  };
+export class Wolframalpha implements IStrategy {
+  /**
+   * Saves the state of the strategy selected.
+   */
+  state: { [key: string]: string|boolean|RegExp|object|never|JSON|IStrategy};
   constructor() {
     this.state = {
       uuid: uuid("alpha","computational_model"),
@@ -46,4 +40,3 @@ class Wolframalpha implements IStrategy {
 
 }
 
-export {Wolframalpha};

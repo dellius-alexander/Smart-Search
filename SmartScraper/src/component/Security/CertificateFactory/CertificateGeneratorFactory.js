@@ -5,7 +5,7 @@ const {
 } = require("./DefaultCertificateGenerator.js");
 const { ConfigCertificateGenerator } = require("./ConfigCertificateGenerator.js");
 
-// Define Certificate Generator Strategy
+// Define Certificate Generator IDefaultStrategy
 class CertificateGeneratorFactory {
   getCertificateGenerator(options, hostname, certDir) {
     switch (options) {
