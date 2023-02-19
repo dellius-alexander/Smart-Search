@@ -13,7 +13,7 @@ import {IStreamStrategy} from "./IStreamStrategy.ts";
 import { Input, Output} from "./Pipeline/Pipeline.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {IHandlerStrategy} from "./Pipeline/IHandlerStrategy.ts";
+import {IStrategyHandler} from "./Pipeline/IStrategyHandler.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {IContext} from "./IContext.ts";
@@ -30,7 +30,7 @@ import {TextCompletion} from "./TextCompletion.ts";
  * Additionally, it keeps track of usage metrics such as prompt tokens, completion
  * tokens, and total tokens.
  */
-export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<T>, IHandlerStrategy<T> {
+export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<T>, IStrategyHandler<T> {
   /*
 * Saves the state of the strategy selected.
 */

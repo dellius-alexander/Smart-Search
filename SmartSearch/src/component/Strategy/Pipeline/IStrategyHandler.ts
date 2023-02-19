@@ -5,4 +5,4 @@ import {IStrategy} from "../IStrategy.ts";
 // @ts-ignore
 import {IHandler} from "./Pipeline.ts";
 
-export interface IHandlerStrategy<T> extends IHandler<T>, IStrategy<T> {}
+export interface IStrategyHandler<T> extends IHandler<T>, IStrategy<T> {}
