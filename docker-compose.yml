@@ -28,7 +28,7 @@ services:
                 USERNAME: ${USERNAME}
                 REACT_APP_OPENAI_API_KEY: ${REACT_APP_OPENAI_API_KEY}
                 UUID: ${UUID}
-        container_name: smart-scraper
+        container_name: smart-search
         user: ${USERNAME}
         hostname: ${HOSTNAME}
         working_dir: ${WORKDIR}
@@ -37,7 +37,7 @@ services:
         ports:
         - ${PORT}:${PORT}
 #        volumes:
-#            - ./SmartScraper:/home/${USERNAME}/app
+#            - ./SmartSearch:/home/${USERNAME}/app
         deploy:
             replicas: 1
             restart_policy:

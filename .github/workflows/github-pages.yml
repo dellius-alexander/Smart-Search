@@ -74,7 +74,7 @@ jobs:
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
           git remote set-url origin https://${USER_NAME}:${LOGIN_TOKEN}@github.com/${GITHUB_REPOSITORY};
-          cd ./SmartScraper;        
+          cd ./SmartSearch;        
           export NODE_ENV=${NODE_ENV};
           npm run deploy:github-pages;
         env:
