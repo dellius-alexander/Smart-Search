@@ -392,19 +392,23 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
   static convertToJSON(
     data: string|Uint8Array|JSON,
     regex = new RegExp(/data: \\[DONE\\]|data:\s*|\\[DONE\\]/, "gm"),
-    searchValue?: string|RegExp,
-    replaceValue?: string|RegExp
+    searchValue: string|RegExp = "",
+    replaceValue: string|RegExp = ""
   ): TextCompletion {
     ExecuteStrategy.loopCount += 1;
+    let json: TextCompletion;
     try {
       console.dir(String(data));
-      const json: TextCompletion = JSON.parse(String(data)
-        .replace(regex, "")
-        .replace(/\\"/gm, "\"")
-        .replace(/data: \[DONE\]/gm, "")
-        .replace(/data: /gm, "")
-        .replace(/\[DONE\]/gm, "")
-        .trim());
+      if (typeof replaceValue === "string") {
+        json = JSON.parse(String(data)
+          .replace(searchValue, replaceValue)
+          .replace(regex, "")
+          .replace(/\\"/gm, "\"")
+          .replace(/data: \[DONE\]/gm, "")
+          .replace(/data: /gm, "")
+          .replace(/\[DONE\]/gm, "")
+          .trim());
+      }
       console.log("Original: ", data);
       console.log("ConvertedJSON: ", json);
       console.log("SearchValue: ", JSON.stringify(json).search(regex));
