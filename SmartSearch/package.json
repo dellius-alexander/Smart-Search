@@ -1,5 +1,5 @@
 {
-  "name": "smartscraper",
+  "name": "smartsearch",
   "version": "0.1.0",
   "private": true,
   "homepage": "/",
@@ -15,19 +15,19 @@
     "build:cordova": "npm run build:dev; cordova build -- --debug --live-reload;",
     "build:dev": "export NODE_ENV=development && node --inspect --trace-uncaught  scripts/build.js;",
     "test": "/bin/sh init.sh HELP browser;",
-    "deploy:github-pages": "export NODE_ENV=production; export PUBLIC_URL='https://dellius-alexander.github.io/Smart-Scraper/'; /bin/bash ./init.sh 'publish' 'gh-pages';"
+    "deploy:github-pages": "export NODE_ENV=production; export PUBLIC_URL='https://dellius-alexander.github.io/smart-search/'; /bin/bash ./init.sh 'publish' 'gh-pages';"
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [
     {
       "name": "Dellius Alexander",
       "email": "Dellius Alexander <dellius.alexander@gmail.com>",
-      "url": "https://github.com/dellius-alexander/Smart-Scraper.git"
+      "url": "https://github.com/dellius-alexander/smart-search.git"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dellius-alexander/Smart-Scraper.git"
+    "url": "https://github.com/dellius-alexander/smart-search.git"
   },
   "license": "Apache-2.0",
   "dependencies": {

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget
-        id="com.example.hyfi.smartscraper"
+        id="com.example.hyfi.smartsearch"
         version="1.0.0"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>smartscraper</name>
+    <name>smartsearch</name>
     <description>Sample Cordova React App</description>
     <author email="dellius.alexander@gmail.com" href="https://github.com/dellius-alexander">
         HYFI Solutions Team

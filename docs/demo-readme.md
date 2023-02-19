@@ -1,7 +1,7 @@
-[![Build and Test](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/build.yml)
-[![Deploy Github Pages](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/github-pages.yml/badge.svg)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/github-pages.yml)
-[![pages-build-deployment](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/pages/pages-build-deployment)
-[![Codespaces Prebuilds](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/codespaces/create_codespaces_prebuilds/badge.svg)](https://github.com/dellius-alexander/Smart-Scraper/actions/workflows/codespaces/create_codespaces_prebuilds)
+[![Build and Test](https://github.com/dellius-alexander/smart-search/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dellius-alexander/smart-search/actions/workflows/build.yml)
+[![Deploy Github Pages](https://github.com/dellius-alexander/smart-search/actions/workflows/github-pages.yml/badge.svg)](https://github.com/dellius-alexander/smart-search/actions/workflows/github-pages.yml)
+[![pages-build-deployment](https://github.com/dellius-alexander/smart-search/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://github.com/dellius-alexander/smart-search/actions/workflows/pages/pages-build-deployment)
+[![Codespaces Prebuilds](https://github.com/dellius-alexander/smart-search/actions/workflows/codespaces/create_codespaces_prebuilds/badge.svg)](https://github.com/dellius-alexander/smart-search/actions/workflows/codespaces/create_codespaces_prebuilds)
 
 ---
 
@@ -20,16 +20,16 @@ This repo serves as a sample demo. This project is an ongoing project and we wel
 
 ---
 
-*Note: [Click here for a detailed UML](https://github.com/dellius-alexander/Smart-Scraper/blob/main/docs/smart-scraper-design-pattern-info.md)*
+*Note: [Click here for a detailed UML](https://github.com/dellius-alexander/smart-search/blob/main/docs/smart-search-design-pattern-info.md)*
 
 ---
 
-*[Prerelease-v1.0.0-alpha](https://github.com/dellius-alexander/Smart-Scraper/releases/tag/v1.0.0-alpha)*
+*[Prerelease-v1.0.0-alpha](https://github.com/dellius-alexander/smart-search/releases/tag/v1.0.0-alpha)*
 
 ---
 
 ### `Figure 1: Demo UI`
 
-[![Smart Scraper UI](https://github.com/dellius-alexander/Smart-Scraper/blob/main/docs/images/ui-snapshot.png)](https://dellius-alexander.github.io/Smart-Scraper/)
+[![Smart Scraper UI](https://github.com/dellius-alexander/smart-search/blob/main/docs/images/ui-snapshot.png)](https://dellius-alexander.github.io/smart-search/)
 
 ---

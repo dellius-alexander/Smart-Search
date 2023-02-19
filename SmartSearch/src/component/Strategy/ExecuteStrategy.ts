@@ -280,7 +280,7 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     //@ts-ignore
                     const text = json.choices[0].text;
-                    element.append(text);
+                    element.append(text.replace("\n", "</br>"));
                     results += text;
                     ExecuteStrategy.wait(300);
                   }

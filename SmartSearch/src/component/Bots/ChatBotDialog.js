@@ -274,8 +274,12 @@ class ChatBotDialog extends Component {
 
     return (
       <>
-        <div className="chat-container" onLoadStart={mediaQuery.init}>
-          <header className="chat-header">
+        <div 
+          className="chat-container" 
+          onLoadStart={mediaQuery.init}
+
+        >
+          <header className="chat-header" style={{position: "static"}}>
             <h1 className="chat-gpt-title">Smart Search</h1>
           </header>
           <Form className="chat-form-body" onSubmit={this.handleSubmit}>
