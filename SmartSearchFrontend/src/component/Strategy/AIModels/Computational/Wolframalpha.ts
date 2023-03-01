@@ -86,7 +86,7 @@ export class Wolframalpha implements IStrategy {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types,class-methods-use-this
-  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<unknown> {
+  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<JSON|string> {
     console.log("Executing alpha strategy");
     console.dir(strategy);
     // let results: never;

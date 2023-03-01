@@ -1,5 +1,5 @@
 
-export abstract class WolframalphaResponse extends Response  {
+export abstract class WolframalphaResponse {
 
   success: boolean;
   error: boolean;

@@ -4,6 +4,7 @@ import { IStrategy } from "../../IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { uuid } from "../../UUID.ts";
+import {Output} from '../../Pipeline/Pipeline';
 
 /**
  * The `Yolo` class implements the `IStrategy` interface, and contains a
@@ -46,6 +47,16 @@ class Yolo implements IStrategy {
     // console.dir(this);
   }
 
+  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<string> { return null;}
+
+  async transformStreamToJSON(strategy: IStrategy): Promise<TransformStream>{ return null;}
+
+  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  toStringJson(data: string|object|Uint8Array)  { return null;}
+
+  // eslint-disable-next-line class-methods-use-this
+  writeResponseStream(): null { return null;}
 
 }
 

@@ -1,6 +1,6 @@
 
 
-export abstract class TextCompletionResponse extends Response {
+export abstract class TextCompletionResponse {
 
   "[unknown]": unknown;
   [Symbol.toStringTag]: string;
