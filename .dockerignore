@@ -1,6 +1,6 @@
 .gitignore
 .idea
 docs
-SmartSearch/node_modules/**
-!SmartSearch/
+SmartSearchFrontend/node_modules/**
+!SmartSearchFrontend/
 .github
