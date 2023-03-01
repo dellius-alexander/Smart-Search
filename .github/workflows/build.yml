@@ -60,7 +60,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd $(find ~+ -type d -name 'SmartSearch');
+          cd $(find ~+ -type d -name 'SmartSearchFrontend');
           npm install;
           npm run build:prod;
         env:
