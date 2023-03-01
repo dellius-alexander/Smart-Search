@@ -4,7 +4,9 @@ import { IStrategy } from "../../IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { uuid } from "../../UUID.ts";
-import {Output} from '../../Pipeline/Pipeline';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {Output} from "../../Pipeline/Pipeline.ts";
 
 /**
  * The `Yolo` class implements the `IStrategy` interface, and contains a
