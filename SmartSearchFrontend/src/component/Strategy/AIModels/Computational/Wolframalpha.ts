@@ -101,7 +101,7 @@ export class Wolframalpha implements IStrategy {
     // return results;
     // const parser = new DomParser();
 
-    const {headers, url} = strategy;
+    const {headers, url} = strategy.state;
     console.dir(headers, url);
     // const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
     // const urlRequest = new URL(`${url}${urlParams(prompt)}/`);
