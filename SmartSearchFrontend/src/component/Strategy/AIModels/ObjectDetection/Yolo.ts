@@ -49,13 +49,34 @@ class Yolo implements IStrategy {
     // console.dir(this);
   }
 
-  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<string> { return null;}
+  // eslint-disable-next-line class-methods-use-this
+  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<string> {
 
-  async transformStreamToJSON(strategy: IStrategy): Promise<TransformStream>{ return null;}
+    console.dir({
+      prompt: prompt,
+      element: element,
+      strategy: strategy
+    });
+    return null;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async transformStreamToJSON(strategy: IStrategy): Promise<TransformStream>{
+    console.dir({
+      strategy: strategy
+    });
+    return null;
+  }
 
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/ban-ts-comment
   // @ts-ignore
-  toStringJson(data: string|object|Uint8Array)  { return null;}
+  // eslint-disable-next-line class-methods-use-this
+  toStringJson(data: string|object|Uint8Array)  {
+    console.dir({
+      data: data
+    });
+    return null;
+  }
 
   // eslint-disable-next-line class-methods-use-this
   writeResponseStream(): null { return null;}
