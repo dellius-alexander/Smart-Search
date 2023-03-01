@@ -6,6 +6,8 @@ FROM node:${NODE_VERSION}
 ARG NODE_ENV="development"
 ARG BABEL_ENV="development"
 ARG REACT_APP_OPENAI_API_KEY=""
+ARG REACT_APP_WOLFRAMALPHA_APPID=""
+ARG REACT_APP_ORGANIZATION_ID=""
 ARG TZ="America/New_York"
 ARG USER="node"
 ARG PORT=443
@@ -35,7 +37,7 @@ RUN mkdir -p \
 
 COPY .devcontainer/scripts/** /tmp/app/
 COPY .devcontainer/entrypoint/** /entrypoint/
-COPY ./SmartScraper/ "${REACT_APP_HOME}/"
+COPY ./SmartSearch/ "${REACT_APP_HOME}/"
 
 RUN ls -lia "${REACT_APP_HOME}"
 

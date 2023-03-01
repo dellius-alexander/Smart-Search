@@ -6,9 +6,10 @@ import { IContext } from "./IContext.ts";
 import {IStrategy} from "./IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {SingletonPipeline, Pipeline, PipelineHandler, Output} from "./Pipeline/Pipeline.ts";
+import {SingletonPipeline, Pipeline, PipelineHandler, Output, Input} from "./Pipeline/Pipeline.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {ExecuteStrategy} from "./ExecuteStrategy.ts";
 
 
@@ -17,36 +18,36 @@ import {ExecuteStrategy} from "./ExecuteStrategy.ts";
  * It sets the structure for the model or strategy being used for the specific
  * request coming from the client. The constructor sets up the state object that
  * saves the state of the current context. In addition, the setStrategy and
- * executeStrategy methods are bound to the Context object to handle requests
+ * execute methods are bound to the Context object to handle requests
  * from the client and the execution of the selected strategy.
  */
-export class Context<T extends IStrategy> implements IContext<T> {
+export class Context<T> implements IContext<T> {
   /**
-   * Saves the state of the strategy selected.
+   * Saves the state of the pipeline
    */
-  state: { [key: string]: string|boolean|RegExp|object|never|JSON|IContext<T>|Pipeline<T>|PipelineHandler<T>|IStrategy<T>|T};
   pipeline: Pipeline<T>;
+
   protected constructor() {
     this.pipeline = <T>SingletonPipeline.getInstance();
     this.setStrategy = this.setStrategy.bind(this);
     this.execute = this.execute.bind(this);
+    console.dir(this);
 
   }
+
   /**
-   * The setStrategy method is used to assign the correct model or
-   * strategy based off of the parameters given by the client.
-   * @param {IStrategy} strategy
+   * This method is used to assign a strategy to the pipeline for the current
+   * context. The strategy can be a class or an object that implements
+   * the {@link ExecuteStrategy} class used in this case to execute
+   * a strategy. The strategy is passed as a parameter to the {@link ExecuteStrategy}
+   * class constructor.
+   * @param {IStrategy<T>} strategy
    */
-  // eslint-disable-next-line class-methods-use-this
-  setStrategy(strategy: ExecuteStrategy<T>): void {
+  setStrategy(strategy: IStrategy<T>): void {
+    console.dir(strategy);
     try {
-      this.pipeline.addHandler(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        new PipelineHandler<ExecuteStrategy<T>>(
-          strategy
-        )
-      );
+      const handler = new PipelineHandler<IStrategy<T>>(strategy);
+      this.pipeline.addHandler(handler);
       for (const handler of this.pipeline.handlers) {
         console.log(handler);
       }
@@ -57,31 +58,17 @@ export class Context<T extends IStrategy> implements IContext<T> {
   }
 
   /**
-   * The executeStrategy method is used to execute the given strategy or model and return
-   * the response. It determines which transport protocol should be used by checking if a
-   * prompt is larger than 256 bytes and if the strategy supports both normal strategies and
-   * stream strategies. If neither of these rules are met, then an error is thrown detailing
-   * a type definition error.
-   * @param {{ prompt: string, layman: false }} options
-   * @param {{element: Element}} streamOptions the element to update with the incoming stream data
-   * @return {Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >}
+   * Executes the requested strategy.
+   * @param {Input<T>} input
+   * @return {Output<T>}
    */
-  async execute(options: { prompt: string; layman: false }, streamOptions?: {element: HTMLElement}): Output<T> {
-    /*
-    * This is our selection mechanism used for executing the strategy.
-    * The strategy will be executed in the following order:
-    * 1. If the strategy selected is an instanceof {IStreamStrategy}, then the {IStreamStrategy} will be executed.
-    * 2. If the strategy selected is an instanceof {IDefaultStrategy}, then the standard {IDefaultStrategy} will be executed.
-    * 3. If no strategy is selected then by default: we throw an error. There was a selection error and this
-    *    is not a valid strategy.
-    */
+  async execute(input: Input<T>): Promise<Output<T> | void> {
     try {
-      console.log("Executing strategy: " + options.prompt);
-      // Get the strategy to be executed from the pipeline handler execute function.
-      const strategy = this.pipeline.execute({options,streamOptions});
-      console.dir(strategy);
-      return strategy;
-
+      console.log("Executing strategy in the pipeline for options: " );
+      console.dir(input);
+      // Send the prompt and streamOptions to be executed within the pipeline. A handler will be selected
+      // within the pipeline to handle the request.
+      return this.pipeline.execute(input);
     } catch (e) {
       console.error(e.message);
       e.stackTrace;

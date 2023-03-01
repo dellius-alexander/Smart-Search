@@ -27,6 +27,8 @@ services:
                 HOSTNAME: ${HOSTNAME}
                 USERNAME: ${USERNAME}
                 REACT_APP_OPENAI_API_KEY: ${REACT_APP_OPENAI_API_KEY}
+                REACT_APP_WOLFRAMALPHA_APPID: ${REACT_APP_WOLFRAMALPHA_APPID}
+                REACT_APP_ORGANIZATION_ID: ${REACT_APP_ORGANIZATION_ID}
                 UUID: ${UUID}
         container_name: smart-search
         user: ${USERNAME}
@@ -36,8 +38,8 @@ services:
         - ${PORT}
         ports:
         - ${PORT}:${PORT}
-#        volumes:
-#            - ./SmartSearch:/home/${USERNAME}/app
+        volumes:
+            - ./SmartSearch:/home/${USERNAME}/app
         deploy:
             replicas: 1
             restart_policy:

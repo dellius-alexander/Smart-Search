@@ -33,5 +33,6 @@ if (window.cordova) {
   document.addEventListener("deviceready", initializeApp, false);
 } else {
   // instead use the for regular browser web app
+  // document.addEventListener("loadstart", initializeApp, false);
   initializeApp();
 }

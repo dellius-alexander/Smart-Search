@@ -1,0 +1,57 @@
+{
+  "name": "smartsearchbackend",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/",
+  "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
+  "main": "server/protocols/https.js",
+  "scripts": {
+    "start": "nodemon server/protocols/https.js ",
+    "dev": "nodemon server/protocols/http.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "author": "Dellius Alexander <dellius.alexander@gmail.com>",
+  "maintainers": [
+    {
+      "name": "Dellius Alexander",
+      "email": "Dellius Alexander <dellius.alexander@gmail.com>",
+      "url": "https://github.com/dellius-alexander/smart-search.git"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dellius-alexander/smart-search.git"
+  },
+  "license": "Apache-2.0",
+  "os": [
+    "darwin",
+    "macos",
+    "linux"
+  ],
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.0",
+    "mongodb": "^4.12.1",
+    "mongoose": "^6.7.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "node-vault": "^0.9.22",
+    "on-finished": "^2.4.1",
+    "wolfram-alpha-api": "file:assets/vendor/wolfram-alpha-api-1.0.0-rc"
+  },
+  "devDependencies": {
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "gh-pages": "^4.0.0",
+    "nodemon": "^2.0.20",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  }
+}

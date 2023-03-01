@@ -101,7 +101,7 @@ ExpiresActive Off
 <FilesMatch "\.(html|htm|php)$">
 Header set imagetoolbar "no"
 </FilesMatch>
-Here are some default MOD_REWRITE code examples.
+## Here are some default MOD_REWRITE code examples.
 ## REWRITE DEFAULTS
 RewriteEngine On
 RewriteBase /

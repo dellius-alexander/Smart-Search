@@ -7,46 +7,19 @@ import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import "../../static/css/chat-bot-dialog.css";
 import { ClientStrategy } from "../Strategy/ClientStrategy.js";
-import parse from "html-react-parser";
-import {Context} from "../Strategy/Context.ts";
-
-/**
- * Takes a html element or text, wraps with a div and renders a glow element.
- * @param {Element|string} props
- * @return {JSX.Element}
- * @constructor
- */
-const GlowingDiv = (props) => {
-  const [isGlowing, setIsGlowing] = useState(false);
-  setTimeout(() => {
-    setIsGlowing(!isGlowing);
-  }, 500);
-
-  return (
-    <div
-      onLoad={setTimeout}
-      className={`d-flex justify-content-center align-items-center ${
-        isGlowing ? "glow" : ""
-      }`}
-      style={{
-        maxWidth: "200px",
-        backgroundColor: "mediumpurple",
-        color: "white",
-        borderRadius: "10px",
-        margin: "0 auto",
-      }}
-    >
-      <div>{props.props}</div>
-    </div>
-  );
-};
+// import parse from "html-react-parser";
 
 /**
  * Chat Bot UI Dialog class
  * @class {ChatBotDialog}
  * @extends {Component}
  */
-class ChatBotDialog extends Component {
+export class ChatBotDialog extends Component {
+  state: {
+    [key: string]: never,
+    mediaQuery: Responsive,
+    strategy: ExecuteStrategy
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -69,8 +42,9 @@ class ChatBotDialog extends Component {
       // also it automates the resizing of the window/modal process using onLoadStart = {mediaQuery.init}.
       mediaQuery: new Responsive(this),
       // create a new client strategy implementation object
-      strategy: new ClientStrategy()
+      strategy: new ClientStrategy(),
     };
+
     // initialize the mediaQuery object
     this.state.mediaQuery.init();
     /* state functions */
@@ -110,7 +84,8 @@ class ChatBotDialog extends Component {
 
   handleResponseChange(event) {
     this.setState({
-      currentResponse: event.target.value
+      currentResponse: event.target.value,
+      loading: true
     });
     this.resizeTextarea(event);
   }
@@ -128,6 +103,16 @@ class ChatBotDialog extends Component {
         layman: false,
       });
     }
+  }
+
+  /**
+   * Search for an resolve the dom element/node
+   * @param {string} name name identifier of the element id or class attribute
+   * @return {HTMLElement|HTMLCollectionOf<Element>|*}
+   */
+  // eslint-disable-next-line class-methods-use-this
+  resolveElement(name) {
+    return document.getElementById(name) || document.getElementsByClassName(name) || document.querySelector(name);
   }
 
   /**
@@ -157,33 +142,54 @@ class ChatBotDialog extends Component {
     try {
       event.preventDefault();
       // freeze the state of the input textarea while we fulfill the users request
-      this.setState((prevState) => {
-        return {loading: true, displayResponseModal: "block", responseInput: prevState.prompt, currentResponse: ""};
+      this.setState({
+        loading: true,
       });
+
+
       // console.log(this.state);
       // get user input prompts and layman options
-      const { prompt, layman, strategy } = this.state;
+      const { prompt, layman } = this.state;
+      
+
+      console.dir(this.state);
 
       // check for a prompt
-      if (prompt) {
+      if (prompt.length > 1) {
 
-        // get a model context to execute the strategy
-        const context: Context = await strategy.createContext("openai");
-        console.log(context);
+        // freeze the state of the input textarea while we fulfill the users request
+        this.setState(
+          {
+            loading: true,
+            displayResponseModal: "block",
+            responseInput: prompt,
+            currentResponse: ""
+          });
+
         // execute the strategy using the model context and return the response
-        let currentResponse = "";
-        currentResponse += await context.execute({prompt, layman}, {element: document.getElementById("modal-body")});
+        const options = {
+          options: {prompt, layman},
+          element: document.getElementById("modal-body")
+        };
 
-        // for await (const data of context.executeStrategy({prompt, layman}, {element: document.getElementById("modal-body")})){
-        //   // update the state with the response
+        let response = String("");
+
+        const strategy: ClientStrategy = this.state.strategy;
+        for (let data of await strategy.execute(options)){
+          response += data;
+        }
+
+        console.dir(response);
+
+        // update the state with the response
         this.setState((prevState) => {
           if (prevState.responseCount <= 0) {
             return {
               error: false,
               errorMessage: "",
               prompts: [...prevState.prompts, prompt],
-              responses: [...prevState.responses,  <>{parse(currentResponse)}</>],
-              currentResponse:  <>{parse(currentResponse)}</>,
+              responses: [...prevState.responses, response],
+              currentResponse: response,
               responseCount: prevState.responseCount + 1,
               loading: false,
               responseInput: prompt,
@@ -193,8 +199,8 @@ class ChatBotDialog extends Component {
               error: false,
               errorMessage: "",
               prompts: [...prevState.prompts, prompt],
-              responses: [...prevState.responses, <>{parse(currentResponse)}</>],
-              currentResponse: <>{parse(currentResponse)}</>,
+              responses: [...prevState.responses, response],
+              currentResponse: response,
               responseCount: prevState.responseCount + 1,
               loading: false,
               responseInput: prompt,
@@ -252,6 +258,13 @@ class ChatBotDialog extends Component {
       });
     }
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  updatePosiitonOfDisplayWhenModelIsVisable(element) {
+    element.style.position = "absolute";
+    element.style.top = element.target.offsetTop + "px";
+    element.style.left = element.target.offsetLeft + "px";
+  }
   resetForm() {
     this.setState({
       prompt: "",
@@ -282,7 +295,7 @@ class ChatBotDialog extends Component {
           <header className="chat-header" style={{position: "static"}}>
             <h1 className="chat-gpt-title">Smart Search</h1>
           </header>
-          <Form className="chat-form-body" onSubmit={this.handleSubmit}>
+          <Form className="chat-form-body" onSubmit={this.handleSubmit} >
             <Form.Group className="chat-input-group">
               <FloatingLabel
                 controlId="floatingTextarea"
@@ -292,7 +305,8 @@ class ChatBotDialog extends Component {
                 <Form.Control
                   as="textarea"
                   placeholder="Greetings! You could ask me anything you want to know. Like,
-                  what is the price of tea in Hong Kong? Or like, Question: What is a qubit? Answer: Include website references."
+                  what is the price of tea in Hong Kong? Or like, Question: What is a qubit?
+                  Answer: Include website references."
                   value={prompt}
                   onChange={this.handleInputChange}
                   onLoad={this.resizeTextarea}
@@ -312,7 +326,7 @@ class ChatBotDialog extends Component {
                 type="reset"
                 style={{
                   padding: "5px",
-                  fontSize: "1.15rem",
+                  fontSize: "1.2rem",
                   backgroundColor: "#10b5ad",
                   color: "#fff",
                   border: "khaki",
@@ -327,10 +341,11 @@ class ChatBotDialog extends Component {
               </Button>
               <Button
                 variant="primary"
+                as="button"
                 type="submit"
                 style={{
                   padding: "5px",
-                  fontSize: "1.15rem",
+                  fontSize: "1.2rem",
                   backgroundColor: "#00b5ad",
                   color: "#fff",
                   border: "none",
@@ -342,12 +357,13 @@ class ChatBotDialog extends Component {
                 <Spinner
                   as="span"
                   animation="grow"
-                  size="sm"
+                  size="lg"
                   role="status"
                   aria-disabled={!loading}
                 />
-                {loading ? "Loading..." : "Submit"}
+                <span>{loading ? "Loading..." : "Submit"}</span>
               </Button>
+              
             </Form.Group>
             <br/>
             <div
@@ -389,7 +405,8 @@ class ChatBotDialog extends Component {
             }}
             key={index}
           >
-            <Modal.Dialog>
+            <Modal.Dialog
+            >
               <Modal.Footer>
                 <Button variant="secondary">Close</Button>
                 <Button variant="primary">Share|Save</Button>
@@ -429,7 +446,7 @@ class ChatBotDialog extends Component {
                   display: "block",
                   textAlign: "left",
                 }}
-                onChange={this.handleResponseChange}
+
               >
                 {currentResponse}
               </Modal.Body>
@@ -443,4 +460,33 @@ class ChatBotDialog extends Component {
 }
 
 
-export {ChatBotDialog};
+/**
+ * Takes a html element or text, wraps with a div and renders a glow element.
+ * @param {Element|string} props
+ * @return {JSX.Element}
+ * @constructor
+ */
+export const GlowingDiv = (props) => {
+  const [isGlowing, setIsGlowing] = useState(false);
+  setTimeout(() => {
+    setIsGlowing(!isGlowing);
+  }, 500);
+
+  return (
+    <div
+      onLoad={setTimeout}
+      className={`d-flex justify-content-center align-items-center ${
+        isGlowing ? "glow" : ""
+      }`}
+      style={{
+        maxWidth: "200px",
+        backgroundColor: "mediumpurple",
+        color: "white",
+        borderRadius: "10px",
+        margin: "0 auto",
+      }}
+    >
+      <div>{props.props}</div>
+    </div>
+  );
+};

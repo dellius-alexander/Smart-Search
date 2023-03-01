@@ -8,7 +8,7 @@
   },
   "installed_plugins": {
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.example.hyfi.smartscraper"
+      "PACKAGE_NAME": "com.example.hyfi.smartsearch"
     }
   },
   "dependent_plugins": {}

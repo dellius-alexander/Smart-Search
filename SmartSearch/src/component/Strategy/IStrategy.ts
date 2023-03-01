@@ -6,14 +6,10 @@
  */
 export interface IStrategy<T>  {
     /*
-     * Saves the state of the strategy selected.
+     * All object that implements this interface must maintain a state object
+     * for all relevant functionality, transport protocols and more for the
+     * strategy being implemented.
      */
-    state: { [key: string]: string|boolean|RegExp|object|never|JSON|IStrategy<T>|T};
-
-    /**
-     * Converts the state of the strategy to a JSON object.
-     * @return {JSON}
-     */
-    toJSON(data?: never): JSON;
+    state: { [key: string]: T};
 
 }

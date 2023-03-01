@@ -45,7 +45,7 @@ class ConfigCertificateGenerator {
 class Context {
    IDefaultStrategy strategy
    setStrategy(strategy: IDefaultStrategy) void
-   executeStrategy(options: {prompt: null, layman: false}) JSON
+   execute(options: {prompt: null, layman: false}) JSON
 }
 class DefaultCertificateGenerator {
    constructor(options, hostname, certsDir) 
@@ -86,7 +86,7 @@ class Gpt3 {
 }
 class IContext {
    setStrategy(strategy: IDefaultStrategy) any
-   executeStrategy(options: {prompt: null; layman: false}) JSON
+   execute(options: {prompt: null; layman: false}) JSON
 }
 class IntegralParser {
    constructor(latexDoc) 

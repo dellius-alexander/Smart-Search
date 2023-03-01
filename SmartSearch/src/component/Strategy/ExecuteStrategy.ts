@@ -10,16 +10,7 @@ import {IStrategy} from "./IStrategy.ts";
 import {IStreamStrategy} from "./IStreamStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { Input, Output} from "./Pipeline/Pipeline.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {IStrategyHandler} from "./Pipeline/IStrategyHandler.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {IContext} from "./IContext.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {TextCompletion} from "./TextCompletion.ts";
+import {IHandler, Input, Output} from "./Pipeline/Pipeline.ts";
 
 /**
  * This ExecuteStrategy class provides a way to send an API request to an AI strategy
@@ -30,53 +21,57 @@ import {TextCompletion} from "./TextCompletion.ts";
  * Additionally, it keeps track of usage metrics such as prompt tokens, completion
  * tokens, and total tokens.
  */
-export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<T>, IStrategyHandler<T> {
+export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<T>, IHandler<T> {
   /*
-* Saves the state of the strategy selected.
-*/
-  state: { [key: string]: string|boolean|RegExp|object|never|JSON|IContext<T>|IStrategy<T>|T};
-  static loopCount = 0;
-  constructor(strategy: T) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this.state = strategy.state;
+  * Saves the state of the strategy selected.
+  */
+  state: {
+    [key: string]: string|boolean|RegExp|object|never|JSON|ExecuteStrategy<T>|IStrategy<T>|Input<T>|Output<T>|T,
 
-    console.dir(this.state);
+  };
+  strategy: IStrategy<T>;
+  static loopCount = 0;
+  constructor(strategy: IStrategy<T>) {
+    console.dir(strategy);
+    this.state = strategy.state;
+    this.strategy= strategy;
+    console.dir(this.strategy);
+    this.handle = this.handle.bind(this);
+    // this.transformStreamToJSON = this.transformStreamToJSON.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.streamRequest = this.streamRequest.bind(this);
-    this.handle = this.handle.bind(this);
-    // console.log("Executing strategy: ", this.state.uuid);
+    console.dir(this);
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  async handle(input: Input<T>):  Output<T> {
-    ExecuteStrategy.loopCount = 0;
+  async handle(input: Input<T>): Promise<Output<T>> {
     console.log(input);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line no-case-declarations
-    const {options, streamOptions} = input;
-    console.log(options);
-    console.log(streamOptions);
+    const {options, element} = input;
+    console.log("Inputs: ");
+    console.dir(options);
+    console.dir(element);
+    console.dir("Protocols: \n");
+    console.dir(this.state.protocols);
     switch (true) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // send large prompts > 256 bytes, using IStreamStrategy transport protocols
-    case (options && this.state["protocols"]["stream-strategy"]) && options.prompt.length > 256:
+    case this.state.protocols["stream-strategy"] && options.prompt.length > 256:
+      console.log("Using stream strategy");
       return (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-        await this.streamRequest(options, streamOptions)
+        await this.streamRequest(options, element)
           .then((data: never) => data)
           .catch(console.dir)
       );
       // send normal prompts < 256 bytes, using normal IDefaultStrategy transport protocols
-    case (options && this.state["protocols"]["strategy"]):
+    case this.state.protocols["strategy"]:
+      console.log("Using default strategy");
       return(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-        await this.sendRequest(options, streamOptions)
+        await this.sendRequest(options, element)
           .then((data: never) => data)
           .catch(console.dir)
       );
@@ -89,6 +84,7 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
       );
     }
   }
+
   /**
    * The sendRequest function sends an asynchronous request with the provided
    * 'options' object. The object requires a prompt and a boolean value to determine
@@ -97,288 +93,225 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
    * to determine the response. If the response is successful, it will be parsed
    * and stored in the state jsonData. If the request fails, an error message will
    * be stored in the state field 'errorMessage'.
-   * @param {{prompt: string, layman: false}} options
-   * @param {{ element: HTMLElement }} streamOptions
-   * @returns  {{Promise<string | JSON | JSX.Element | JSX.Element[] | HTMLElement | void >}}
+   * @param {{prompt: string, layman: false}} options The options prompt object to send
+   * @param {{element: HTMLElement}} element the element to update with the response data
+   * @returns  {{Promise<Output<never>>}}
    */
-  async sendRequest(options: { prompt: string; layman: boolean } = {prompt: "", layman: false}, streamOptions?: { element: HTMLElement } ): Output<T>
-  {
+  async sendRequest(options: { prompt: string; layman: false }, element?: HTMLElement ): Promise<Output<T> | void> {
 
     /**
      * Get the contents of the options variable
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const { url, model } = this.state;
+
     let prompt = "";
-    const layman = options.layman || this.state.layman || false;
+    const layman = options.layman || this.strategy.state.layman || false;
     if (layman){
-      prompt = `<prompt>${options.prompt || this.state.prompt}</prompt>\n`;
+      prompt = `${options.prompt || this.strategy.state.prompt}`;
     } else {
-      prompt = `<prompt>${options.prompt || this.state.prompt}</prompt>\n`;
+      prompt = `${options.prompt || this.strategy.state.prompt}`;
     }
 
     console.dir({
       prompt: prompt,
       layman: layman,
-      state: this.state,
-      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-      orgId: process.env.REACT_APP_ORGANIZATION_ID,
-      stream_options: streamOptions
+      state: this.strategy.state,
+      element: element
     });
 
     try {
       if (prompt) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        let results = String("");
-        const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
-        
+        // let results = String("");
+        // const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
+        return await this.strategy.fetch(prompt, element, this.strategy);
 
-        return await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-            "organizationId": `${process.env.REACT_APP_ORGANIZATION_ID}`,
-          },
-          body: JSON.stringify({
-            logprobs: null,
-            max_tokens: 256,
-            model: model,
-            temperature: 0.9,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            prompt: prompt,
-            stream: true,
-            top_p: 1,
-          }),
-        })
-        // read the response data in chunks and render to client in chunks
-          .then(async (response) =>
-            response.body
-              .pipeThrough(new TextDecoderStream("utf-8"))
-              .pipeThrough(await this.transformStreamToJSON())
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-              .pipeTo(new WritableStream({
-                write: async function (json) {
-                  console.dir(json);
-                  if (json !== undefined && json.choices) {
-                    // eslint-disable-next-line prefer-const
-                    console.dir(json);
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-ignore
-                    const text = json.choices[0].text;
-                    streamOptions.element.append(text);
-                    results += text;
-                    ExecuteStrategy.wait(300);
-                  }
-                },
-                abort(err) {
-                  console.log("Sink error:", err);
-                }
-              },
-              queuingStrategy))
-              .then(() => results)  // Respond with our stream
-              .catch(console.dir)
-          )
-          .then((html) => html)
-          .catch(console.dir);
+        // return await fetch(url, {
+        //   method: "POST",
+        //   headers: this.strategy.state.headers,
+        //   body: JSON.stringify(this.strategy.state.body(prompt)),
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   duplex: "full"
+        // })
+        // // read the response data in chunks and render to client in chunks
+        //   .then(async (response) =>
+        //     response.body
+        //       .pipeThrough(new TextDecoderStream("utf-8"))
+        //       .pipeThrough(await this.transformStreamToJSON(this.strategy))
+        //       .pipeTo(this.strategy.writeResponseStream(element))
+        //       .then((results) => results)  // Respond with our results
+        //       .catch(console.dir)
+        //   )
+        //   .then((html) => html)
+        //   .catch(console.dir);
       }
     } catch (error) {
-      this.state.error = true;
-      this.state.errorMessage = error.message;
+      this.strategy.state.error = true;
+      this.strategy.state.errorMessage = error.message;
     }
   }
 
   /**
-  * The streamRequest function sends an asynchronous request to an API server based on the
-  * provided options. It takes in an options argument containing a prompt and a
-  * layman preference, as well as an optional streamOptions argument with an element
-  * property. If streamOptions is undefined or null, a warning is logged. It then
-  * creates an object with the passed options and a few additional parameters, and
-  * sends that object to the API server via a fetch call. If the request succeeds,
-  * it returns a readable stream object populated with the response data, which
-  * can be parsed as either strings or JSONs, JSX.Element/JSX.Element[]/HTMLElement,
-  * or a void return value. The type, created, model, and jsonData properties are
-  * all updated in the caller's state.
-  * @param {{prompt: string, layman: false}} options
-  * @param {{element: Element}} streamOptions?
-  * @returns  {{Promise<string | JSON | ReadableStream<object> | JSX.Element | JSX.Element[] | HTMLElement | void>}} JSX element(s), empty array, or string.
-  */
-  async streamRequest(options: { prompt: string; layman: false } = {prompt: "", layman: false} , streamOptions?: { element: HTMLElement }) :  Output<T>
-  {
-    if ( streamOptions === null || undefined ) {
-      console.warn("StreamOptions is undefined or null.");
+   * The streamRequest function sends an asynchronous request to an API server based on the
+   * provided options. It takes in an options argument containing a prompt and a
+   * layman preference, as well as an optional streamOptions argument with an element
+   * property. If streamOptions is undefined or null, a warning is logged. It then
+   * creates an object with the passed options and a few additional parameters, and
+   * sends that object to the API server via a fetch call. If the request succeeds,
+   * it returns a readable stream object populated with the response data, which
+   * can be parsed as either strings or JSONs, JSX.Element/JSX.Element[]/HTMLElement,
+   * or a void return value. The type, created, model, and jsonData properties are
+   * all updated in the caller's state.
+   * @param {{prompt: string, layman: false}} options The options prompt object to send
+   * @param {{element: HTMLElement}} element the element to update with the response data
+   * @returns {{Promise<Output<T> | void> }} JSX element(s), empty array, or string.
+   */
+  async streamRequest(options: { prompt: string; layman: false }, element?: HTMLElement ):  Promise<Output<T> | void> {
+    if ( element === null || undefined ) {
+      console.warn("HTMLElement is undefined or null.");
     }
     /*
      * Get the contents of the options variable
      */
-    const { url, model } = this.state;
+
     let prompt = "";
-    const layman = options.layman || this.state.layman || false;
+    const layman = options.layman || this.strategy.state.layman || false;
     if (layman){
-      prompt = `<prompt>${options.prompt || this.state.prompt}</prompt>\n<instructions>Render response using simple HTML5 elements, no scripts execution are allowed.</instructions>\n`;
+      prompt = `<prompt>${options.prompt || this.strategy.state.prompt}</prompt>\n`;
     } else {
-      prompt = `<prompt>${options.prompt || this.state.prompt}</prompt>\n<instructions>Render response using simple HTML5 elements, no scripts execution are allowed.</instructions>\n`;
+      prompt = `<prompt>${options.prompt || this.strategy.state.prompt}</prompt>\n`;
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    const element = streamOptions.element;
+    this.strategy.state.prompt = prompt;
+
 
     console.dir({
       prompt: prompt,
       layman: layman,
-      state: this.state,
-      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-      orgId: process.env.REACT_APP_ORGANIZATION_ID
+      state: this.strategy.state,
+      element: element
     });
 
     try {
       if (prompt) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        let results = String("");
-        const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
-
-        return await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-            "organizationId": `${process.env.REACT_APP_ORGANIZATION_ID}`
-          },
-          body: JSON.stringify({
-            logprobs: null,
-            max_tokens: 256,
-            model: model,
-            temperature: 0.9,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            prompt: prompt,
-            stream: true,
-            top_p: 1,
-          }),
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          duplex: "half"
-        })
-        // read the response data in chunks and render to client in chunks
-          .then(async (response) =>
-            response.body
-              .pipeThrough(new TextDecoderStream("utf-8"))
-              .pipeThrough(await this.transformStreamToJSON())
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-              .pipeTo(await new WritableStream({
-                write: async function (json) {
-                  console.dir(json);
-                  if (json !== undefined && json.choices) {
-                    // eslint-disable-next-line prefer-const
-                    console.dir(json);
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-ignore
-                    const text = json.choices[0].text;
-                    element.append(text.replace("\n", "</br>"));
-                    results += text;
-                    ExecuteStrategy.wait(300);
-                  }
-                },
-                abort(err) {
-                  console.log("Sink error:", err);
-                }
-              },
-              queuingStrategy))
-              .then(() => results)  // Respond with our stream
-              .catch(console.dir)
-          )
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-          .then((html) => html)
-          .catch(console.dir);
+        // let results = String("");
+        // results += "<div>";
+        // const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
+        return await this.strategy.fetch(prompt, element, this.strategy);
+        // return await fetch(url, {
+        //   method: "POST",
+        //   headers: this.strategy.state.headers,
+        //   body: this.strategy.state.body,
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   duplex: "half"
+        // })
+        // // read the response data in chunks and render to client in chunks
+        //   .then(async (response) =>
+        //     response.body
+        //       .pipeThrough(new TextDecoderStream("utf-8"))
+        //       .pipeThrough(await this.transformStreamToJSON(this.strategy))
+        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //     // @ts-ignore
+        //       .pipeTo(new WritableStream({
+        //         write: async function (json) {
+        //           console.dir(json);
+        //           if (json && json instanceof Array) {
+        //             for (let i = 0; i < json.length; i++) {
+        //               if (json[i].choices) {
+        //                 const text = json[i].choices[0].text;
+        //                 element.innerHTML += text;
+        //                 results += text;
+        //                 await ExecuteStrategy.wait(100);
+        //               }
+        //             }
+        //           } else {
+        //             if (json && json.choices) {
+        //               const text = json.choices[0].text;
+        //               element.innerHTML += text;
+        //               results += text;
+        //               await ExecuteStrategy.wait(100);
+        //             }
+        //           }
+        //         },
+        //         abort(err) {
+        //           console.log("Sink error:", err);
+        //         }
+        //       },
+        //       queuingStrategy))
+        //       .then(() => results.concat("</div>"))  // Respond with our stream
+        //       .catch(console.dir)
+        //   )
+        // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // // @ts-ignore
+        //   .then((html) => html)
+        //   .catch(console.dir);
       }
     } catch (error) {
-      this.state.error = true;
-      this.state.errorMessage = error.message;
+      this.strategy.state.error = true;
+      this.strategy.state.errorMessage = error.message;
     }
   }
 
-  /**
-   * Transform the stream into a readable stream and converT to JSON.
-   */
-  // eslint-disable-next-line class-methods-use-this
-  async transformStreamToJSON(): Promise<ReadableWritablePair> {
-    const regex = new RegExp(/data: \[DONE\]|data:|\[DONE\]/, "gm");
-
-    return new TransformStream({
-      transform: async function(chunk, controller) {
-        let newChunk;
-
-        switch (typeof chunk) {
-        case "object":
-          // eslint-disable-next-line no-case-declarations
-          newChunk = ExecuteStrategy.convertToJSON(String(chunk),regex);
-
-          console.log("Chunk Length: ");
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-          console.dir(newChunk.length);
-          console.dir(newChunk);
-          // just say the stream is done I guess
-          if (ArrayBuffer.isView(newChunk)) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            controller.enqueue(new Uint8Array(newChunk.buffer, newChunk.byteOffset, newChunk.byteLength));
-          } else if (
-            Array.isArray(newChunk) &&
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              newChunk.every((value) => typeof value === "number")
-          ) {
-            controller.enqueue(new Uint8Array(newChunk));
-          } else if (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-            typeof newChunk.valueOf === "function" &&
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              newChunk.valueOf() !== newChunk
-          ) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            this.transform(newChunk.valueOf(), controller); // hack
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          } else { // @ts-ignore
-            if ("toJSON" in newChunk) {
-              this.transform(JSON.stringify(newChunk), controller);
-            }
-          }
-          break;
-        case "symbol":
-          controller.error("Cannot send a symbol as a chunk part");
-          break;
-        case "undefined":
-          controller.error("Cannot send undefined as a chunk part");
-          break;
-        default:
-          // eslint-disable-next-line no-case-declarations
-          const json = ExecuteStrategy.convertToJSON(String(chunk), regex);
-          console.log(json);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          controller.enqueue(
-            json
-          );
-          break;
-        }
-      },
-    });
-  }
-
+  // /**
+  //  * Transform the stream into a readable stream and convert to JSON.
+  //  * @param {{IStrategy}} strategy
+  //  */
+  // // eslint-disable-next-line class-methods-use-this
+  // async transformStreamToJSON(strategy: IStrategy): Promise<TransformStream> {
+  //   return new TransformStream({
+  //     transform: async function(chunk, controller) {
+  //       const data = String(chunk);
+  //
+  //       let json;
+  //       try {
+  //
+  //         switch (typeof data) {
+  //         case "string":
+  //           json = strategy.toStringJson(data).match(strategy.state.regex);
+  //           // return json;
+  //           break;
+  //         case "object":
+  //           json = strategy.toStringJson(data).match(strategy.state.regex);
+  //           // return json;
+  //           break;
+  //         case "number":
+  //           json = strategy.toStringJson(data).match(strategy.state.regex);
+  //           // return json;
+  //           break;
+  //         case "bigint":
+  //           json = strategy.toStringJson(data).match(strategy.state.regex);
+  //           // return json;
+  //           break;
+  //         case "undefined":
+  //           throw new Error("Data is undefined");
+  //         default:
+  //           json = strategy.toStringJson(data).match(strategy.state.regex);
+  //           break;
+  //         }
+  //
+  //         console.log("Original: ");
+  //         console.dir(data);
+  //         console.log("ConvertedJSON: ");
+  //         console.dir(json);
+  //
+  //         if (json && json instanceof Array) {
+  //           for (let i = 0; i < json.length; i++) {
+  //             controller.enqueue(JSON.parse(json[i]));
+  //           }
+  //
+  //         } else if (json && json instanceof String) {
+  //           controller.enqueue(JSON.parse(String(json)));
+  //         }
+  //       } catch (e) {
+  //         console.error(e.message);
+  //
+  //       }
+  //
+  //     },
+  //   });
+  // }
 
   // eslint-disable-next-line class-methods-use-this
-  static async stringToUint8Array (str: string): Promise<Uint8Array[]> {
+  async stringToUint8Array (str: string): Promise<Uint8Array[]> {
     const arr: Uint8Array[] | PromiseLike<Uint8Array[]> = [];
     return new Promise((resolve) => {
       for (let i = 0; i < str.length; i++) {
@@ -389,45 +322,9 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
     });
   }
 
-  static convertToJSON(
-    data: string|Uint8Array|JSON,
-    regex = new RegExp(/data: \\[DONE\\]|data:\s*|\\[DONE\\]/, "gm"),
-    searchValue: string|RegExp = "",
-    replaceValue: string|RegExp = ""
-  ): TextCompletion {
-    ExecuteStrategy.loopCount += 1;
-    let json: TextCompletion;
-    try {
-      console.dir(String(data));
-      if (typeof replaceValue === "string") {
-        json = JSON.parse(String(data)
-          .replace(searchValue, replaceValue)
-          .replace(regex, "")
-          .replace(/\\"/gm, "\"")
-          .replace(/data: \[DONE\]/gm, "")
-          .replace(/data: /gm, "")
-          .replace(/\[DONE\]/gm, "")
-          .trim());
-      }
-      console.log("Original: ", data);
-      console.log("ConvertedJSON: ", json);
-      console.log("SearchValue: ", JSON.stringify(json).search(regex));
-      if (ExecuteStrategy.loopCount > 10) {ExecuteStrategy.loopCount = 0; return {}; }
-      if (JSON.stringify(json).search(regex) > -1) return this.convertToJSON(json,regex);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return json;
-    } catch (e) {
-      console.error(e.message);
-      console.error(data);
-      e.stackTrace;
-      if (ExecuteStrategy.loopCount > 10) {ExecuteStrategy.loopCount = 0; return {}; }
-      return ExecuteStrategy.convertToJSON(String(data));
-    }
-  
-  }
+
   // eslint-disable-next-line class-methods-use-this
-  static wait(milliseconds: number) {
+  static async wait(milliseconds: number) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 
@@ -436,7 +333,7 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
    * @param data
    */
   // eslint-disable-next-line class-methods-use-this
-  toJSON(data?: never): JSON {
+  toJSON(data: never): JSON | [JSON] {
     return JSON.parse(JSON.stringify(data));
   }
 

@@ -1,10 +1,14 @@
 
 .chat-container {
-    position: absolute;
-    top: 40%;
-    left: 50%;
+    position: relative;
+    top: 10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
     width: 70% !important;
-    transform: translate(-50%, -50%);
     padding: 20px;
     border-radius: 10px;
     background-color:  #e6e8ec !important;
@@ -35,7 +39,7 @@
 
 
 .response-modal {
-    background-color: #2e62e3 !important;
+    background-color: #082264 !important;
     color: white !important;
     position: relative;
     transition: all 1s ease;
@@ -43,6 +47,10 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+.model-body{
+    white-space: pre-line;
 }
 
 .glow {
