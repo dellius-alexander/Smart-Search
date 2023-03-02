@@ -8,22 +8,24 @@ export DOMAIN_BASENAME=$(echo ${HOSTNAME%.*});
 export DOMAIN_NAME=${DOMAIN_BASENAME}.com;
 export SSL_CRT_FILE=/usr/local/app/.certs/${DOMAIN_BASENAME}.crt;
 export SSL_KEY_FILE=/usr/local/app/.certs/${DOMAIN_BASENAME}.key;
-. "${REACT_APP_HOME}/.env.${NODE_ENV}.local";
+
+#. "${REACT_APP_HOME}/.env.${NODE_ENV}.local";
+
 printenv;
 /bin/bash /tmp/app/certs.sh  "-s" ${HOSTNAME} "/usr/local/app/.certs";
 cd ${REACT_APP_HOME} &&
 NODE_ENV=$( [ -z $NODE_ENV ] && echo "development" || echo $NODE_ENV  )
 echo "Node env: $NODE_ENV..."
 case "${NODE_ENV}" in
-  prod | production)
+  prod|production)
     echo "Node running in ${NODE_ENV} mode.";
     npm run build:prod;
-    npm run start:docker:browser;
+    npm run start:docker;
     ;;
-  dev | development)
+  dev|development)
     echo "Node running in ${NODE_ENV} mode.";
     export DEBUG=smartscraper:*
-    npm run dev:browser
+    npm run dev
     ;;
 esac
 

@@ -20,6 +20,7 @@ ARG UUID=1001
 ENV REACT_APP_HOME="/home/${USERNAME}/app"
 ENV NODE_ENV=${NODE_ENV}
 ENV BABEL_ENV=${BABEL_ENV}
+ENV PORT=${PORT}
 
 USER root
 
@@ -37,7 +38,8 @@ RUN mkdir -p \
 
 COPY .devcontainer/scripts/** /tmp/app/
 COPY .devcontainer/entrypoint/** /entrypoint/
-COPY ./SmartSearch/ "${REACT_APP_HOME}/"
+COPY ./SmartSearchBackend/ "${REACT_APP_HOME}/"
+
 
 RUN ls -lia "${REACT_APP_HOME}"
 

@@ -27,8 +27,8 @@ export class ClientStrategy {
     this.context = new Context();
     this.createContext = this.createContext.bind(this);
     this.execute = this.execute.bind(this);
-    // this.createContext("openai");
-    this.createContext("alpha");
+    this.createContext("openai");
+    // this.createContext("alpha");
     console.log(this);
   }
 

@@ -6,9 +6,11 @@
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
   "main": "server/protocols/https.js",
   "scripts": {
-    "start": "node server/protocols/https.js ",
+    "start": "nodemon server/protocols/https.js",
+    "start:docker": "nodemon server/protocols/https.js",
     "dev": "nodemon server/protocols/http.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build:prod": "echo \"No build needed...\"",
     "build": "webpack --config webpack.config.js"
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",

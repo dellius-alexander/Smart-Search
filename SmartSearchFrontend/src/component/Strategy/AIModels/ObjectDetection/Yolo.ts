@@ -51,7 +51,6 @@ class Yolo implements IStrategy {
 
   // eslint-disable-next-line class-methods-use-this
   async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<string> {
-
     console.dir({
       prompt: prompt,
       element: element,

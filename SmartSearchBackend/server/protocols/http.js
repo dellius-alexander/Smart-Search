@@ -36,6 +36,7 @@ async function main_http() {
         const cfg = {
             port: normalizePort(process.env.PORT || 8080),
             hostname: "localhost",
+            protocol: process.env.HTTPS
         }
 
         /**

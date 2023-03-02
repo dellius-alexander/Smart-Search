@@ -45,7 +45,7 @@ export class Wolframalpha implements IStrategy {
       protocols: {
         "strategy": true
       },
-      url: "https://localhost:4434/api/v1/alpha",
+      url: new URL("https://0.0.0.0:4443/api/v1/alpha"),
     };
 
     // url: (prompt: any) => `https://api.wolframalpha.com/v2/query?input=${prompt}?&format=image,plaintext,html&output=JSON&appid=${process.env.REACT_APP_WOLFRAMALPHA_APPID}`,
@@ -86,7 +86,7 @@ export class Wolframalpha implements IStrategy {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types,class-methods-use-this
-  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<JSON|string> {
+  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<string|HTMLElement|JSX.Element|JSX.Element[]> {
     console.log("Executing alpha strategy");
     console.dir(strategy);
     // let results: never;
@@ -101,16 +101,18 @@ export class Wolframalpha implements IStrategy {
     // return results;
     // const parser = new DomParser();
 
-    const {headers, url} = strategy.state;
-    console.dir(headers, url);
+    const {headers, url, urlParams} = strategy.state;
+    console.log(url);
+    console.log(headers);
     // const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
-    // const urlRequest = new URL(`${url}${urlParams(prompt)}/`);
+    const urlRequest = new URL(`${url}?${urlParams(prompt)}`);
+    console.dir(urlRequest);
     return await new Promise( (resolve, reject) => {
-      fetch(url, {
+      fetch(urlRequest, {
         // duplex: "full",
         headers: headers,
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, *cors, same-origin
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        // mode: "cors", // no-cors, *cors, same-origin
         // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         // credentials: "same-origin", // include, *same-origin, omit
         // redirect: "follow", // manual, *follow, error
@@ -118,11 +120,7 @@ export class Wolframalpha implements IStrategy {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         // origin: "https://delliusalexander.com",
-
-        body: JSON.parse({
-          prompt: prompt,
-          stream: true,
-        })
+        // body: urlParams(prompt)
       })
         .then(async (response) => {
           const html = await response.text();
@@ -130,7 +128,7 @@ export class Wolframalpha implements IStrategy {
           // Convert the HTML string into a document object
           const doc = parse(html);
           console.dir(doc.toString());
-          return "Done";
+          return doc;
         })
         .then((json) => resolve(json))
 

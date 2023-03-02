@@ -11,7 +11,7 @@ echo "Node environment: ${NODE_ENV}.................................."
 #####################################################################
 COMMAND=${1:-$( [[ ${1} =~ (publish|run|emulate|plugin|build|serve|help|--help|-h) ]] && echo ${1} &2>/dev/null  || echo "bad run command."; exit 1;  )} # Defaults to run -- platform
 PLATFORMS=${2:-$( [[ ${2} =~ (local|cordova|gh-pages|browser|ios|android|osx|add|remove|rm)+ ]] && echo ${2} &2>/dev/null || echo "bad run command."; exit 1; )} # Defaults to run -- platform -- browser
-OPTIONS=${3:-$( [[ ${3} =~ ([a-zA-z0-9_-]+|browser|ios|android|osx|add) ]] && echo ${3} &2>/dev/null )}
+OPTIONS=${3:-$( [[ ${3} =~ ([a-zA-z0-9_-]+|browser|ios|android|osx|add|dev|development|prod|production) ]] && echo ${3} &2>/dev/null )}
 #####################################################################
 #####################################################################
 __error(){
@@ -179,11 +179,11 @@ PLATFORMS="${2}";
 OPTIONS="${3}"
 
 case ${COMMAND}-${PLATFORMS}-${OPTIONS}-${NODE_ENV} in
-  run-browser-${OPTIONS}-${NODE_ENV})
+  run-browser-prod-${NODE_ENV})
     echo "Running ${PLATFORMS}........";
-    node scripts/start.js;
+    node --inspect scripts/start.js;
     ;;
-  run-dev-browser-${NODE_ENV})
+  run-browser-dev-${NODE_ENV})
     echo "Running ${PLATFORMS}........";
     nodemon --inspect scripts/start.js;
     ;;

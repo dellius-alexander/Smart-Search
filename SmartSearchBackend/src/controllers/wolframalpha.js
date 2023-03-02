@@ -19,6 +19,7 @@ const waApi = WolframAlphaAPI(process.env.REACT_APP_WOLFRAMALPHA_APPID);
 
 async function sendRequest(req, res) {
     try {
+        console.dir(req);
         // get the prompt from the request object
         const prompt =  Object.keys(req.query).length !== 0 ? req.query :
             Object.keys(req.body).length !== 0 ? req.body :
@@ -37,12 +38,11 @@ async function sendRequest(req, res) {
             return res
                 .status(200)
                 .send(
-
-                         "<p>Wolframalpha API is working</p>"
-
-                    // await waApi
-                    //     .getFull(prompt)
-                    //     .then(response => response.json())
+                    // "<p>Wolframalpha API is working fine</p>"
+                    await waApi
+                        .getFull(prompt)
+                        .then(response => response.text()
+                        )
                 );
         case false:
             return res

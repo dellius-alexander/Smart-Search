@@ -9,13 +9,13 @@
 #############################################################################################################
 version: '3.8'
 services:
-    #############################################################################
+    ###########################################################################
     # Backend API service
     backend:
         #    image: node:18
         build:  # project contexts imported into Dockerfile at build runtime
             context: .
-            dockerfile: .devcontainer/www.Dockerfile
+            dockerfile: .devcontainer/backend.Dockerfile
             args:
                 NODE_VERSION: ${NODE_VERSION}
                 NODE_ENV: ${NODE_ENV}
@@ -23,23 +23,60 @@ services:
                 DOMAIN_BASENAME: ${DOMAIN_BASENAME}
                 DOMAIN_NAME: ${DOMAIN_NAME}
                 TZ: ${TZ}
-                PORT: ${PORT}
+                PORT: ${BACKEND_PORT}
                 HOSTNAME: ${HOSTNAME}
                 USERNAME: ${USERNAME}
                 REACT_APP_OPENAI_API_KEY: ${REACT_APP_OPENAI_API_KEY}
-                REACT_APP_WOLFRAMALPHA_APPID: ${REACT_APP_WOLFRAMALPHA_APPID}
                 REACT_APP_ORGANIZATION_ID: ${REACT_APP_ORGANIZATION_ID}
+                REACT_APP_WOLFRAMALPHA_APPID: ${REACT_APP_WOLFRAMALPHA_APPID}
                 UUID: ${UUID}
-        container_name: smart-search
+        container_name: smart-search-backend
         user: ${USERNAME}
         hostname: ${HOSTNAME}
         working_dir: ${WORKDIR}
         expose:
-        - ${PORT}
+        - ${BACKEND_PORT}
         ports:
-        - ${PORT}:${PORT}
+        - ${BACKEND_PORT}:${BACKEND_PORT}
         volumes:
-            - ./SmartSearch:/home/${USERNAME}/app
+            - ./SmartSearchBackend:/home/${USERNAME}/app
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+        networks:
+            backend:
+
+    ###########################################################################
+    frontend:
+        #    image: node:18
+        build: # project contexts imported into Dockerfile at build runtime
+            context: .
+            dockerfile: .devcontainer/frontend.Dockerfile
+            args:
+                NODE_VERSION: ${NODE_VERSION}
+                NODE_ENV: ${NODE_ENV}
+                BABEL_ENV: ${BABEL_ENV}
+                DOMAIN_BASENAME: ${DOMAIN_BASENAME}
+                DOMAIN_NAME: ${DOMAIN_NAME}
+                TZ: ${TZ}
+                PORT: ${FRONTEND_PORT}
+                HOSTNAME: ${HOSTNAME}
+                USERNAME: ${USERNAME}
+                REACT_APP_OPENAI_API_KEY: ${REACT_APP_OPENAI_API_KEY}
+                REACT_APP_ORGANIZATION_ID: ${REACT_APP_ORGANIZATION_ID}
+                REACT_APP_WOLFRAMALPHA_APPID: ${REACT_APP_WOLFRAMALPHA_APPID}
+                UUID: ${UUID}
+        container_name: smart-search-frontend
+        user: ${USERNAME}
+        hostname: ${HOSTNAME}
+        working_dir: ${WORKDIR}
+        expose:
+            - ${FRONTEND_PORT}
+        ports:
+            - ${FRONTEND_PORT}:${FRONTEND_PORT}
+        volumes:
+            - ./SmartSearchFrontend:/home/${USERNAME}/app
         deploy:
             replicas: 1
             restart_policy:
