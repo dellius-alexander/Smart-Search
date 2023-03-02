@@ -1,0 +1,61 @@
+{
+  "public": "www",
+  "headers": [
+    {
+      "source" : "**/*.@(jpg|jpeg|gif|png)",
+      "headers" : [
+        {
+        "key" : "Cache-Control",
+        "value" : "max-age=7200"
+        }
+      ]
+    },
+    {
+      "source" : "**/*.@(js|ts)",
+      "headers" : [
+        {
+        "key" : "Cache-Control",
+        "value" : "max-age=7200"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Accept",
+          "value": "*/*"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "source" : "**/*.@(css|scss|sass)",
+      "headers" : [
+        {
+        "key" : "Cache-Control",
+        "value" : "max-age=7200"
+        }
+      ]
+    },
+    {
+      "source" : "**/*.@(html)",
+      "headers" : [
+        {
+        "key" : "Cache-Control",
+        "value" : "max-age=7200"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://delliusalexander.com"
+        },
+        {
+          "key": "Accept",
+          "value": "*/*"
+        }
+      ]
+    }
+  ]
+}

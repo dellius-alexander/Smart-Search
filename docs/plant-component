@@ -24,7 +24,7 @@ class ClientStrategy {
 class Context {
    strategy: IDefaultStrategy
    setStrategy(strategy: IDefaultStrategy): void
-   executeStrategy(options: {prompt: null, layman: false}): JSON
+   execute(options: {prompt: null, layman: false}): JSON
 }
 class Gpt3 {
    constructor(props: any): 
@@ -34,7 +34,7 @@ class Gpt3 {
 }
 class IContext {
    setStrategy(strategy: IDefaultStrategy): any
-   executeStrategy(options: {prompt: null; layman: false}): JSON
+   execute(options: {prompt: null; layman: false}): JSON
 }
 class Responsive {
    constructor(props): 
