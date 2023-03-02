@@ -40,7 +40,7 @@ adding and updating as the project evolves.
 
 ---
 
-### `Figure 1: Initial Implementation IDefaultStrategy`
+### `Figure 1: Pipeline Strategy Design Pattern`
 
 [![AI IDefaultStrategy Behavior Pattern](docs/images/pipeline-strategy-pattern-1.1.7.png)](./docs/images/pipeline-strategy-pattern-4.png)
 
