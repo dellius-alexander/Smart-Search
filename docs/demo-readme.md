@@ -30,6 +30,6 @@ This repo serves as a sample demo. This project is an ongoing project and we wel
 
 ### `Figure 1: Demo UI`
 
-[![Smart Search UI](https://github.com/dellius-alexander/smart-search/blob/main/docs/images/ui-snapshot.png)](https://dellius-alexander.github.io/smart-search/)
+[![Smart Search UI](https://github.com/dellius-alexander/Smart-Search/blob/main/docs/images/ui-snapshot.png)](https://github.com/dellius-alexander/Smart-Search/blob/main/docs/images/ui-snapshot.png)
 
 ---
