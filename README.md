@@ -46,6 +46,12 @@ adding and updating as the project evolves.
 
 ---
 
+### `Figure 2: Sending a Request to the Pipeline`
+
+[![Sending a Request to the Pipeline](docs/images/prompt-sequence-diagram-1.1.7.png)](./docs/images/prompt-sequence-diagram-1.1.7.png)
+
+---
+
 ### `Figure 2: Demo UI`
 
 [![Smart Search UI](./docs/images/ui-snapshot.png)](https://dellius-alexander.github.io/Smart-Search/)
