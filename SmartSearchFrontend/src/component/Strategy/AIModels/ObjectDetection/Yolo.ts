@@ -6,7 +6,7 @@ import { IStrategy } from "../../IStrategy.ts";
 import { uuid } from "../../UUID.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {Output} from "../../Pipeline/Pipeline.ts";
+import {Output} from "../../Pipeline/IHandler.ts";
 
 /**
  * The `Yolo` class implements the `IStrategy` interface, and contains a
@@ -50,7 +50,7 @@ class Yolo implements IStrategy {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy): Output<string> {
+  async fetch(prompt: string, element: HTMLElement, strategy: IStrategy):  Promise<Output<HTMLElement> | void> {
     console.dir({
       prompt: prompt,
       element: element,

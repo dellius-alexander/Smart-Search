@@ -1,9 +1,13 @@
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {IStrategy} from "./IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {Input, Output, Pipeline} from "./Pipeline/Pipeline.ts";
+import {Pipeline} from "./Pipeline/Pipeline.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {Input, Output} from "./Pipeline/IHandler.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // import {ExecuteStrategy} from "./ExecuteStrategy.ts";
@@ -26,7 +30,7 @@ export interface IContext<T>  {
    * @param {Input<T>} input
    * @return {Output<T>}
    */
-  execute(input: Input<T>): Output<T>
+  execute(input: Input<T>): Promise<Output<T>[]>
 
 }
 

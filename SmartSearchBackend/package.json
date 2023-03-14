@@ -2,16 +2,17 @@
   "name": "smartsearchbackend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
   "description": "Web scraper that uses AI backend to assist with web scraping and processing results.",
-  "main": "server/protocols/https.js",
+  "main": "./server/protocols/https.js",
   "scripts": {
-    "start": "nodemon server/protocols/https.js",
-    "start:docker": "nodemon server/protocols/https.js",
-    "dev": "nodemon server/protocols/http.js",
+    "start": "export NODE_ENV=production; /bin/bash ./init.sh run backend prod;",
+    "start:node": "export NODE_ENV=production; /bin/bash ./init.sh run backend prod;",
+    "start:docker": "nodemon ./server/protocols/https.js",
+    "dev": "nodemon ./server/protocols/https.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:prod": "echo \"No build needed...\"",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "cypress:run": "cypress run --config video=false --e2e ./cypress.config.js"
   },
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "maintainers": [
@@ -32,6 +33,8 @@
     "linux"
   ],
   "dependencies": {
+    "axios": "^1.3.4",
+    "babel-loader": "^9.1.0",
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -39,20 +42,29 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.0",
+    "https": "^1.0.0",
     "mongodb": "^4.12.1",
     "mongoose": "^6.7.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "node-vault": "^0.9.22",
+    "nodemon": "^2.0.20",
     "on-finished": "^2.4.1",
+    "openai": "^3.2.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0",
     "wolfram-alpha-api": "file:assets/vendor/wolfram-alpha-api-1.0.0-rc"
   },
   "devDependencies": {
     "babel-loader": "^9.1.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
-    "gh-pages": "^4.0.0",
-    "nodemon": "^2.0.20",
+    "cypress": "^12.7.0",
+    "gh-pages": "^4.0.0"
+  },
+  "peerDependencies": {
+    "cypress": "^12.7.0",
+    "solid-js": "^1.6.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.0"
   }

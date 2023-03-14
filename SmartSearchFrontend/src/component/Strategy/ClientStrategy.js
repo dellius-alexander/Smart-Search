@@ -1,11 +1,13 @@
-import { Wolframalpha } from "./AIModels/Computational/Wolframalpha.ts";
-import { Yolo } from "./AIModels/ObjectDetection/Yolo.ts";
-import { Gpt3 } from "./AIModels/Language/Gpt3.ts";
+
 import { Context } from "./Context.ts";
-import { ExecuteStrategy } from "./ExecuteStrategy.ts";
 import { IContext } from "./IContext.ts";
-import { Input, Output } from "./Pipeline/Pipeline.ts";
+// import { Output } from "./Pipeline/IHandler.ts";
 import { IStrategy } from "./IStrategy.ts";
+
+import { SingletonAlphaStrategy } from "./AIModels/SingletonAlphaStrategy.ts";
+import { SingletonGptStrategy } from "./AIModels/SingletonGptStrategy.ts";
+import { SingletonYoloStrategy } from "./AIModels/SingletonYoloStrategy.ts";
+import {Output} from "./Pipeline/IHandler.ts";
 
 /**
  * This class defines the ClientStrategy object which provides a framework
@@ -43,28 +45,28 @@ export class ClientStrategy {
     let strategy;
     switch (true) {
     case type.search(/openai|gpt3/g) > -1:
-      console.log("Creating GPT3 context.........................");
+      console.log("Creating GPT3 context.................................");
       // eslint-disable-next-line no-case-declarations
-      strategy = new ExecuteStrategy(new Gpt3());
+      strategy = SingletonGptStrategy.getInstance();
       console.dir(strategy);
       this.context.setStrategy(strategy);
       break;
     case type.search(/alpha|wolframalpha/g) > -1:
       console.log("Creating Wolframalpha context.........................");
       // eslint-disable-next-line no-case-declarations
-      strategy = new ExecuteStrategy(new Wolframalpha());
+      strategy = SingletonAlphaStrategy.getInstance();
       console.dir(strategy);
       this.context.setStrategy(strategy);
       break;
     case type.search(/yolo|Yolo/g) > -1:
-      onsole.log("Creating Yolo Neural context.........................");
+      onsole.log("Creating Yolo Neural context...........................");
       // eslint-disable-next-line no-case-declarations
-      strategy = new ExecuteStrategy(new Yolo());
+      strategy = SingletonYoloStrategy.getInstance();
       console.dir(strategy);
       this.context.setStrategy(strategy);
       break;
-    default: // TODO(you have to create a more comprehensive default protocols)
-      console.log("IDefaultStrategy unable to fulfill request.");
+    default: // TODO(you have to create a more comprehensive default protocol)
+      console.log("Strategy unable to fulfill request.");
     }
     console.dir(this.context);
   }
@@ -74,10 +76,11 @@ export class ClientStrategy {
    * @param {Input<T>} input
    * @return {Output<T>}
    */
-  async execute(input: Input): Output {
+  async execute(input: Input): Promise<[Output<T>]> {
     console.dir(input);
-    return this.context.execute(input);
+    return await this.context.execute(input);
   }
 
 
 }
+

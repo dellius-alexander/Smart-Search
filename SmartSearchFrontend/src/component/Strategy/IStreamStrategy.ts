@@ -3,7 +3,7 @@
 import {IStrategy} from "./IStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {Output} from "./Pipeline/Pipeline.ts";
+import {Output} from "./Pipeline/IHandler.ts";
 
 /**
  * Defines the strategy used to complete the clients request.

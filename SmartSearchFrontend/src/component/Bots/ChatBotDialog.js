@@ -7,7 +7,8 @@ import Spinner from "react-bootstrap/Spinner";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import "../../static/css/chat-bot-dialog.css";
 import { ClientStrategy } from "../Strategy/ClientStrategy.js";
-// import parse from "html-react-parser";
+import parse from "html-react-parser";
+import {Output} from "../Strategy/Pipeline/IHandler.ts";
 
 /**
  * Chat Bot UI Dialog class
@@ -134,6 +135,33 @@ export class ChatBotDialog extends Component {
   }
 
   /**
+   * 
+   * @param {Promise[{ index: number; model: string; data: Output<T>; }]} promises
+   * @return {Promise<string>}
+   */
+  // eslint-disable-next-line class-methods-use-this
+  async getDataFromOutput(promises:  Promise<[{index: number, model: string, data: HTMLElement}]>[]): Promise<string> {
+    let respString = String("");
+    // eslint-disable-next-line no-async-promise-executor
+    return await new Promise(async (resolve, reject) => {
+      try {
+        for await(const promise of promises) {
+          console.dir(promise.data.then(async (html) => await html).catch(console.dir));
+          const {data} = await promise;
+          console.dir(data);
+          respString += await data.innerHTML;
+
+        }
+        resolve(respString);
+      } catch (error) {
+        console.error(error.message);
+        error.stackTrace;
+        reject(error);
+      }
+    });
+  }
+
+  /**
    * Handles form submission
    * @param {Event} event
    * @return {Promise<void>}
@@ -171,15 +199,18 @@ export class ChatBotDialog extends Component {
           options: {prompt, layman},
           element: document.getElementById("modal-body")
         };
-
-        let response = String("");
-
+        // let responseContainer = document.createElement("div");
         const strategy: ClientStrategy = this.state.strategy;
-        for (let data of await strategy.execute(options)){
-          response += data;
+        const res:  Promise<Output<T>>[] = await strategy.execute(options);
+        console.log("Response: ");
+        console.dir(res);
+        let respString = String("");
+
+        for await (const promise of res) {
+          respString += promise.innerHTML;
         }
 
-        console.dir(response);
+        console.dir(respString);
 
         // update the state with the response
         this.setState((prevState) => {
@@ -188,8 +219,8 @@ export class ChatBotDialog extends Component {
               error: false,
               errorMessage: "",
               prompts: [...prevState.prompts, prompt],
-              responses: [...prevState.responses, response],
-              currentResponse: response,
+              responses: [...prevState.responses, parse(respString)],
+              currentResponse: parse(respString),
               responseCount: prevState.responseCount + 1,
               loading: false,
               responseInput: prompt,
@@ -199,8 +230,8 @@ export class ChatBotDialog extends Component {
               error: false,
               errorMessage: "",
               prompts: [...prevState.prompts, prompt],
-              responses: [...prevState.responses, response],
-              currentResponse: response,
+              responses: [...prevState.responses, parse(respString)],
+              currentResponse: parse(respString),
               responseCount: prevState.responseCount + 1,
               loading: false,
               responseInput: prompt,

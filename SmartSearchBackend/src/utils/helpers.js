@@ -55,9 +55,19 @@ const initCallback = async function(res){
     console.dir(res);
 }
 
+const getParams = function(req){
+    return (
+        Object.keys(req.query).length !== 0
+            ? Object.assign({}, req.query) : Object.keys(req.body).length !== 0
+                ? Object.assign({}, req.body) : Object.keys(req.params).length !== 0
+                    ? Object.assign({}, req.params) : undefined
+    );
+}
+
 
 module.exports = {
     isEmpty,
     normalizePort,
-    initCallback
+    initCallback,
+    getParams
 }

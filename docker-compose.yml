@@ -7,8 +7,33 @@
 # Build, remove orphaned containers and refresh services:
 # ~$> docker-compose -f docker-compose.yml up --always-recreate-deps --renew-anon-volumes --remove-orphans --force-recreate -d --build
 #############################################################################################################
-version: '3.8'
+version: "3.8"
 services:
+#    swag:
+#        image: lscr.io/linuxserver/swag:latest
+#        container_name: swag
+#        cap_add:
+#            - NET_ADMIN
+#        environment:
+#            - PUID=1000
+#            - PGID=1000
+#            - TZ=Etc/UTC
+#            - URL=delliusalexander.com
+#            - VALIDATION=http
+#            - SUBDOMAINS=www, #optional
+#            - CERTPROVIDER= #optional
+#            - DNSPLUGIN=cloudflare #optional
+#            - PROPAGATION= #optional
+#            - EMAIL=dellius.alexander@gmail.com #optional
+#            - ONLY_SUBDOMAINS=false #optional
+#            - EXTRA_DOMAINS= #optional
+#            - STAGING=false #optional
+#        volumes:
+#            - ./swag-config:/config
+#        ports:
+#            - 4433:443
+#            - 8080:80 #optional
+#        restart: unless-stopped
     ###########################################################################
     # Backend API service
     backend:
@@ -30,6 +55,7 @@ services:
                 REACT_APP_ORGANIZATION_ID: ${REACT_APP_ORGANIZATION_ID}
                 REACT_APP_WOLFRAMALPHA_APPID: ${REACT_APP_WOLFRAMALPHA_APPID}
                 UUID: ${UUID}
+                HTTPS: ${HTTPS}
         container_name: smart-search-backend
         user: ${USERNAME}
         hostname: ${HOSTNAME}
@@ -46,7 +72,6 @@ services:
                 condition: on-failure
         networks:
             backend:
-
     ###########################################################################
     frontend:
         #    image: node:18
@@ -67,6 +92,7 @@ services:
                 REACT_APP_ORGANIZATION_ID: ${REACT_APP_ORGANIZATION_ID}
                 REACT_APP_WOLFRAMALPHA_APPID: ${REACT_APP_WOLFRAMALPHA_APPID}
                 UUID: ${UUID}
+                HTTPS: ${HTTPS}
         container_name: smart-search-frontend
         user: ${USERNAME}
         hostname: ${HOSTNAME}
@@ -83,10 +109,16 @@ services:
                 condition: on-failure
         networks:
             backend:
+        links:
+            - backend
 ###############################################################################
 # Define application network
+# docker-compose up --always-recreate-deps --renew-anon-volumes --remove-orphans --force-recreate -d --build
 networks:
     backend:
         driver: bridge
         ipam:
             driver: default
+volumes:
+    SmartSearchFrontend: null
+    SmartSearchBackend: null

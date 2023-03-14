@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // import parse from "html-react-parser";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -10,7 +11,7 @@ import {IStrategy} from "./IStrategy.ts";
 import {IStreamStrategy} from "./IStreamStrategy.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {IHandler, Input, Output} from "./Pipeline/Pipeline.ts";
+import {IHandler, Input, Output} from "./Pipeline/IHandler.ts";
 
 /**
  * This ExecuteStrategy class provides a way to send an API request to an AI strategy
@@ -53,7 +54,7 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
     const {options, element} = input;
     console.log("Inputs: ");
     console.dir(options);
-    console.dir(element);
+    // console.dir(element);
     console.dir("Protocols: \n");
     console.dir(this.state.protocols);
     switch (true) {
@@ -64,7 +65,8 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
       console.log("Using stream strategy");
       return (
         await this.streamRequest(options, element)
-          .then((data: never) => data)
+        // return the response data to the chatbot
+          .then((response: Promise<Output<T>>) => response)
           .catch(console.dir)
       );
       // send normal prompts < 256 bytes, using normal IDefaultStrategy transport protocols
@@ -72,11 +74,12 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
       console.log("Using default strategy");
       return(
         await this.sendRequest(options, element)
-          .then((data: never) => data)
+        // return the response data to the chatbot
+          .then((response: Promise<Output<T>>) => response)
           .catch(console.dir)
       );
     default:
-      throw Error(
+      throw new Error(
         "Their was an error attempting to execute the selected strategy.\n" +
           "Their could be a type selection error. Please check your options.\n" +
           "This could be due to the selection process within {ClientStrategy}.\n" +
@@ -97,7 +100,7 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
    * @param {{element: HTMLElement}} element the element to update with the response data
    * @returns  {{Promise<Output<never>>}}
    */
-  async sendRequest(options: { prompt: string; layman: false }, element?: HTMLElement ): Promise<Output<T> | void> {
+  async sendRequest(options: { prompt: string; layman: false }, element?: HTMLElement ): Promise<Output<T>> {
 
     /**
      * Get the contents of the options variable
@@ -117,37 +120,19 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
       state: this.strategy.state,
       element: element
     });
-
-    try {
-      if (prompt) {
-        // let results = String("");
-        // const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
-        return await this.strategy.fetch(prompt, element, this.strategy);
-
-        // return await fetch(url, {
-        //   method: "POST",
-        //   headers: this.strategy.state.headers,
-        //   body: JSON.stringify(this.strategy.state.body(prompt)),
-        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //   // @ts-ignore
-        //   duplex: "full"
-        // })
-        // // read the response data in chunks and render to client in chunks
-        //   .then(async (response) =>
-        //     response.body
-        //       .pipeThrough(new TextDecoderStream("utf-8"))
-        //       .pipeThrough(await this.transformStreamToJSON(this.strategy))
-        //       .pipeTo(this.strategy.writeResponseStream(element))
-        //       .then((results) => results)  // Respond with our results
-        //       .catch(console.dir)
-        //   )
-        //   .then((html) => html)
-        //   .catch(console.dir);
+    return new Promise((resolve, reject) => {
+      try {
+        if (prompt) {
+          const html = this.strategy.fetch(prompt, element, this.strategy);
+          resolve(html);
+        }
+      } catch (error) {
+        this.strategy.state.error = true;
+        this.strategy.state.errorMessage = error.message;
+        reject(error);
       }
-    } catch (error) {
-      this.strategy.state.error = true;
-      this.strategy.state.errorMessage = error.message;
-    }
+    });
+
   }
 
   /**
@@ -165,7 +150,7 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
    * @param {{element: HTMLElement}} element the element to update with the response data
    * @returns {{Promise<Output<T> | void> }} JSX element(s), empty array, or string.
    */
-  async streamRequest(options: { prompt: string; layman: false }, element?: HTMLElement ):  Promise<Output<T> | void> {
+  async streamRequest(options: { prompt: string; layman: false }, element?: HTMLElement ):  Promise<Output<T>> {
     if ( element === null || undefined ) {
       console.warn("HTMLElement is undefined or null.");
     }
@@ -189,126 +174,20 @@ export class ExecuteStrategy<T> implements IDefaultStrategy<T>, IStreamStrategy<
       state: this.strategy.state,
       element: element
     });
-
-    try {
-      if (prompt) {
-        // let results = String("");
-        // results += "<div>";
-        // const queuingStrategy = new CountQueuingStrategy({ highWaterMark: 1 });
-        return await this.strategy.fetch(prompt, element, this.strategy);
-        // return await fetch(url, {
-        //   method: "POST",
-        //   headers: this.strategy.state.headers,
-        //   body: this.strategy.state.body,
-        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //   // @ts-ignore
-        //   duplex: "half"
-        // })
-        // // read the response data in chunks and render to client in chunks
-        //   .then(async (response) =>
-        //     response.body
-        //       .pipeThrough(new TextDecoderStream("utf-8"))
-        //       .pipeThrough(await this.transformStreamToJSON(this.strategy))
-        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //     // @ts-ignore
-        //       .pipeTo(new WritableStream({
-        //         write: async function (json) {
-        //           console.dir(json);
-        //           if (json && json instanceof Array) {
-        //             for (let i = 0; i < json.length; i++) {
-        //               if (json[i].choices) {
-        //                 const text = json[i].choices[0].text;
-        //                 element.innerHTML += text;
-        //                 results += text;
-        //                 await ExecuteStrategy.wait(100);
-        //               }
-        //             }
-        //           } else {
-        //             if (json && json.choices) {
-        //               const text = json.choices[0].text;
-        //               element.innerHTML += text;
-        //               results += text;
-        //               await ExecuteStrategy.wait(100);
-        //             }
-        //           }
-        //         },
-        //         abort(err) {
-        //           console.log("Sink error:", err);
-        //         }
-        //       },
-        //       queuingStrategy))
-        //       .then(() => results.concat("</div>"))  // Respond with our stream
-        //       .catch(console.dir)
-        //   )
-        // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // // @ts-ignore
-        //   .then((html) => html)
-        //   .catch(console.dir);
+    return new Promise((resolve, reject) => {
+      try {
+        if (prompt) {
+          const html = this.strategy.fetch(prompt, element, this.strategy);
+          resolve(html);
+        }
+      } catch (error) {
+        this.strategy.state.error = true;
+        this.strategy.state.errorMessage = error.message;
+        reject(error);
       }
-    } catch (error) {
-      this.strategy.state.error = true;
-      this.strategy.state.errorMessage = error.message;
-    }
+    });
   }
 
-  // /**
-  //  * Transform the stream into a readable stream and convert to JSON.
-  //  * @param {{IStrategy}} strategy
-  //  */
-  // // eslint-disable-next-line class-methods-use-this
-  // async transformStreamToJSON(strategy: IStrategy): Promise<TransformStream> {
-  //   return new TransformStream({
-  //     transform: async function(chunk, controller) {
-  //       const data = String(chunk);
-  //
-  //       let json;
-  //       try {
-  //
-  //         switch (typeof data) {
-  //         case "string":
-  //           json = strategy.toStringJson(data).match(strategy.state.regex);
-  //           // return json;
-  //           break;
-  //         case "object":
-  //           json = strategy.toStringJson(data).match(strategy.state.regex);
-  //           // return json;
-  //           break;
-  //         case "number":
-  //           json = strategy.toStringJson(data).match(strategy.state.regex);
-  //           // return json;
-  //           break;
-  //         case "bigint":
-  //           json = strategy.toStringJson(data).match(strategy.state.regex);
-  //           // return json;
-  //           break;
-  //         case "undefined":
-  //           throw new Error("Data is undefined");
-  //         default:
-  //           json = strategy.toStringJson(data).match(strategy.state.regex);
-  //           break;
-  //         }
-  //
-  //         console.log("Original: ");
-  //         console.dir(data);
-  //         console.log("ConvertedJSON: ");
-  //         console.dir(json);
-  //
-  //         if (json && json instanceof Array) {
-  //           for (let i = 0; i < json.length; i++) {
-  //             controller.enqueue(JSON.parse(json[i]));
-  //           }
-  //
-  //         } else if (json && json instanceof String) {
-  //           controller.enqueue(JSON.parse(String(json)));
-  //         }
-  //       } catch (e) {
-  //         console.error(e.message);
-  //
-  //       }
-  //
-  //     },
-  //   });
-  // }
 
   // eslint-disable-next-line class-methods-use-this
   async stringToUint8Array (str: string): Promise<Uint8Array[]> {

@@ -27,9 +27,9 @@ const {MongooseOptions} = require("mongoose");
  */
 async function config() {
     try {
-        if (existsSync(path.join(__dirname.split("/")[0], ".env"))) {
+        if (existsSync(path.join(process.cwd(), `.env.${process.env.NODE_ENV}.local`))) {
             const options = Object.create({
-                path: path.join(__dirname.split("/")[0], ".env"),
+                path: path.join(process.cwd(), `.env.${process.env.NODE_ENV}.local`),
                 encoding: 'utf8',
                 debug: true,
                 override: true

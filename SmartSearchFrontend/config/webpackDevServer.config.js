@@ -37,7 +37,12 @@ module.exports = function (proxy, allowedHost) {
     // really know what you're doing with a special environment variable.
     // Note: ["localhost", ".localhost"] will support subdomains - but we might
     // want to allow setting the allowedHosts manually for more complex setups
-    allowedHosts: disableFirewall ? "all" : [allowedHost],
+    allowedHosts: disableFirewall ? "all" : [
+      "https://delliusalexander.com:8443/",
+      "https://127.0.0.1:8443/",
+      "https://api.wolframalpha.com/",
+      "https://10.0.0.218:8443/"
+    ],
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "*",

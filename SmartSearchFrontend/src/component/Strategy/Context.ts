@@ -1,16 +1,24 @@
+// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// // @ts-ignore
+// import { IContext } from "./IContext.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { IContext } from "./IContext.ts";
+import {PipelineHandler} from "./Pipeline/PipelineHandler.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {Pipeline} from "./Pipeline/Pipeline.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {Input, Output} from "./Pipeline/IHandler.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {SingletonPipeline} from "./Pipeline/SingletonPipeline.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {IContext} from "./IContext.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {IStrategy} from "./IStrategy.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {SingletonPipeline, Pipeline, PipelineHandler, Output, Input} from "./Pipeline/Pipeline.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {ExecuteStrategy} from "./ExecuteStrategy.ts";
 
 
 /**
@@ -62,13 +70,13 @@ export class Context<T> implements IContext<T> {
    * @param {Input<T>} input
    * @return {Output<T>}
    */
-  async execute(input: Input<T>): Promise<Output<T> | void> {
+  async execute(input: Input<T>): Promise<[Output<T>]> {
     try {
       console.log("Executing strategy in the pipeline for options: " );
       console.dir(input);
       // Send the prompt and streamOptions to be executed within the pipeline. A handler will be selected
       // within the pipeline to handle the request.
-      return this.pipeline.execute(input);
+      return await this.pipeline.execute(input);
     } catch (e) {
       console.error(e.message);
       e.stackTrace;

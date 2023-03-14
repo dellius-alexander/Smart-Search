@@ -4,11 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
-    mode: process.env.NODE_ENV,
-    entry: 'backend/server',
+    mode: "production",
+    entry: './server/protocols/https.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'api_v1.bundle.js',
+        filename: '[name].bundle.js',
     },
     module: {
         rules: [{

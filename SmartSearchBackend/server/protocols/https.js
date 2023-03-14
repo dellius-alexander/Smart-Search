@@ -15,7 +15,7 @@
  */
 
 const app = require('../api/v1/routes.js')
-const { normalizePort } = require('../../src/utils/helpers')
+const { normalizePort } = require('../../src/utils/helpers.js')
 
 const { readFileSync } = require("fs");
 
@@ -60,8 +60,8 @@ async function main_https() {
                 cfg.port,
                 cfg.hostname,
                 () => {
-                    console.log(`SafeHome API listening on https://${cfg.hostname}:${cfg.port}`)
-                    console.log(`To test server entrypoint Run: curl -k https://${cfg.hostname}:${cfg.port}`)
+                    console.dir(`SafeHome API listening on https://${cfg.hostname}:${cfg.port} `)
+                    console.dir(`To test server entrypoint Run: curl -k https://${cfg.hostname}:${cfg.port} `)
                 })
             .on('success', async function(req, res) {
                 console.log(`Success`)

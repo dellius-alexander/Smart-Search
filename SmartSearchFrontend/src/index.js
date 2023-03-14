@@ -1,10 +1,10 @@
+#!/usr/bin/env node
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import ErrorBoundary from "./component/Security/ErrorBoundary";
 import reportWebVitals from "./reportWebVitals";
 import { ChatBotDialog } from "./component/Bots/ChatBotDialog";
-
 /**
  * Initialize the React app
  */

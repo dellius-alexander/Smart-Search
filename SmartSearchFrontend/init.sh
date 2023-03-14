@@ -80,7 +80,7 @@ GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
 HOST=${PUBLIC_URL}
 HTTPS=${HTTPS}
 FAST_REFRESH=true
-PUBLIC_URL=${PUBLIC_URL}
+PUBLIC_URL=/
 
 """
     ENV_FILE="./.env.${NODE_ENV}.local";
@@ -181,11 +181,14 @@ OPTIONS="${3}"
 case ${COMMAND}-${PLATFORMS}-${OPTIONS}-${NODE_ENV} in
   run-browser-prod-${NODE_ENV})
     echo "Running ${PLATFORMS}........";
-    node --inspect scripts/start.js;
+    export HTTPS=true;
+    nodemon --inspect --trace-uncaught  scripts/start.js;
+#    nodemon --inspect server/protocols/https.js;
     ;;
   run-browser-dev-${NODE_ENV})
     echo "Running ${PLATFORMS}........";
-    nodemon --inspect scripts/start.js;
+    export HTTPS=true;
+    nodemon --inspect --trace-uncaught   scripts/start.js;
     ;;
   run-cordova-browser-production)
     echo "Running ${PLATFORMS}........"
@@ -195,7 +198,7 @@ case ${COMMAND}-${PLATFORMS}-${OPTIONS}-${NODE_ENV} in
     ;;
     *)
       __help
-      ;;
+    ;;
 esac
 }
 #####################################################################

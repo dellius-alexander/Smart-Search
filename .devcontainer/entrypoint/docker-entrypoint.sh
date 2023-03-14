@@ -13,14 +13,15 @@ export SSL_KEY_FILE=/usr/local/app/.certs/${DOMAIN_BASENAME}.key;
 
 printenv;
 /bin/bash /tmp/app/certs.sh  "-s" ${HOSTNAME} "/usr/local/app/.certs";
-cd ${REACT_APP_HOME} &&
+cd ${REACT_APP_HOME}
+
 NODE_ENV=$( [ -z $NODE_ENV ] && echo "development" || echo $NODE_ENV  )
 echo "Node env: $NODE_ENV..."
 case "${NODE_ENV}" in
   prod|production)
     echo "Node running in ${NODE_ENV} mode.";
     npm run build:prod;
-    npm run start:docker;
+    npm run start;
     ;;
   dev|development)
     echo "Node running in ${NODE_ENV} mode.";

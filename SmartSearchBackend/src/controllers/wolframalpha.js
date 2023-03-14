@@ -14,17 +14,15 @@
  *    limitations under the License.
  */
 
+const { getParams } = require("../utils/helpers");
 const WolframAlphaAPI = require('wolfram-alpha-api');
 const waApi = WolframAlphaAPI(process.env.REACT_APP_WOLFRAMALPHA_APPID);
 
+
 async function sendRequest(req, res) {
     try {
-        console.dir(req);
         // get the prompt from the request object
-        const prompt =  Object.keys(req.query).length !== 0 ? req.query :
-            Object.keys(req.body).length !== 0 ? req.body :
-                Object.keys(req.params).length !== 0 ? req.params :
-                    undefined;
+        const prompt = getParams(req);
         // send error if no prompt provided
         if (!prompt) {
             return res.status(400).json({
@@ -32,26 +30,12 @@ async function sendRequest(req, res) {
             })
         }
         console.log("Prompt: ", prompt);
-        // creates a selection mechanism
+        // get the query from the request object
         switch (true) {
         case true:
-            return res
-                .status(200)
-                .send(
-                    // "<p>Wolframalpha API is working fine</p>"
-                    await waApi
-                        .getFull(prompt)
-                        .then(response => response.text()
-                        )
-                );
-        case false:
-            return res
-                .status(200)
-                .json(
-                    await waApi
-                        .getSimple(prompt)
-                        .then(response => response.json())
-                );
+            return (
+                await wolframAlphaAPI(req, res, prompt.apiPath, prompt)
+            );
         }
 
     } catch (e) {
@@ -60,4 +44,60 @@ async function sendRequest(req, res) {
     }
 }
 
-module.exports = sendRequest;
+async function wolframAlphaAPI(req, res, apiPath, options = {}){
+    console.log(`Status Code:  ${req}`);
+    // creates a selection mechanism
+    switch (true) {
+    case /spoken/i.test(apiPath):
+        return (res
+            .status(200)
+            .json(
+                // "<p>Wolframalpha API is working fine</p>"
+                await waApi
+                    .getSpoken(options)
+                    .then((response) => {
+                        console.log("Response:  ");
+                        console.dir(response);
+                        return response;
+                    })
+            ));
+    case /full/i.test(apiPath):
+        return (res
+            .status(200)
+            .json(
+                await waApi
+                    .getFull(options.input)
+                    .then((response) => {
+                        console.log("Response:  ");
+                        console.dir(response.pods[0].subpods[0].plaintext);
+                        return response.pods[0].subpods[0].plaintext;
+                    })
+            ));
+    case /simple/i.test(apiPath):
+        return (res
+            .status(200)
+            .json(
+                await waApi
+                    .getSimple(options)
+                    .then((response) => {
+                        console.log("Response:  ");
+                        console.dir(response);
+                        return response;
+                    })
+            ));
+    case /short/i.test(apiPath):
+        return (res
+            .status(200)
+            .json(
+                await waApi
+                    .getShort(options)
+                    .then((response) => {
+                        console.log("Response:  ");
+                        console.dir(response);
+                        return response;
+                    })
+            ));
+    }
+}
+
+module.exports = {sendRequest};

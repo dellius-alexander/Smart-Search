@@ -15,7 +15,7 @@
  */
 const express = require("express");
 const router = express.Router();
-const sendRequest = require("../../../controllers/wolframalpha");
+const { sendRequest }= require("../../../controllers/wolframalpha.js");
 
 const callback = function(msg, err){
     console.error("Error: ", err);
@@ -30,7 +30,7 @@ const callback = function(msg, err){
  * @function sendRequest
  * @callback callback
  */
-router.post("/alpha", sendRequest, callback);
+router.post("/", sendRequest, callback);
 /**
  * API endpoint to get the result of a Wolfram Alpha query.
  * This route sets up an endpoint to accept a POST request at the path "/post".
@@ -39,5 +39,5 @@ router.post("/alpha", sendRequest, callback);
  * @function sendRequest
  * @callback callback
  */
-router.get("/alpha", sendRequest, callback);
+router.get("/", sendRequest, callback);
 module.exports = router;
